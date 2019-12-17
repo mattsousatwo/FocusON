@@ -127,6 +127,8 @@
                     <tabBarItem key="tabBarItem" title="Today" image="tray" catalog="system" id="oxk-UR-xK4"/>
                     <navigationItem key="navigationItem" title="Today" id="2v3-P0-U1r"/>
                     <connections>
+                        <outlet property="newTaskOutlet" destination="Gow-E6-Aqd" id="pZr-Tq-558"/>
+                        <outlet property="newTaskView" destination="2d0-tU-eno" id="2ht-iQ-63m"/>
                         <outlet property="todayTable" destination="ocm-2P-WcS" id="wWD-ax-6K6"/>
                         <segue destination="e5F-WL-V7a" kind="presentation" identifier="TodayToDetail" id="4CT-aX-inA"/>
                     </connections>

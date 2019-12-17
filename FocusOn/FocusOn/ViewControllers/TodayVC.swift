@@ -12,6 +12,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let todaysGoal = Goal()
     
+    // Image in new task button
+    @IBOutlet weak var newTaskOutlet: UIImageView!
+    @IBOutlet weak var newTaskView: UIView!
+    
+    
     // Table View for today vc
     @IBOutlet weak var todayTable: UITableView!
     
@@ -24,10 +29,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    
+    // new task button gestures
     func registerGestures() {
- //       let newTaskTap = UIGestureRecognizer(target: self, action: #selector(newTaskButton(_:)))
+       let newTaskTap = UIGestureRecognizer(target: self, action: #selector(newTaskButton(_:))) // line: 146
+        newTaskOutlet.addGestureRecognizer(newTaskTap)
        
+        newTaskOutlet.isUserInteractionEnabled = true
+        newTaskView.isUserInteractionEnabled = true
     }
     
     
