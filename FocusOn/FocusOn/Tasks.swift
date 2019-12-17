@@ -6,17 +6,58 @@
 //  Copyright © 2019 Matthew Sousa. All rights reserved.
 //
 
-class Tasks {
+
+import Foundation
+
+class Tasks: Goal {
     
-    let title: String
-    let date: String
-    let goal_UID: Int
-    let UID: Int
+    var taskTitle: String
+    let taskDate: Date
+    let goal_UID: String
+    let task_UID: String
+    var isChecked: Bool = false
+    var taskProgress: progress
+    var taskColor: taskColors
+    var taskNotes: String = "" 
     
-    init(title: String, date: String, goal_UID: Int, UID: Int) {
-        self.title = title
-        self.date = date
+    init(title: String, date: Date, goal_UID: String, task_UID: String) {
+        self.taskTitle = title
+        self.taskDate = date
         self.goal_UID = goal_UID
-        self.UID = UID
+        self.task_UID = task_UID
+        self.taskProgress = .beginning
+        self.taskColor = .blue
+        
     }
+    
+    
+    override func setProgress(to selectedIndex: Int) {
+        
+        switch selectedIndex {
+        case 0:
+            self.taskProgress = .beginning
+        case 1:
+            self.taskProgress = .inProgress
+        case 2:
+            self.taskProgress = .complete
+        default:
+            self.taskProgress = .beginning
+        }
+        
+        
+    }
+       
+    
+    
+    
 }
+
+
+enum progress {
+    case beginning, inProgress, complete
+}
+
+enum taskColors {
+    case red, purple, yellow, green, blue, grey
+}
+

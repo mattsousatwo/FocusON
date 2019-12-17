@@ -6,18 +6,86 @@
 //  Copyright © 2019 Matthew Sousa. All rights reserved.
 //
 
+import Foundation
+
 class Goal {
     
-    let title: String
-    let date: String // Should chamge
-    let taskCount: Int
-    let UID: Int
+    var title: String = ""
+    let date: Date  // Set the date upon initalization
+    var UID: String = ""
+    var tasks: [Tasks] = [] // array to store each task
+    var progress: progress = .beginning
+    var notes: String = ""
     
-    init(title: String, date: String, taskCount: Int, UID: Int) {
-        self.title = title
-        self.date = date
-        self.taskCount = taskCount
-        self.UID = UID
-    }
+    init(title: String? = "") {
+        if let approvedString = title {
+            self.title = approvedString
+        }
+        
+        self.date = Date()
+        self.UID = genID()
+    } 
+    
+    
 
+    
+    // Generate ID - With numbers and letters
+    func genID() -> String {
+        let letters = ["A", "B", "C", "D", "E", "F",
+                       "G", "H", "I", "J", "K", "L",
+                       "M", "N", "O", "P", "Q", "R",
+                       "S", "T", "U", "V", "W", "X",
+                       "Y", "Z"]
+        // desired ID length
+        let idLength = 5
+        // tempID
+        var id: String = ""
+        // for 1 - idLength choose a random number
+        for _ in 1...idLength {
+            let x = Int.random(in: 0...10000)
+            // if x is more than 5000 choose a letter
+            if x >= 5000 {
+                let chosenLetter = letters[Int.random(in: 0..<letters.count)]
+                id += chosenLetter
+            } else { // choose a number between 0 - 9
+                let chosenInt = "\(Int.random(in: 0..<9))"
+                id += chosenInt
+            }
+        }
+        return id
+    }
+ 
+    
+    // Create a new task for a goal
+    func createNew(task name: String?) {
+    
+        guard let taskTitle = name else {
+            return
+        }
+        
+        let newTask = Tasks(title: taskTitle, date: Date(), goal_UID: self.UID, task_UID: genID())
+        
+        self.tasks.append(newTask)
+    }
+    
+    // set Progress
+    func setProgress(to selectedIndex: Int) {
+            
+              switch selectedIndex {
+              case 0:
+                  self.progress = .beginning
+              case 1:
+                  self.progress = .inProgress
+              case 2:
+                  self.progress = .complete
+              default:
+                  self.progress = .beginning
+              }
+              
+              
+    }
+    
+    
 }
+
+
