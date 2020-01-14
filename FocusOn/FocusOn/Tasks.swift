@@ -30,7 +30,7 @@ class Tasks: Goal {
         
     }
     
-    
+    // set task progress property 
     override func setProgress(to selectedIndex: Int) {
         
         switch selectedIndex {
@@ -58,6 +58,5 @@ enum progress {
 }
 
 enum taskColors {
-    case red, purple, yellow, green, blue, grey
+    case blue, green, grey, pink, red, yellow
 }
-

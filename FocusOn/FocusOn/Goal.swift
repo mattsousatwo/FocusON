@@ -16,6 +16,7 @@ class Goal {
     var tasks: [Tasks] = [] // array to store each task
     var progress: progress = .beginning
     var notes: String = ""
+    var markerColor: taskColors = .blue
     
     init(title: String? = "") {
         if let approvedString = title {
@@ -30,7 +31,7 @@ class Goal {
 
     
     // Generate ID - With numbers and letters
-    func genID() -> String {
+    private func genID() -> String {
         let letters = ["A", "B", "C", "D", "E", "F",
                        "G", "H", "I", "J", "K", "L",
                        "M", "N", "O", "P", "Q", "R",
@@ -70,19 +71,24 @@ class Goal {
     
     // set Progress
     func setProgress(to selectedIndex: Int) {
-            
-              switch selectedIndex {
-              case 0:
-                  self.progress = .beginning
-              case 1:
-                  self.progress = .inProgress
-              case 2:
-                  self.progress = .complete
-              default:
-                  self.progress = .beginning
-              }
-              
-              
+        switch selectedIndex {
+        case 0:
+            self.progress = .beginning
+        case 1:
+            self.progress = .inProgress
+        case 2:
+            self.progress = .complete
+        default:
+            self.progress = .beginning
+        }
+    }
+    
+    // set color
+    func setColor(to selectedColor: taskColors) {
+ 
+        // fetch dataSource && set color
+        
+        
     }
     
     

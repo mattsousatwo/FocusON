@@ -12,10 +12,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let todaysGoal = Goal()
     
-    // Image in new task button
-    @IBOutlet weak var newTaskOutlet: UIImageView!
-    @IBOutlet weak var newTaskView: UIView!
-    
     
     // Table View for today vc
     @IBOutlet weak var todayTable: UITableView!
@@ -31,11 +27,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // new task button gestures
     func registerGestures() {
-       let newTaskTap = UIGestureRecognizer(target: self, action: #selector(newTaskButton(_:))) // line: 146
-        newTaskOutlet.addGestureRecognizer(newTaskTap)
-       
-        newTaskOutlet.isUserInteractionEnabled = true
-        newTaskView.isUserInteractionEnabled = true
+  //     let newTaskTap = UIGestureRecognizer(target: self, action: #selector(newTaskButton(_:))) // line: 146
+        
+
     }
     
     
@@ -54,7 +48,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 3
+            return 3 // needs to equal number of selected tasks - or 3 as default?
         default:
             return 1
         }
@@ -62,26 +56,30 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: reusable cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! GoalCell
-        // adding toolbar to keyboard that pops up when selecting textfield in cell
-        addDoneButton(to: cell.textField, action: #selector(doneButtonAction))
-        
-        // segue recognizer
-        let menuTap = UITapGestureRecognizer(target: self, action: #selector(menuButtonPressed))
-        
-        cell.menuButton.addGestureRecognizer(menuTap)
-        
-        
-        if indexPath == [0,0] {
-            todaysGoal.title = cell.textField.text!
-            print("\(todaysGoal.UID)")
+       
+       let taskCell = "taskCell"
+       let goalCell = "goalCell"
+       
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: goalCell, for: indexPath) as! GoalCell
+               
+            addDoneButton(to: cell.textField, action: #selector(doneButtonAction))
+            
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as! TaskCell
+            
+            addDoneButton(to: cell.textField, action: #selector(doneButtonAction))
+            
+            // segue recognizer
+            let menuTap = UITapGestureRecognizer(target: self, action: #selector(menuButtonPressed))
+            
+            cell.menuButton.addGestureRecognizer(menuTap)
+            
+            
+            return cell
         }
-        
-        
-        
-        return cell
-        
     }
 
     
@@ -89,6 +87,12 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         var title = ""
+        
+        // new section titles
+        // 0: "New Task Entry"
+        // 1: "Daily Goal"
+        // 2: "Tasks"
+        // 3: "bonus tasks"
         
         switch section {
         case 0:
@@ -129,7 +133,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let taskLimit = 2
         for index in 0...taskLimit {
             
-            let taskCell = todayTable.cellForRow(at: [1, index]) as! GoalCell
+            let taskCell = todayTable.cellForRow(at: [1, index]) as! TaskCell
             
             if taskCell.textField == sender && sender.text != "" {
                 
@@ -152,34 +156,51 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Attempting to highlight the marker but not the cell
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
-        let z = tableView.cellForRow(at: indexPath) as! GoalCell
         
-        z.isHighlighted = false
-        
-        z.taskMarker.isHighlighted = true
-        
+        switch indexPath.section {
+        case 0: // New task Input
+            let x = tableView.cellForRow(at: indexPath) as! GoalCell
+            x.isHighlighted = false
+        default: // Task Cell
+            let z = tableView.cellForRow(at: indexPath) as! TaskCell
+            
+            z.isHighlighted = false
+            
+            z.taskMarker.isHighlighted = true
+        }
     }
     
     // deselcting row will hide menu button
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
-         let z = tableView.cellForRow(at: indexPath) as! GoalCell
-        z.menuButton.isHidden = true
+        switch indexPath.section {
+        case 0: // New Task Input
+            return
+        case 1: // Task Cell
+            let x = tableView.cellForRow(at: indexPath) as! TaskCell
+            x.menuButton.isHidden = true
+        default:
+            return
+        }
     }
     
       // MARK: - Navigation
     
     // if user selects a row - preform detail segue
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         let z = tableView.cellForRow(at: indexPath) as! GoalCell
-        
-        z.menuButton.isHidden = false
-         
+        switch indexPath.section {
+        case 0: // New Task Input
+            return
+        case 1: // Task Cell
+            let x = tableView.cellForRow(at: indexPath) as! TaskCell
+            x.menuButton.isHidden = false
+        default:
+            return
+        }
      }
-    
+
     // menu button to segue to detailVC
     @objc func menuButtonPressed() {
-        print("pressed")
+        print(#function)
         performSegue(withIdentifier: "TodayToDetail", sender: nil)
     }
      
@@ -194,7 +215,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 //MARK: - trying to set cell input to detail view if there is one set
                 if let selectedIndex = todayTable.indexPathForSelectedRow {
-                    let x = todayTable.cellForRow(at: selectedIndex) as! GoalCell
+                    let x = todayTable.cellForRow(at: selectedIndex) as! TaskCell
                     
                     if let textInput = x.textField.text {
                         
@@ -223,9 +244,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         
         if let selectedIndex = todayTable.indexPathForSelectedRow {
-            let tableCell = todayTable.cellForRow(at: selectedIndex) as! GoalCell
+            let tableCell = todayTable.cellForRow(at: selectedIndex) as! TaskCell
             
-            
+            // MARK: - UPDATE: Section 3: need to handle 3 sections
             switch selectedIndex.section  {
             case 0: // case goal was selected
                 
@@ -235,9 +256,14 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 // setting notes parameter
                 todaysGoal.notes = sourceVC.notesField.text!
                 
+                // setting progress
+                todaysGoal.setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
+                
             case 1: // case a task was selected
                 
+                // MARK: - Error - task title 
                 todaysGoal.tasks[selectedIndex.row].taskTitle = sourceVC.titleInput.text!
+                
                     print("------\ntaskTitle: \(todaysGoal.tasks[selectedIndex.row].taskTitle) \ntaskUID: \(todaysGoal.tasks[selectedIndex.row].task_UID) \ngoalUID: \(todaysGoal.tasks[selectedIndex.row].goal_UID)")
                     
                 // setting progress

@@ -10,9 +10,6 @@ import UIKit
 
 class DetailTableView: UITableViewController {
 
-    // used to store markers to add gestures to each image simultaniously
-    var colorCollection: [UIImageView] = []
-    
     var newTask = Tasks(title: "", date: Date(), goal_UID: "", task_UID: "")
 
     // Update Button Reference
@@ -24,64 +21,50 @@ class DetailTableView: UITableViewController {
     @IBOutlet weak var progressControl: UISegmentedControl!
     
     // Goal color
-    @IBOutlet weak var red: UIImageView!
-    @IBOutlet weak var purple: UIImageView!
-    @IBOutlet weak var yellow: UIImageView!
-    @IBOutlet weak var green: UIImageView!
-    @IBOutlet weak var blue: UIImageView!
-    @IBOutlet weak var grey: UIImageView!
+    @IBOutlet weak var blueButton: UIButton! // 0
+    @IBOutlet weak var greenButton: UIButton! // 1
+    @IBOutlet weak var greyButton: UIButton! // 2
+    @IBOutlet weak var pinkButton: UIButton! // 3
+    @IBOutlet weak var redButton: UIButton! // 4
+    @IBOutlet weak var yellowButton: UIButton! // 5
     
     
     // text field for any notes user has stored
     @IBOutlet weak var notesField: UITextView!
   
     
-    
-    
-    // add tap gesture to color markers
-    func enableTouchesForTasks() {
+    @IBAction func markerButtonPressed(_ sender: Any) {
         
-        // tap for task markers 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapHandler(_:)))
+        // can change to variable describing DataObject - set color of DataObject
+        var currentColor = taskColors.blue
         
-        // red
-        red.addGestureRecognizer(tap)
-        red.isUserInteractionEnabled = true
-        colorCollection.append(red)
-//        // purple
-//        purple.addGestureRecognizer(tap)
-//        purple.isUserInteractionEnabled = true
-//        colorCollection.append(purple)
-//        // yellow
-//        yellow.addGestureRecognizer(tap)
-//        yellow.isUserInteractionEnabled = true
-//        colorCollection.append(yellow)
-//        // green
-//        green.addGestureRecognizer(tap)
-//        green.isUserInteractionEnabled = true
-//        colorCollection.append(green)
-//        // blue
-//        blue.addGestureRecognizer(tap)
-//        blue.isUserInteractionEnabled = true
-//        colorCollection.append(blue)
-//        // grey
-//        grey.addGestureRecognizer(tap)
-//        grey.isUserInteractionEnabled = true
-//        colorCollection.append(grey)
-//
+        switch (sender as! UIButton).tag {
+        case 0:
+            print("blue")
+            currentColor = .blue
+        case 1:
+            print("green")
+            currentColor = .green
+        case 2:
+            print("grey")
+            currentColor = .grey
+        case 3:
+            print("pink")
+            currentColor = .pink
+        case 4:
+            print("red")
+            currentColor = .red
+        case 5:
+            print("yellow")
+            currentColor = .yellow
+        default:
+            print("\(currentColor)")
+            print("NO MARKER SELECTED")
+        }
+        
     }
     
-    
-    // handle which color marker is highlighted
-   @objc func tapHandler(_ sender: UITapGestureRecognizer) {
-        print("tapped!")
-    
-    
-   // highlights the entire row but only the last view to add the tap gesture will have touches enabled 
-    
-   
-    
-    }
+
     
     // variable to store titleInput text
     var something = ""
@@ -106,7 +89,7 @@ class DetailTableView: UITableViewController {
         addDoneButton(to: titleInput, action: nil)
         addDoneButton(to: notesField, action: nil)  
         
-        enableTouchesForTasks()
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -228,3 +211,4 @@ class DetailTableView: UITableViewController {
     
 
 }
+
