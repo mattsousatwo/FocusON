@@ -11,6 +11,14 @@ import UIKit
 class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
+    // MARK: - Read Me
+    
+    // Fetch coredata entities and reload tableView if there is data stored.
+        // - Maybe display each goal and the number of completed tasks / total tasks
+            // then if user selects a goal take user into another view or reload the view? to populate it with the stored tasks within a goal with the goal at the top section like in TodayVC
+            // similarly, when a user selects on a cell it will take you to detail view
+    
+    
     @IBOutlet weak var historyTableView: UITableView!
     
     override func viewDidLoad() {

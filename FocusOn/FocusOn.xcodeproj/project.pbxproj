@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6122813A2398BC9900B11999 /* DetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612281392398BC9900B11999 /* DetailTableView.swift */; };
-		6128530E23B2BCED001F0529 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6128530D23B2BCED001F0529 /* GoalCell.swift */; };
 		615A624423982BCE00A99E7A /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615A624323982BCE00A99E7A /* TaskCell.swift */; };
 		615B2402239991DF000545F3 /* TodayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B2401239991DE000545F3 /* TodayVC.swift */; };
 		616851F823B5BA720043F915 /* TaskDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616851F723B5BA720043F915 /* TaskDataController.swift */; };
@@ -28,7 +27,6 @@
 
 /* Begin PBXFileReference section */
 		612281392398BC9900B11999 /* DetailTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableView.swift; sourceTree = "<group>"; };
-		6128530D23B2BCED001F0529 /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
 		615A624323982BCE00A99E7A /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		615B2401239991DE000545F3 /* TodayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVC.swift; sourceTree = "<group>"; };
 		616851F723B5BA720043F915 /* TaskDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataController.swift; sourceTree = "<group>"; };
@@ -65,7 +63,6 @@
 				619F55FD23997D6F00F0D0EF /* HistoryVC.swift */,
 				612281392398BC9900B11999 /* DetailTableView.swift */,
 				615A624323982BCE00A99E7A /* TaskCell.swift */,
-				6128530D23B2BCED001F0529 /* GoalCell.swift */,
 				61BC160B237B182700341701 /* ProgressVC.swift */,
 				615B2401239991DE000545F3 /* TodayVC.swift */,
 			);
@@ -190,7 +187,6 @@
 				61BC1605237B167500341701 /* Goal.swift in Sources */,
 				61EEF1AD23B3B581001CD295 /* GoalDataController.swift in Sources */,
 				616851F823B5BA720043F915 /* TaskDataController.swift in Sources */,
-				6128530E23B2BCED001F0529 /* GoalCell.swift in Sources */,
 				61BC15F1237B156600341701 /* AppDelegate.swift in Sources */,
 				6122813A2398BC9900B11999 /* DetailTableView.swift in Sources */,
 				615A624423982BCE00A99E7A /* TaskCell.swift in Sources */,

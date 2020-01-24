@@ -86,8 +86,9 @@ class DetailTableView: UITableViewController {
         titleInput.text = something
         print("-- DetailVC.viewDidAppear = \(something)")
         
+  
+        addDoneButton(to: notesField, action: nil)
         addDoneButton(to: titleInput, action: nil)
-        addDoneButton(to: notesField, action: nil)  
         
 
         // Uncomment the following line to preserve selection between presentations

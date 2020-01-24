@@ -9,7 +9,18 @@
 import UIKit
 
 class ProgressVC: UIViewController {
-
+    
+    
+    // Fetch() coreData entites if there is stored data display bar graph
+        // Not sure how graph is supposed to be used
+        // ? Each bar will show how many tasks are in a goal and how many tasks are completed by a goal
+        // The website shows a segmentController with two switches: Month, Week
+    
+    // Create a bar graph using charts
+        // create a data entry array
+        // create a data set from a data array
+        // load data set into barGraphFrame: UIView
+    
     
     
     override func viewDidLoad() {
