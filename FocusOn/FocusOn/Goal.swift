@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
 class Goal {
     
     var title: String = ""
-    let date: Date  // Set the date upon initalization
+    var date: Date // Set the date upon initalization
     var UID: String = ""
     var tasks: [Tasks] = [] // array to store each task
     var progress: progress = .beginning
@@ -25,6 +26,11 @@ class Goal {
         
         self.date = Date()
         self.UID = genID()
+
+        if fetchAndCompare() == true { // if the next day
+            self.date = Date() // update date
+
+        }
     } 
     
     
@@ -91,6 +97,28 @@ class Goal {
         
     }
     
+    func fetchAndCompare() -> Bool {
+        print(#function)
+        let goalDC = GoalDataController()
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            let fetch = try goalDC.context.fetch(request)
+            if fetch.count != 0 {
+                let firstGoal = fetch.first!
+                if goalDC.compareDays(from: firstGoal.dateCreated!) == true {
+                    // The Next Day
+                    return true
+                } else {
+                    // The Same Day
+                    return false
+                }
+                
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error)")
+        }
+        return false
+    }
     
 }
 

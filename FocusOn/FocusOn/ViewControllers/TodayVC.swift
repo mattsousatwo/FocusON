@@ -7,11 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
-class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol GoalDelegate {
+    func load(data: GoalData)
+}
+
+class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GoalDelegate {
+    func load(data: GoalData) {
+        print("\nTodayVC- load data \(data.name ?? "Default name")\n")
+    }
+    
  
-    let todaysGoal = Goal()
+    let goalDC = GoalDataController()
+    var todaysGoal = GoalData()
     var bonusCellCount = 1
+    var currentGoal = GoalData()
+    var delegate: GoalDelegate?
+   
     
     
     // Table View for today vc
@@ -23,8 +36,16 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         todayTable.dataSource = self
         todayTable.delegate = self
         
+//        goalDC.deleteAll()
+        goalDC.fetchGoals()
+        todaysGoal = goalDC.goalContainer.first!
+       // todaysGoal = goalDC.fetchTodaysGoal()!
+        print("todaysGoal UID: \(todaysGoal.goal_UID!)\n")
         
-       
+        
+        
+//        goalDC.printTimeStamps()
+        print("todays Date: \(todaysGoal.dateCreated!) ")
         
         registerGestures()
         registerForKeyboardNotifications()
@@ -79,7 +100,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
         switch indexPath.section {
         case 0:
-            cell.textField.placeholder = "New Goal"
+            cell.textField.text = todaysGoal.name!
         case 1:
             cell.textField.placeholder = "New Task"
         case 2:
@@ -137,8 +158,16 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if firstCell.textField == sender && sender.text != nil {
             print("First row [0,0]")
 
-            todaysGoal.title = sender.text!
-            print("goal title: \(todaysGoal.title)\ngoal date: \(todaysGoal.date)\ngoal UID: \(todaysGoal.UID)\n...\n")
+        
+// MARK: #######
+//            todaysGoal.title = sender.text!
+//            print("goal title: \(todaysGoal.title)\ngoal date: \(todaysGoal.date)\ngoal UID: \(todaysGoal.UID)\n...\n")
+            todaysGoal.name = sender.text!
+            goalDC.saveContext()
+            print("goal title: \(todaysGoal.name!)\ngoal date: \(todaysGoal.dateCreated!)\ngoal UID: \(todaysGoal.goal_UID!)\n...\n")
+            
+            // Update cell
+           // goalDC.update(goal: todaysGoal)
         }
 
         // MARK: - TASK CELL - IMPORTANT: taskLimit needs to equal number of rows in task section of table
@@ -151,11 +180,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if taskCell.textField == sender && sender.text != "" {
         // MARK: ERROR: When user inputs text in a cell in the tasks section, a new task is entered at the first position “tasks[0]”, not the position of the row “tasks[2]”.
                 // - dont think i need to change anything to accomodate - If i set data to a coredata object it will be just fine and I wont return objects in an array ordering system
-                
-                todaysGoal.createNew(task: sender.text)
-                if index == todaysGoal.tasks.count {
-                    print("------\ntaskTitle: \(todaysGoal.tasks[index].taskTitle) \ntaskUID: \(todaysGoal.tasks[index].task_UID) \ngoalUID: \(todaysGoal.tasks[index].goal_UID)")
-                }
+// MARK: #######
+//                todaysGoal.createNew(task: sender.text)
+//                if index == todaysGoal.tasks.count {
+//                    print("------\ntaskTitle: \(todaysGoal.tasks[index].taskTitle) \ntaskUID: \(todaysGoal.tasks[index].task_UID) \ngoalUID: \(todaysGoal.tasks[index].goal_UID)")
+//                }
             
                
             }
@@ -211,13 +240,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = false
      }
-
+    
     // menu button to segue to detailVC
     @objc func menuButtonPressed() {
         print(#function)
         performSegue(withIdentifier: "TodayToDetail", sender: nil)
     }
      
+  
+    
         // MARK: - passing data to detailVC not showing up
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     // Get the new view controller using segue.destination.
@@ -233,10 +264,16 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 if let textInput = x.textField.text {
                     
-                        detailVC.something = textInput
-                        print("text: \(x.textField.text!)\nindex: \(selectedIndex)")
+                    detailVC.something = textInput
+                        print("text: \(textInput)\nindex: \(selectedIndex)")
+                    print("\(detailVC.something)")
                     
+                    detailVC.delegate = self
+                    detailVC.delegate?.load(data: todaysGoal)
                     
+                    // pass selected cells UID to next view and load GoalData by the UID predicate
+                    detailVC.searchUID = todaysGoal.goal_UID!
+                   //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
                     
                 } else {
                     detailVC.something = "DEFAULT TEXT"
@@ -271,21 +308,23 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 todaysGoal.notes = sourceVC.notesField.text!
                 
                 // setting progress
-                todaysGoal.setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
+// MARK: #######
+//                todaysGoal.setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
                 
             case 1: // case a task was selected
-                
+                print("selected task")
                 // MARK: - Error - task title 
-                todaysGoal.tasks[selectedIndex.row].taskTitle = sourceVC.titleInput.text!
+//                todaysGoal.tasks[selectedIndex.row].taskTitle = sourceVC.titleInput.text!
                 
-                    print("------\ntaskTitle: \(todaysGoal.tasks[selectedIndex.row].taskTitle) \ntaskUID: \(todaysGoal.tasks[selectedIndex.row].task_UID) \ngoalUID: \(todaysGoal.tasks[selectedIndex.row].goal_UID)")
+//                    print("------\ntaskTitle: \(todaysGoal.tasks[selectedIndex.row].taskTitle) \ntaskUID: \(todaysGoal.tasks[selectedIndex.row].task_UID) \ngoalUID: \(todaysGoal.tasks[selectedIndex.row].goal_UID)")
                     
                 // setting progress
-                todaysGoal.tasks[selectedIndex.row].setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
-                    print("\(todaysGoal.tasks[selectedIndex.row].taskProgress)")
+//                todaysGoal.tasks[selectedIndex.row].setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
+//                    print("\(todaysGoal.tasks[selectedIndex.row].taskProgress)")
+                
                 
                 // set notes
-                todaysGoal.tasks[selectedIndex.row].taskNotes = sourceVC.notesField.text!
+//                todaysGoal.tasks[selectedIndex.row].taskNotes = sourceVC.notesField.text!
                 
             case 2:
                 print("Bonus Cell Selected - Finish implementation")

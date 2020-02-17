@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
-class DetailTableView: UITableViewController {
+
+class DetailTableView: UITableViewController, GoalDelegate {
 
     var newTask = Tasks(title: "", date: Date(), goal_UID: "", task_UID: "")
+    let goalDC = GoalDataController()
+    var searchUID = String()
+    var standInGoal = GoalData()
+    var delegate: GoalDelegate?
+    
 
     // Update Button Reference
     @IBOutlet weak var updateButton: UIBarButtonItem!
@@ -67,25 +74,30 @@ class DetailTableView: UITableViewController {
 
     
     // variable to store titleInput text
-    var something = ""
+    var something = "String"
     
     
-    
+   /*
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        titleInput.text = something
+//        titleInput.text = something
         print("-- DetailVC.viewWillAppear = \(something)")
         
     }
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateButton.isEnabled = false
-        //1 
-        titleInput.text = something
-        print("-- DetailVC.viewDidAppear = \(something)")
         
+        updateButton.isEnabled = false
+        //1
+        print("something: \(something)")
+        
+        titleInput.text = something
+        
+        print("-- DetailVC.viewDidAppear = \(something)")
+        print("searchUID: " + searchUID)
   
         addDoneButton(to: notesField, action: nil)
         addDoneButton(to: titleInput, action: nil)
@@ -96,6 +108,12 @@ class DetailTableView: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    func load(data goal: GoalData) {
+        
+        something = goal.name!
+        print(#function + "\(goal.name!)")
     }
     
     // MARK: - BUTTONS
@@ -201,13 +219,20 @@ class DetailTableView: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "unwindToTodayVC" {
-            
+        switch segue.identifier {
+        case "unwindToTodayVC":
             let input = titleInput.text
             
             newTask.taskTitle = input ?? "input didnt work"
-            
+        case "TodayToDetail":
+            titleInput.text = "TodayToDetailSegue"
+            print("TodayToDetail-PickedUp")
+        default:
+            print("No Segue Found - DetailViewController")
         }
+        
+        
+      
     }
     
 

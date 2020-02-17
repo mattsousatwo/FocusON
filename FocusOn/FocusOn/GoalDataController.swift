@@ -15,15 +15,16 @@ class GoalDataController {
     var entityName = "GoalData"
     var context: NSManagedObjectContext
     var entity: NSEntityDescription?
+    var goalContainer: [GoalData] = []
     
     var today: Date {
-        return startOfTheDay(for: Date())
+        return startOfTheDay()
     }
 
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
-        entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
+        entity = NSEntityDescription.entity(forEntityName: entityName, in: context)!
     }
     
     // MARK: Save
@@ -32,10 +33,18 @@ class GoalDataController {
          
         // maybe some logic to update goal
        
+        let xGoal = NSManagedObject(entity: entity!, insertInto: context) as! GoalData
+        
+        xGoal.dateCreated = Date()
+        xGoal.goal_UID = goal.UID
+        xGoal.name = goal.title
+        
+        goalContainer.append(xGoal)
         saveContext()
     }
     
     func saveContext() {
+        print(#function + "\n")
         do {
             try context.save()
         }
@@ -58,10 +67,111 @@ class GoalDataController {
         }
     }
     
-    // MARK: Fetch Data
-    func fetchGoals() {
+    
+    func update(goal: Goal) {
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        // need to find a way to match the days goal
+        // here we can only find the goal once because the next time goal.UID is initalized it will be a new UID, thus serching for nothing
+        // maybe adjust goal.init??? || use the timestamp on the goal to load the goal into view and then make adjustments to that gaol 
+        
+        request.predicate = NSPredicate(format: "goal_UID = %@", goal.UID)
+        do {
+            let selectedGoal = try context.fetch(request)
+            if selectedGoal.count != 0 {
+                let x = selectedGoal.first
+                x?.name = goal.title
+                saveContext()
+            }
+        } catch let error as NSError {
+            print("Could not update GoalData: \(error), \(error.userInfo)")
+        }
+        print(goalContainer.first?.name ?? "default")
+    }
+    
+    
+    // get and return the title for an entity by the UID
+    func fetchGoal(withUID UID: String ) -> GoalData {
+        var xGoal = GoalData()
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        request.predicate = NSPredicate(format: "goal_UID = %@", UID)
+        do {
+            let goalArray = try context.fetch(request)
+            let goal = goalArray.first!
+            xGoal = goal
+        } catch let error as NSError {
+            print("Could not return title for goal with UID: \(UID), error: \(error), \(error.userInfo)")
+        }
+        
+        return xGoal
         
     }
+    
+    
+    func fetchAndCompare() -> Bool {
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            let fetch = try context.fetch(request)
+            if fetch.count != 0 {
+                let firstGoal = fetch.first!
+                if compareDays(from: firstGoal.dateCreated!) == true {
+                    return true
+                } else {
+                    return false
+                }
+                
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error)")
+        }
+        return false
+    }
+    
+    func fetchTodaysGoal() -> GoalData? {
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            let fetch = try context.fetch(request)
+            if fetch.count != 0 {
+                let goal = fetch.last!
+                if Calendar.current.isDateInToday(goal.dateCreated!) == true {
+                    return goal
+                } else {
+                    saveGoal(goal: Goal())
+                    return fetch.last!
+                }
+                
+            }
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    
+    // MARK: Fetch Data
+    func fetchGoals() {
+        print(#function)
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            goalContainer = try context.fetch(request)
+        } catch let error as NSError {
+            print("Could not fetch GoalData: \(error), \(error.userInfo)")
+        }
+        print("goalContainer.count: \(goalContainer.count)")
+        if goalContainer.count != 0 && compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
+            print("goalContainer.count != 0 && compareDays(from: ) == false \n")
+            for data in goalContainer {
+                print("name: \(data.name ?? "default text"), \nuid: \(data.goal_UID ?? "default uid") \n")
+            }
+        } else { // if goalContainer isEmpty create a new GoalData entity
+            print("goalContainer.count == 0 && compareDays(from: ) == true \n")
+            saveGoal(goal: Goal())
+        }
+    }
+    
+    
+    
+    
+    
     
     // MARK: Return Count
     func numberOfTasks(for: Goal) {
@@ -88,11 +198,56 @@ class GoalDataController {
     
     // MARK: - Time Management
     // MARK: Start of Day
-    func startOfTheDay(for date: Date) -> Date {
+    func startOfTheDay() -> Date {
         var calendar = Calendar.current
         calendar.timeZone = TimeZone.current
-        return calendar.startOfDay(for: date)
+        return calendar.startOfDay(for: Date())
     }
+    
+    func endOfDay() -> Date {
+        var components = DateComponents()
+        components.day = 1
+        let endOfTheDay = Calendar.current.date(byAdding: components, to: startOfTheDay()) ?? Date()
+        print("\(endOfTheDay)")
+        return endOfTheDay
+    }
+    
+    func printTimeStamps() {
+        let start = startOfTheDay()
+        let end = endOfDay()
+        let x = end.compare(start)
+        print("start: \(start), end: \(end) \n comparison: \(x.rawValue)")
+    }
+    
+    
+    func compareDays(from date1: Date) -> Bool {
+        let days1 = Calendar.current.component(.day, from: date1)
+        let days2 = Calendar.current.component(.day, from: endOfDay())
+        let comparison = days1 - days2
+        print(#function +  "\ncurrent: \(date1), endOfDay: \(endOfDay()), comparison = \(comparison)")
+        print("## the actual date: \(Date())")
+        if comparison >= 1 {
+            // The next day
+            return true
+        } else {
+            // The same day
+            return false
+        }
+    }
+    
+    /*
+    func getTodaysGoal() -> GoalData {
+        
+        if goalContainer.count >= 1 {
+            if compareDays(from: goalContainer.first!.dateCreated!) == true {
+                return goalContainer.last!
+            }
+        }
+        let x: GoalData
+      
+    }
+    */
+    
     
     // MARK: Date Caption
     
