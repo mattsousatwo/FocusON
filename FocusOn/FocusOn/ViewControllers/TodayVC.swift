@@ -13,7 +13,8 @@ protocol GoalDelegate {
     func load(data: GoalData)
 }
 
-class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GoalDelegate {
+class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GoalDelegate, TaskCellDelegate {
+    
     func load(data: GoalData) {
         print("\nTodayVC- load data \(data.name ?? "Default name")\n")
     }
@@ -59,6 +60,17 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     }
     
     
+    // MARK: - TaskCellDelegate
+    func didTaskCell(_ cell: TaskCell, change marker: Bool) {
+        // get current cell indexPath
+        if let indexPath = todayTable.indexPath(for: cell) {
+            let cell = todayTable.cellForRow(at: indexPath) as! TaskCell
+            print("\(cell.textField.text!)")
+            
+        }
+        
+    }
+    
     
      // MARK: - todayTableView Setup
     
@@ -97,7 +109,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         
         cell.menuButton.addGestureRecognizer(menuTap)
     
-    
+        // remove higlighting from cell
+        cell.selectionStyle = .none
+        
         switch indexPath.section {
         case 0:
             cell.textField.text = todaysGoal.name!
@@ -215,32 +229,24 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     }
     
     
-    // Attempting to highlight the marker but not the cell
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-    
-        let z = tableView.cellForRow(at: indexPath) as! TaskCell
-            
-        z.isHighlighted = false
-            
-        z.taskMarker.isHighlighted = true
-        
-    }
-    
+    // MARK: - Selecting a Cell
     // deselcting row will hide menu button
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = true
       
     }
-    
-      // MARK: - Navigation
-    
-    // if user selects a row - preform detail segue
+      
+    // if user selects a row - show menu button
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = false
+        x.isHighlighted = false
      }
+ 
+
     
+    // MARK: - Navigation
     // menu button to segue to detailVC
     @objc func menuButtonPressed() {
         print(#function)
