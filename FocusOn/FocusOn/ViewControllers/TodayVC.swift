@@ -69,6 +69,10 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             
         }
         
+        todaysGoal.isChecked = marker
+        goalDC.saveContext()
+        print("\ntodaysGoal.isChecked = \(todaysGoal.isChecked)")
+        
     }
     
     
@@ -111,10 +115,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     
         // remove higlighting from cell
         cell.selectionStyle = .none
+        // Setting cell to be the delegate of TaskCellDelegate
+        cell.delegate = self
         
         switch indexPath.section {
         case 0:
             cell.textField.text = todaysGoal.name!
+            cell.taskMarker.isHighlighted = todaysGoal.isChecked
         case 1:
             cell.textField.placeholder = "New Task"
         case 2:
