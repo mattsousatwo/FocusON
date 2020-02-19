@@ -62,11 +62,18 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     
     // MARK: - TaskCellDelegate
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
-        // get current cell indexPath
-        if let indexPath = todayTable.indexPath(for: cell) {
-            let cell = todayTable.cellForRow(at: indexPath) as! TaskCell
-            print("\(cell.textField.text!)")
+        // if firstCell { highlight all tasks }
+        let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
+        if cell == firstCell {
             
+            print("\(cell.textField.text!)")
+            if let visibleRows = todayTable.indexPathsForVisibleRows {
+                for index in visibleRows {
+                    let selectedCell = todayTable.cellForRow(at: index) as! TaskCell
+                    selectedCell.taskMarker.isHighlighted = marker
+                    // Save task cell marker 
+                }
+            }
         }
         
         todaysGoal.isChecked = marker
@@ -281,7 +288,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
                         print("text: \(textInput)\nindex: \(selectedIndex)")
                     print("\(detailVC.something)")
                     
-                    detailVC.delegate = self
+                    
+                    
+                    delegate = detailVC
                     detailVC.delegate?.load(data: todaysGoal)
                     
                     // pass selected cells UID to next view and load GoalData by the UID predicate
