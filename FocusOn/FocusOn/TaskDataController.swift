@@ -16,6 +16,7 @@ class TaskDataController {
     var context: NSManagedObjectContext
     var entity: NSEntityDescription?
     var currentTaskContainer: [TaskData] = []
+    var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
     
      init() {
@@ -38,6 +39,17 @@ class TaskDataController {
         currentTask.goal_UID = UID
         
         currentTaskContainer.append(currentTask)
+        saveContext()
+    }
+    
+    func saveBonusTask(name: String = "", withGoalID UID: String) {
+        let bonusTask = TaskData(context: context)
+        bonusTask.dateCreated = Date()
+        bonusTask.goal_UID = UID
+        if name != "" {
+            bonusTask.name = name
+        }
+        bonusTasksContainter.append(bonusTask)
         saveContext()
     }
     
@@ -78,6 +90,18 @@ class TaskDataController {
             catch {
                 
         }
+        // load bonus tasks into bonusContainer
+        parseBonusTasks()
+    }
+    
+    func parseBonusTasks() {
+        if currentTaskContainer.count >= 3 {
+            // for task[3...MAX] append to bonusContainer
+            for x in 3...currentTaskContainer.count - 1 {
+                bonusTasksContainter.append(currentTaskContainer[x])
+            }
+        }
+        print("BonusContainer = \(bonusTasksContainter.count)\n currentTaskContainer = \(currentTaskContainer.count) !&")
     }
     
     // MARK: Delete

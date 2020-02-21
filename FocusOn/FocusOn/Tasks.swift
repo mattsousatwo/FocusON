@@ -21,7 +21,6 @@ class Tasks: Goal {
     var taskNotes: String = "" 
     
     init(title: String, date: Date, goal_UID: String, task_UID: String) {
-        
         self.taskTitle = title
         self.taskDate = date
         self.goal_UID = goal_UID

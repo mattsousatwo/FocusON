@@ -43,7 +43,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         
         goalDC.fetchGoals()
         taskDC.fetchAllTasks()
-        
+        if taskDC.bonusTasksContainter.count != 0 {
+            bonusCellCount = taskDC.bonusTasksContainter.count + 1 //3
+        }
         if taskDC.currentTaskContainer.count != 0 {
             print("taskContainer $$$$ == \(taskDC.currentTaskContainer.count)")
             print("taskContainer[0].name = \(taskDC.currentTaskContainer[0].name ?? "default")")
@@ -160,7 +162,17 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
                 cell.textField.placeholder = "New Task"
             }
         case 2:
-            cell.textField.placeholder = "Bonus Task"
+            
+            if taskDC.bonusTasksContainter.count != 0 {
+                
+                // MARK: - fix how text is selected && correct bonus cell amount is not displayed 
+                guard let bonusText = taskDC.bonusTasksContainter[indexPath.row].name else { return cell }
+                cell.textField.text = bonusText
+                
+            } else {
+                cell.textField.placeholder = "Bonus Task"
+            }
+            
         default:
             cell.textField.placeholder = "New Task"
         }
@@ -209,7 +221,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     @IBAction func editingGoalCellDidEnd(_ sender: UITextField) {
         print("\(sender.text ?? "DEFAULT")")
         // MARK: - Goal Cell
-        let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
+        guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
 
         if firstCell.textField == sender && sender.text != nil {
             print("First row [0,0]")
@@ -232,20 +244,10 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
 
             let taskCell = todayTable.cellForRow(at: [1, index]) as! TaskCell
             
-            
             if taskCell.textField == sender && sender.text != "" {
-        // MARK: ERROR: When user inputs text in a cell in the tasks section, a new task is entered at the first position “tasks[0]”, not the position of the row “tasks[2]”.
-                // - dont think i need to change anything to accomodate - If i set data to a coredata object it will be just fine and I wont return objects in an array ordering system
-// MARK: #######
-//                todaysGoal.createNew(task: sender.text)
-//                if index == todaysGoal.tasks.count {
-//                    print("------\ntaskTitle: \(todaysGoal.tasks[index].taskTitle) \ntaskUID: \(todaysGoal.tasks[index].task_UID) \ngoalUID: \(todaysGoal.tasks[index].goal_UID)")
-//                }
             
+             taskDC.saveTask(name: sender.text!, withGoalID: todaysGoal.goal_UID!)
                 
-                
-                taskDC.saveTask(name: sender.text!, withGoalID: todaysGoal.goal_UID!)
-               
             }
         }
 
@@ -258,6 +260,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
                 print("Hello World")
                     //   print("\(bonusCell.textField.text!)")
                        // bonus task added - do some work
+                taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!)
                 bonusCellCount += 1
                 todayTable.reloadData()
             }
