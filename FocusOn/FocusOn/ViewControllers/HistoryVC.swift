@@ -10,6 +10,7 @@ import UIKit
 
 class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    let goalDC = GoalDataController()
     
     // MARK: - Read Me
     
@@ -27,6 +28,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         // Do any additional setup after loading the view.
         historyTableView.delegate = self
         historyTableView.dataSource = self
+        
+        // reload Goals
+        goalDC.fetchGoals()
     }
     
     // number of sections
@@ -36,14 +40,24 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        return goalDC.pastGoalContainer.count
     }
 
     // reusable cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
+        let historyCell = "historyCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: historyCell, for: indexPath)
         
-        return cell 
+        if goalDC.pastGoalContainer.count != 0 {
+            guard let textLabel = cell.textLabel else { return cell }
+            let row = indexPath.row
+            textLabel.text = goalDC.pastGoalContainer[row].name
+        } else {
+            cell.textLabel?.text = "didnt work"
+        }
+         
+        return cell
+        
     }
     
     

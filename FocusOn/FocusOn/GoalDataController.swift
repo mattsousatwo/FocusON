@@ -16,6 +16,10 @@ class GoalDataController {
     var context: NSManagedObjectContext
     var entity: NSEntityDescription?
     var goalContainer: [GoalData] = []
+    var currentGoal = GoalData()
+    var pastGoalContainer: [GoalData] = []
+    var currentTaskContainer: [TaskData] = []
+    var pastTaskContainer: [TaskData] = []
     
     var today: Date {
         return startOfTheDay()
@@ -28,7 +32,7 @@ class GoalDataController {
     }
     
     // MARK: Save
-    func saveGoal(goal: Goal) { 
+    func saveGoal(goal: Goal, title: String = "" ) {
         print(#function)
          
         // maybe some logic to update goal
@@ -37,7 +41,11 @@ class GoalDataController {
         
         xGoal.dateCreated = Date()
         xGoal.goal_UID = goal.UID
-        xGoal.name = goal.title
+        if title == "" {
+            xGoal.name = goal.title
+        } else {
+            xGoal.name = title
+        }
         
         goalContainer.append(xGoal)
         saveContext()
@@ -59,6 +67,13 @@ class GoalDataController {
         }
         return nil
     }
+    
+    func createTestTasks() {
+        for x in 1...5 {
+            saveGoal(goal: Goal(), title: "Test\(x)") 
+        }
+    }
+    
     
     // MARK: Update
     func update(context: NSManagedObject?, withGoal goal: Goal) {
@@ -106,24 +121,8 @@ class GoalDataController {
         
     }
     
-    
-    func fetchAndCompare() -> Bool {
-        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
-        do {
-            let fetch = try context.fetch(request)
-            if fetch.count != 0 {
-                let firstGoal = fetch.first!
-                if compareDays(from: firstGoal.dateCreated!) == true {
-                    return true
-                } else {
-                    return false
-                }
-                
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error)")
-        }
-        return false
+    func fetchPastGoal() {
+        
     }
     
     func fetchTodaysGoal() -> GoalData? {
@@ -135,6 +134,7 @@ class GoalDataController {
                 if Calendar.current.isDateInToday(goal.dateCreated!) == true {
                     return goal
                 } else {
+                    // create goal 
                     saveGoal(goal: Goal())
                     return fetch.last!
                 }
@@ -148,21 +148,30 @@ class GoalDataController {
     
     
     // MARK: Fetch Data
+    // Fetch all goals, if goal is in the past append goal into pastGoalContainer
     func fetchGoals() {
         print(#function)
         let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
         do {
-            goalContainer = try context.fetch(request)
+            goalContainer = try context.fetch(request) // request all goals
         } catch let error as NSError {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
         print("goalContainer.count: \(goalContainer.count)")
+        // if there is a goal in goalContainer & first goal is from today
         if goalContainer.count != 0 && compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
             print("goalContainer.count != 0 && compareDays(from: ) == false \n")
             for data in goalContainer {
                 print("name: \(data.name ?? "default text"), \nuid: \(data.goal_UID ?? "default uid") \n")
+                if compareDays(from: (data.dateCreated)!) == false  { // if data.dateCreated != today, add & remove goal
+                    // MARK: compareDays == true && uncomment removeAll() - for createTestData() 
+                    pastGoalContainer.append(data)
+            //        goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
+                }
             }
-        } else { // if goalContainer isEmpty create a new GoalData entity
+            print("\n+++++ goalContainer.count = \(goalContainer.count)")
+            print("+++++ pastGoalContainer.count = \(pastGoalContainer.count)\n")
+        } else if goalContainer.count == 0 || compareDays(from: (goalContainer.first?.dateCreated)! ) == true { // if goalContainer isEmpty create a new GoalData entity
             print("goalContainer.count == 0 && compareDays(from: ) == true \n")
             saveGoal(goal: Goal())
         }

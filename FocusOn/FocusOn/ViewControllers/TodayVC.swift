@@ -36,6 +36,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         super.viewDidLoad()
         todayTable.dataSource = self
         todayTable.delegate = self
+        goalDC.createTestTasks()
         
 //        goalDC.deleteAll()
         goalDC.fetchGoals()
@@ -50,6 +51,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         
         registerGestures()
         registerForKeyboardNotifications()
+        
     }
     
     // new task button gestures
@@ -61,10 +63,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     
     
     // MARK: - TaskCellDelegate
+    // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
         // if firstCell { highlight all tasks }
         let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
         if cell == firstCell {
+            // update todaysGoal
+            todaysGoal.isChecked = marker
             
             print("\(cell.textField.text!)")
             if let visibleRows = todayTable.indexPathsForVisibleRows {
@@ -76,7 +81,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             }
         }
         
-        todaysGoal.isChecked = marker
+        // save context
         goalDC.saveContext()
         print("\ntodaysGoal.isChecked = \(todaysGoal.isChecked)")
         
