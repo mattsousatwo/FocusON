@@ -37,7 +37,7 @@ class Goal {
 
     
     // Generate ID - With numbers and letters
-    private func genID() -> String {
+    func genID() -> String {
         let letters = ["A", "B", "C", "D", "E", "F",
                        "G", "H", "I", "J", "K", "L",
                        "M", "N", "O", "P", "Q", "R",

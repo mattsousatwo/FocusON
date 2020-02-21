@@ -35,6 +35,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
+        // maybe divide sections up by days?
+            // each goal is made on a new day so no 
         1
     }
     

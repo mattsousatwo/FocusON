@@ -19,7 +19,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         print("\nTodayVC- load data \(data.name ?? "Default name")\n")
     }
     
- 
+    let taskDC = TaskDataController() 
     let goalDC = GoalDataController()
     var todaysGoal = GoalData()
     var bonusCellCount = 1
@@ -36,10 +36,18 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         super.viewDidLoad()
         todayTable.dataSource = self
         todayTable.delegate = self
-        goalDC.createTestTasks()
+        goalDC.createTestGoals() 
         
 //        goalDC.deleteAll()
+//        taskDC.deleteAllTasks()
+        
         goalDC.fetchGoals()
+        taskDC.fetchAllTasks()
+        
+        if taskDC.currentTaskContainer.count != 0 {
+            print("taskContainer $$$$ == \(taskDC.currentTaskContainer.count)")
+            print("taskContainer[0].name = \(taskDC.currentTaskContainer[0].name ?? "default")")
+        }
         todaysGoal = goalDC.goalContainer.first!
        // todaysGoal = goalDC.fetchTodaysGoal()!
         print("todaysGoal UID: \(todaysGoal.goal_UID!)\n")
@@ -135,7 +143,22 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             cell.textField.text = todaysGoal.name!
             cell.taskMarker.isHighlighted = todaysGoal.isChecked
         case 1:
-            cell.textField.placeholder = "New Task"
+            switch indexPath.row {
+            case 0:
+                if taskDC.currentTaskContainer.count != 0 {
+                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
+                }
+            case 1:
+                if taskDC.currentTaskContainer.count >= 2 {
+                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
+                }
+            case 2:
+                if taskDC.currentTaskContainer.count >= 3 {
+                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
+                }
+            default:
+                cell.textField.placeholder = "New Task"
+            }
         case 2:
             cell.textField.placeholder = "Bonus Task"
         default:
@@ -219,6 +242,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
 //                    print("------\ntaskTitle: \(todaysGoal.tasks[index].taskTitle) \ntaskUID: \(todaysGoal.tasks[index].task_UID) \ngoalUID: \(todaysGoal.tasks[index].goal_UID)")
 //                }
             
+                
+                
+                taskDC.saveTask(name: sender.text!, withGoalID: todaysGoal.goal_UID!)
                
             }
         }

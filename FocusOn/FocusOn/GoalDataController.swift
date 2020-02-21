@@ -18,8 +18,6 @@ class GoalDataController {
     var goalContainer: [GoalData] = []
     var currentGoal = GoalData()
     var pastGoalContainer: [GoalData] = []
-    var currentTaskContainer: [TaskData] = []
-    var pastTaskContainer: [TaskData] = []
     
     var today: Date {
         return startOfTheDay()
@@ -36,8 +34,8 @@ class GoalDataController {
         print(#function)
          
         // maybe some logic to update goal
-       
-        let xGoal = NSManagedObject(entity: entity!, insertInto: context) as! GoalData
+        
+        let xGoal = GoalData(context: context)
         
         xGoal.dateCreated = Date()
         xGoal.goal_UID = goal.UID
@@ -68,7 +66,7 @@ class GoalDataController {
         return nil
     }
     
-    func createTestTasks() {
+    func createTestGoals() {
         for x in 1...5 {
             saveGoal(goal: Goal(), title: "Test\(x)") 
         }
@@ -176,9 +174,19 @@ class GoalDataController {
             saveGoal(goal: Goal())
         }
     }
-    
-    
-    
+   /*
+    // Fetch all tasks for selected Goal
+    func fetchTasksForGoal() {
+        if goalContainer.count != 0 {
+            let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+            do {
+                currentTaskContainer = try context.fetch(request)
+            } catch let error as NSError {
+                print("Could not fetch tasks for current goal. Error: \(error), userInfo: \(error.userInfo)")
+            }
+        }
+    }
+    */
     
     
     

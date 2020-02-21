@@ -10,27 +10,44 @@ import Foundation
 import UIKit
 import CoreData
 
-class TaskDataController: GoalDataController {
+class TaskDataController {
 
     let taskData: String = "TaskData"
-    var taskContext: NSManagedObjectContext
-    var taskEntity: NSEntityDescription?
+    var context: NSManagedObjectContext
+    var entity: NSEntityDescription?
+    var currentTaskContainer: [TaskData] = []
+    var pastTaskContainer: [TaskData] = []
     
-    override init() {
+     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        taskContext = appDelegate.persistentContainer.viewContext
-        taskEntity = NSEntityDescription.entity(forEntityName: taskData, in: taskContext)
+        context = appDelegate.persistentContainer.viewContext
+        entity = NSEntityDescription.entity(forEntityName: taskData, in: context)
     }
     
     // MARK: Save
-    func saveTask(task: Tasks) {
+    func saveTask(name: String = "", withGoalID UID: String) {
           
         
         let currentTask = TaskData(context: context)
             
-        currentTask.dateCreated = Date()
-            
+        if name != "" {
+            currentTask.name = name
+        }
         
+        currentTask.dateCreated = Date()
+        currentTask.goal_UID = UID
+        
+        currentTaskContainer.append(currentTask)
+        saveContext()
+    }
+    
+    func saveContext() {
+        print(#function + "\n")
+        do {
+            try context.save()
+        }
+        catch {
+        }
     }
     
     // MARK: Update
@@ -39,11 +56,11 @@ class TaskDataController: GoalDataController {
     }
     
     // MARK: Fetch Tasks
-    func fetchTasks() -> NSManagedObject? {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: taskData)
+    func fetchFirstTasks() -> NSManagedObject? {
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
         
         do {
-            let result = try taskContext.fetch(request) as! [NSManagedObject]
+            let result = try context.fetch(request)
             return result.first
         }
         catch {
@@ -51,6 +68,32 @@ class TaskDataController: GoalDataController {
         }
         return nil
     }
+    
+    func fetchAllTasks() {
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+            
+            do {
+                currentTaskContainer = try context.fetch(request)
+            }
+            catch {
+                
+        }
+    }
+    
+    // MARK: Delete
+    
+    func deleteAllTasks() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: taskData)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        
+        do {
+            try context.execute(deleteRequest)
+        } catch {
+            
+        }
+        saveContext()
+    }
+    
     
     
 }
