@@ -116,11 +116,11 @@
 			isa = PBXGroup;
 			children = (
 				61EEF1AC23B3B581001CD295 /* GoalDataController.swift */,
+				616851F723B5BA720043F915 /* TaskDataController.swift */,
 				61BC1606237B168700341701 /* Tasks.swift */,
 				61BC1604237B167500341701 /* Goal.swift */,
 				61F84FA3239F3BC70067913F /* KeyboardManagment.swift */,
 				61EEF1AE23B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld */,
-				616851F723B5BA720043F915 /* TaskDataController.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";

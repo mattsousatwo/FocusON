@@ -18,6 +18,7 @@ class TaskDataController {
     var currentTaskContainer: [TaskData] = []
     var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
+    var detailSearchTag: String = ""
     
      init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -68,19 +69,19 @@ class TaskDataController {
     }
     
     // MARK: Fetch Tasks
-    func fetchFirstTasks() -> NSManagedObject? {
+    func fetchTasks(with goalUID: String = "") {  
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
-        
+        if goalUID != "" {
+            request.predicate = NSPredicate(format: "goal_UID = %@", goalUID)
+        }
         do {
-            let result = try context.fetch(request)
-            return result.first
+            currentTaskContainer = try context.fetch(request)
         }
         catch {
-            
         }
-        return nil
+        parseBonusTasks()
     }
-    
+        // not sure if i still need this func
     func fetchAllTasks() {
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
             
@@ -94,6 +95,7 @@ class TaskDataController {
         parseBonusTasks()
     }
     
+    // to seperate tasks - if task.count >3 append tasks into bonus container
     func parseBonusTasks() {
         if currentTaskContainer.count >= 3 {
             // for task[3...MAX] append to bonusContainer

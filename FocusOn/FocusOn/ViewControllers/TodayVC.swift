@@ -9,11 +9,8 @@
 import UIKit
 import CoreData
 
-protocol GoalDelegate {
-    func load(data: GoalData)
-}
 
-class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GoalDelegate, TaskCellDelegate {
+class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, TaskCellDelegate {
     
     func load(data: GoalData) {
         print("\nTodayVC- load data \(data.name ?? "Default name")\n")
@@ -24,7 +21,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     var todaysGoal = GoalData()
     var bonusCellCount = 1
     var currentGoal = GoalData()
-    var delegate: GoalDelegate?
+    
    
     
     
@@ -37,12 +34,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         todayTable.dataSource = self
         todayTable.delegate = self
         goalDC.createTestGoals() 
-        
+//
 //        goalDC.deleteAll()
 //        taskDC.deleteAllTasks()
         
         goalDC.fetchGoals()
-        taskDC.fetchAllTasks()
+        todaysGoal = goalDC.goalContainer.first!
+        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         if taskDC.bonusTasksContainter.count != 0 {
             bonusCellCount = taskDC.bonusTasksContainter.count + 1 //3
         }
@@ -50,7 +48,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             print("taskContainer $$$$ == \(taskDC.currentTaskContainer.count)")
             print("taskContainer[0].name = \(taskDC.currentTaskContainer[0].name ?? "default")")
         }
-        todaysGoal = goalDC.goalContainer.first!
+        
        // todaysGoal = goalDC.fetchTodaysGoal()!
         print("todaysGoal UID: \(todaysGoal.goal_UID!)\n")
         
@@ -90,9 +88,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
                 }
             }
         }
-        
+        for cell in taskDC.currentTaskContainer {
+            cell.isChecked = marker
+        }
+        for cell in taskDC.bonusTasksContainter {
+            cell.isChecked = marker
+        }
         // save context
         goalDC.saveContext()
+        taskDC.saveContext()
         print("\ntodaysGoal.isChecked = \(todaysGoal.isChecked)")
         
     }
@@ -165,10 +169,17 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             
             if taskDC.bonusTasksContainter.count != 0 {
                 
-                // MARK: - fix how text is selected && correct bonus cell amount is not displayed 
-                guard let bonusText = taskDC.bonusTasksContainter[indexPath.row].name else { return cell }
-                cell.textField.text = bonusText
-                
+                for x in 0...tableView.numberOfRows(inSection: 2) - 2 {
+                    switch indexPath.row {
+                    case x:
+                        cell.textField.text = taskDC.bonusTasksContainter[x].name
+                    case tableView.numberOfRows(inSection: 2):
+                        cell.textField.placeholder = "Bonus Task"
+                    default:
+                        cell.textField.placeholder = "Bonus Task"
+                    }
+                }
+                // MARK: - fix how text is selected && correct bonus cell amount is not displayed
             } else {
                 cell.textField.placeholder = "Bonus Task"
             }
@@ -220,23 +231,21 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     // When user is done editing in Task Cell text field - MARK: DONE EDITING CELL
     @IBAction func editingGoalCellDidEnd(_ sender: UITextField) {
         print("\(sender.text ?? "DEFAULT")")
+        
         // MARK: - Goal Cell
         guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
 
         if firstCell.textField == sender && sender.text != nil {
             print("First row [0,0]")
-
-        
-// MARK: #######
-//            todaysGoal.title = sender.text!
-//            print("goal title: \(todaysGoal.title)\ngoal date: \(todaysGoal.date)\ngoal UID: \(todaysGoal.UID)\n...\n")
+            
             todaysGoal.name = sender.text!
             goalDC.saveContext()
             print("goal title: \(todaysGoal.name!)\ngoal date: \(todaysGoal.dateCreated!)\ngoal UID: \(todaysGoal.goal_UID!)\n...\n")
             
             // Update cell
            // goalDC.update(goal: todaysGoal)
-        }
+            
+        } 
 
         // MARK: - TASK CELL - IMPORTANT: taskLimit needs to equal number of rows in task section of table
         let taskLimit = 2
@@ -282,7 +291,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = true
-      
+        
     }
       
     // if user selects a row - show menu button
@@ -290,6 +299,25 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = false
         x.isHighlighted = false
+        
+        // Sending data to a container to then be loaded in detailView
+        switch indexPath.section {
+        case 0:
+            guard let goalID = todaysGoal.goal_UID else { return }
+            goalDC.detailSearchTag = goalID
+            print("\n~~ detailSearchTag - Goal: \(goalDC.detailSearchTag)\n")
+        case 1:
+            guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+            taskDC.detailSearchTag = taskID
+            print("\n~~ detailSearchTag - Task: \(taskDC.detailSearchTag)\n")
+        case 2:
+            guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+            taskDC.detailSearchTag = taskID
+            print("\n~~ detailSearchTag - Bonus Task: \(taskDC.detailSearchTag)\n")
+        default:
+            print("No Search Tag Found")
+        }
+             
      }
  
 
@@ -315,24 +343,23 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Goa
             //MARK: - trying to set cell input to detail view if there is one set
             if let selectedIndex = todayTable.indexPathForSelectedRow {
                 let x = todayTable.cellForRow(at: selectedIndex) as! TaskCell
-                
+            
                 if let textInput = x.textField.text {
                     
-                    detailVC.something = textInput
+                    detailVC.goalTitle = textInput
                         print("text: \(textInput)\nindex: \(selectedIndex)")
-                    print("\(detailVC.something)")
+                    print("\(detailVC.goalTitle)")
                     
                     
                     
-                    delegate = detailVC
-                    detailVC.delegate?.load(data: todaysGoal)
+                    
                     
                     // pass selected cells UID to next view and load GoalData by the UID predicate
                     detailVC.searchUID = todaysGoal.goal_UID!
                    //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
                     
                 } else {
-                    detailVC.something = "DEFAULT TEXT"
+                    detailVC.goalTitle = "DEFAULT TEXT"
                 }
                 
             }

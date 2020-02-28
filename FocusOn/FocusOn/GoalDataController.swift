@@ -18,6 +18,7 @@ class GoalDataController {
     var goalContainer: [GoalData] = []
     var currentGoal = GoalData()
     var pastGoalContainer: [GoalData] = []
+    var detailSearchTag: String = ""
     
     var today: Date {
         return startOfTheDay()

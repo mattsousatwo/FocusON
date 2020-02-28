@@ -10,13 +10,15 @@ import UIKit
 import CoreData
 
 
-class DetailTableView: UITableViewController, GoalDelegate {
+class DetailTableView: UITableViewController {
 
     var newTask = Tasks(title: "", date: Date(), goal_UID: "", task_UID: "")
     let goalDC = GoalDataController()
+    let taskDC = TaskDataController()
     var searchUID = String()
     var standInGoal = GoalData()
-    var delegate: GoalDelegate?
+    // variable to store titleInput text
+    var goalTitle = "Did not load"
     
 
     // Update Button Reference
@@ -71,32 +73,28 @@ class DetailTableView: UITableViewController, GoalDelegate {
         
     }
     
-
-    
-    // variable to store titleInput text
-    var something = "String"
     
     
-   /*
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        titleInput.text = something
-        print("-- DetailVC.viewWillAppear = \(something)")
+        print(#function)
+        configure()
         
     }
-    */
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        configure()
         updateButton.isEnabled = false
         //1
-        print("something: \(something)")
+        print("goalTitle: \(goalTitle)")
         
-        titleInput.text = something
+        titleInput.text = goalTitle
         
-        print("-- DetailVC.viewDidAppear = \(something)")
+        print("-- DetailVC.viewDidAppear = \(goalTitle)")
         print("searchUID: " + searchUID)
   
         addDoneButton(to: notesField, action: nil)
@@ -108,13 +106,10 @@ class DetailTableView: UITableViewController, GoalDelegate {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-    
-    func load(data goal: GoalData) {
         
-        something = goal.name!
-        print(#function + "\(goal.name!)")
+        print("\nsegue --- detailSearchTag = \(goalDC.detailSearchTag)")
     }
+
     
     // MARK: - BUTTONS
     
@@ -235,6 +230,16 @@ class DetailTableView: UITableViewController, GoalDelegate {
       
     }
     
+    func configure() {
+        if goalDC.detailSearchTag != "" {
+            print("Goal: ")
+        } else if taskDC.detailSearchTag != "" {
+            print("Task: ")
+        } else {
+            print("\n tasks and goal uid are both are empty")
+            print("Goal: \(goalDC.detailSearchTag)\n" + "Task: \(taskDC.detailSearchTag)\n\n")
+        }
+    }
 
 }
 
