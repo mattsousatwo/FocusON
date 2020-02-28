@@ -18,7 +18,6 @@ class TaskDataController {
     var currentTaskContainer: [TaskData] = []
     var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
-    var detailSearchTag: String = ""
     
      init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

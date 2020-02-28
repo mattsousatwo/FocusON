@@ -16,9 +16,10 @@ class DetailTableView: UITableViewController {
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
     var searchUID = String()
+    var searchDataType = DataType.goal
     var standInGoal = GoalData()
-    // variable to store titleInput text
-    var goalTitle = "Did not load"
+    
+    
     
 
     // Update Button Reference
@@ -87,37 +88,37 @@ class DetailTableView: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configure()
-        updateButton.isEnabled = false
-        //1
-        print("goalTitle: \(goalTitle)")
+        print("@DetailTableViewController" + " searchUID: \(searchUID)" )
         
-        titleInput.text = goalTitle
-        
-        print("-- DetailVC.viewDidAppear = \(goalTitle)")
-        print("searchUID: " + searchUID)
-  
-        addDoneButton(to: notesField, action: nil)
-        addDoneButton(to: titleInput, action: nil)
-        
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        print("\nsegue --- detailSearchTag = \(goalDC.detailSearchTag)")
+        
     }
 
+    // Setup for ViewDidLoad()
+    func configure() {
+        // handle keyboard
+        addDoneButton(to: notesField, action: nil)
+        addDoneButton(to: titleInput, action: nil)
+        // hide update button
+        updateButton.isEnabled = false
+        // Set TitleInput
+            // MARK: WARNING! - interperateSearchTag will return a non fetchable string if no data is passed
+        interperateSearchTag(withType: searchDataType)
+    }
     
     // MARK: - BUTTONS
     
     // update button
     @IBAction func updateButtonPressed(_ sender: Any) {
         print("UpdateButton - Pressed")
-            
-       performSegue(withIdentifier: "unwindToTodayVC", sender: self)
+        // Save Context
+        
+        performSegue(withIdentifier: "unwindToTodayVC", sender: self)
     }
     
     
@@ -229,17 +230,21 @@ class DetailTableView: UITableViewController {
         
       
     }
-    
-    func configure() {
-        if goalDC.detailSearchTag != "" {
-            print("Goal: ")
-        } else if taskDC.detailSearchTag != "" {
-            print("Task: ")
-        } else {
-            print("\n tasks and goal uid are both are empty")
-            print("Goal: \(goalDC.detailSearchTag)\n" + "Task: \(taskDC.detailSearchTag)\n\n")
+ 
+    // Search Tag Extraction - put fetch(withTag) in here
+    func interperateSearchTag(withType type: DataType) {
+        switch type {
+        case .goal:
+            standInGoal = goalDC.fetchGoal(withUID: searchUID)
+            titleInput.text = standInGoal.name
+        case .task:
+           print("Not set up to handle tasks")
         }
+        
     }
 
 }
 
+enum DataType {
+    case goal, task
+}

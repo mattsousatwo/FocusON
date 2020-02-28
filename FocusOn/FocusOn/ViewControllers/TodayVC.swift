@@ -12,16 +12,15 @@ import CoreData
 
 class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, TaskCellDelegate {
     
-    func load(data: GoalData) {
-        print("\nTodayVC- load data \(data.name ?? "Default name")\n")
-    }
+    
     
     let taskDC = TaskDataController() 
     let goalDC = GoalDataController()
     var todaysGoal = GoalData()
     var bonusCellCount = 1
     var currentGoal = GoalData()
-    
+    var searchUID = String()
+    var searchDataType = DataType.goal
    
     
     
@@ -35,7 +34,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         todayTable.delegate = self
         goalDC.createTestGoals() 
 //
-//        goalDC.deleteAll()
+        goalDC.deleteAll()
 //        taskDC.deleteAllTasks()
         
         goalDC.fetchGoals()
@@ -304,16 +303,16 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         switch indexPath.section {
         case 0:
             guard let goalID = todaysGoal.goal_UID else { return }
-            goalDC.detailSearchTag = goalID
-            print("\n~~ detailSearchTag - Goal: \(goalDC.detailSearchTag)\n")
+            searchUID = goalID
+            searchDataType = .goal
         case 1:
             guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
-            taskDC.detailSearchTag = taskID
-            print("\n~~ detailSearchTag - Task: \(taskDC.detailSearchTag)\n")
+            searchUID = taskID
+            searchDataType = .task
         case 2:
             guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
-            taskDC.detailSearchTag = taskID
-            print("\n~~ detailSearchTag - Bonus Task: \(taskDC.detailSearchTag)\n")
+            searchUID = taskID
+            searchDataType = .task 
         default:
             print("No Search Tag Found")
         }
@@ -336,8 +335,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // Get the new view controller using segue.destination.
     // Pass the selected object to the new view controller.
         if segue.identifier == "TodayToDetail" {
-            let detailVC = DetailTableView()
-            
+            let nav = segue.destination as! UINavigationController
+            let detailVC = nav.topViewController as! DetailTableView
+
             print("-----------successful segue")
             
             //MARK: - trying to set cell input to detail view if there is one set
@@ -346,25 +346,25 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             
                 if let textInput = x.textField.text {
                     
-                    detailVC.goalTitle = textInput
+//                    detailVC.goalTitle = textInput
                         print("text: \(textInput)\nindex: \(selectedIndex)")
-                    print("\(detailVC.goalTitle)")
-                    
-                    
-                    
                     
                     
                     // pass selected cells UID to next view and load GoalData by the UID predicate
-                    detailVC.searchUID = todaysGoal.goal_UID!
+                    detailVC.searchUID = searchUID
+                    detailVC.searchDataType = searchDataType
                    //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
                     
                 } else {
-                    detailVC.goalTitle = "DEFAULT TEXT"
+                    
                 }
                 
             }
             
         }
+        
+        
+        
 }
 
 
