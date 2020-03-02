@@ -18,6 +18,7 @@ class DetailTableView: UITableViewController {
     var searchUID = String()
     var searchDataType = DataType.goal
     var standInGoal = GoalData()
+    var standInTask = TaskData()
     
     
     
@@ -117,6 +118,14 @@ class DetailTableView: UITableViewController {
     @IBAction func updateButtonPressed(_ sender: Any) {
         print("UpdateButton - Pressed")
         // Save Context
+        
+        switch searchDataType {
+        case .goal:
+            goalDC.saveContext()
+        case .task:
+            taskDC.saveContext()
+        }
+        
         
         performSegue(withIdentifier: "unwindToTodayVC", sender: self)
     }
@@ -238,7 +247,8 @@ class DetailTableView: UITableViewController {
             standInGoal = goalDC.fetchGoal(withUID: searchUID)
             titleInput.text = standInGoal.name
         case .task:
-           print("Not set up to handle tasks")
+           standInTask = taskDC.fetchTask(with: searchUID)
+           titleInput.text = standInTask.name
         }
         
     }

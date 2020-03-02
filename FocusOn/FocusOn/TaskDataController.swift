@@ -27,7 +27,7 @@ class TaskDataController {
     
     // MARK: Save
     func saveTask(name: String = "", withGoalID UID: String) {
-          
+        let x = GoalDataController()
         
         let currentTask = TaskData(context: context)
             
@@ -37,6 +37,8 @@ class TaskDataController {
         
         currentTask.dateCreated = Date()
         currentTask.goal_UID = UID
+        currentTask.task_UID = x.genID()
+        print("SAVING TASK - \(currentTask.task_UID ?? "No ID Set")")
         
         currentTaskContainer.append(currentTask)
         saveContext()
@@ -68,6 +70,7 @@ class TaskDataController {
     }
     
     // MARK: Fetch Tasks
+    // Fetch all tasks for goal
     func fetchTasks(with goalUID: String = "") {  
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
         if goalUID != "" {
@@ -80,6 +83,21 @@ class TaskDataController {
         }
         parseBonusTasks()
     }
+    
+    // Fetch specified task
+    func fetchTask(with goalUID: String) -> TaskData {
+        var task: [TaskData] = []
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        request.predicate = NSPredicate(format: "task_UID = %@", goalUID)
+        do {
+            task = try context.fetch(request)
+        }
+        catch {
+            print("Could not fetch task ")
+        }
+        return task.first!
+    }
+    
         // not sure if i still need this func
     func fetchAllTasks() {
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()

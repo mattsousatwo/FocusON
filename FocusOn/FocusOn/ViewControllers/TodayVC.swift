@@ -35,7 +35,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         goalDC.createTestGoals() 
 //
         goalDC.deleteAll()
-//        taskDC.deleteAllTasks()
+        taskDC.deleteAllTasks()
         
         goalDC.fetchGoals()
         todaysGoal = goalDC.goalContainer.first!
@@ -303,10 +303,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         switch indexPath.section {
         case 0:
             guard let goalID = todaysGoal.goal_UID else { return }
+            print("TESTING - " + goalID)
             searchUID = goalID
             searchDataType = .goal
         case 1:
+            print("task selected")
             guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+            print("TESTING - " + taskID)
             searchUID = taskID
             searchDataType = .task
         case 2:
@@ -353,6 +356,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                     // pass selected cells UID to next view and load GoalData by the UID predicate
                     detailVC.searchUID = searchUID
                     detailVC.searchDataType = searchDataType
+                    print("searchUID: \(searchUID)\ndataType: \(searchDataType)\n")
                    //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
                     
                 } else {

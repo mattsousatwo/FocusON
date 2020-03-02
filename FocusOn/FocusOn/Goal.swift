@@ -98,7 +98,6 @@ class Goal {
     }
     
     func fetchAndCompare() -> Bool {
-        print(#function)
         let goalDC = GoalDataController()
         let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
         do {
