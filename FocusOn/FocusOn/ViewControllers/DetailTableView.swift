@@ -48,7 +48,7 @@ class DetailTableView: UITableViewController {
         
         // can change to variable describing DataObject - set color of DataObject
         var currentColor = taskColors.blue
-        
+    
         switch (sender as! UIButton).tag {
         case 0:
             print("blue")
@@ -255,6 +255,3 @@ class DetailTableView: UITableViewController {
 
 }
 
-enum DataType {
-    case goal, task
-}

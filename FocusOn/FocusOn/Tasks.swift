@@ -52,11 +52,3 @@ class Tasks: Goal {
     
 }
 
-
-enum progress {
-    case beginning, inProgress, complete
-}
-
-enum taskColors {
-    case blue, green, grey, pink, red, yellow
-}

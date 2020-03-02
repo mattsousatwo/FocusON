@@ -37,25 +37,37 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         // maybe divide sections up by days?
             // each goal is made on a new day so no 
-        1
+        return goalDC.pastGoalContainer.count
     }
     
     // number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return goalDC.pastGoalContainer.count
+        return 1
     }
 
+    // Title for Header
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var title = ""
+        if goalDC.pastGoalContainer.count != 0 {
+            title = "\(goalDC.formatDate(from: goalDC.pastGoalContainer[section]) ?? "DEFAULT VALUE")"
+        }
+        return title
+    }
+    
     // reusable cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let historyCell = "historyCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: historyCell, for: indexPath)
+        let taskCell = "taskCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as! TaskCell
         
         if goalDC.pastGoalContainer.count != 0 {
-            guard let textLabel = cell.textLabel else { return cell }
+            
             let row = indexPath.row
-            textLabel.text = goalDC.pastGoalContainer[row].name
+            let section = indexPath.section
+            if section == row {
+            cell.textField.text = goalDC.pastGoalContainer[row].name
+            }
         } else {
-            cell.textLabel?.text = "didnt work"
+            cell.textField.text = "Data did not fetch"
         }
          
         return cell

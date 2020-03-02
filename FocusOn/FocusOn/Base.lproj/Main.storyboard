@@ -112,26 +112,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v17-bl-DGD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="v17-bl-DGD">
                                 <rect key="frame" x="0.0" y="115.5" width="414" height="697.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="historyCell" textLabel="xVE-JK-w0c" style="IBUITableViewCellStyleDefault" id="LJI-nQ-Gqx">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taskCell" rowHeight="75" id="fkO-f1-F4V" customClass="TaskCell" customModule="FocusOn" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LJI-nQ-Gqx" id="bQg-MO-3xn">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fkO-f1-F4V" id="AUC-wX-A3S">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xVE-JK-w0c">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="(Blue) Unchecked" highlightedImage="Unchecked - Blue" translatesAutoresizingMaskIntoConstraints="NO" id="KRh-Lj-CK8">
+                                                    <rect key="frame" x="10" y="20" width="24" height="35"/>
+                                                </imageView>
+                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Task Here!" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Vyz-Kt-JhZ">
+                                                    <rect key="frame" x="44" y="10" width="330" height="55"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="info.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ByZ-au-UWQ">
+                                                    <rect key="frame" x="384" y="20.5" width="20" height="34"/>
+                                                    <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="KRh-Lj-CK8" firstAttribute="top" secondItem="AUC-wX-A3S" secondAttribute="top" constant="20" id="0Nm-99-bEZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="ByZ-au-UWQ" secondAttribute="trailing" constant="10" id="8Jh-o1-MLC"/>
+                                                <constraint firstAttribute="bottom" secondItem="KRh-Lj-CK8" secondAttribute="bottom" constant="20" id="DQj-Kb-nCr"/>
+                                                <constraint firstItem="Vyz-Kt-JhZ" firstAttribute="leading" secondItem="KRh-Lj-CK8" secondAttribute="trailing" constant="10" id="Iit-lH-Vn2"/>
+                                                <constraint firstAttribute="bottom" secondItem="ByZ-au-UWQ" secondAttribute="bottom" constant="20" id="Tw3-y2-eDp"/>
+                                                <constraint firstItem="ByZ-au-UWQ" firstAttribute="leading" secondItem="Vyz-Kt-JhZ" secondAttribute="trailing" constant="10" id="fcg-Pk-uPu"/>
+                                                <constraint firstAttribute="bottom" secondItem="Vyz-Kt-JhZ" secondAttribute="bottom" constant="10" id="g0P-XZ-1ou"/>
+                                                <constraint firstItem="KRh-Lj-CK8" firstAttribute="leading" secondItem="AUC-wX-A3S" secondAttribute="leading" constant="10" id="jDb-7X-0Q2"/>
+                                                <constraint firstItem="ByZ-au-UWQ" firstAttribute="top" secondItem="AUC-wX-A3S" secondAttribute="top" constant="20" id="og2-l7-Rin"/>
+                                                <constraint firstItem="Vyz-Kt-JhZ" firstAttribute="top" secondItem="AUC-wX-A3S" secondAttribute="top" constant="10" id="plL-Mp-UIV"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="menuButton" destination="ByZ-au-UWQ" id="roh-Gc-z2A"/>
+                                            <outlet property="taskMarker" destination="KRh-Lj-CK8" id="pAb-HH-rdw"/>
+                                            <outlet property="textField" destination="Vyz-Kt-JhZ" id="AhO-3K-1RV"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

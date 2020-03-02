@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class TaskDataController {
+class TaskDataController: DataController {
 
     let taskData: String = "TaskData"
     var context: NSManagedObjectContext
@@ -19,7 +19,7 @@ class TaskDataController {
     var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
     
-     init() {
+     override init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         entity = NSEntityDescription.entity(forEntityName: taskData, in: context)
@@ -27,7 +27,7 @@ class TaskDataController {
     
     // MARK: Save
     func saveTask(name: String = "", withGoalID UID: String) {
-        let x = GoalDataController()
+        
         
         let currentTask = TaskData(context: context)
             
@@ -37,7 +37,7 @@ class TaskDataController {
         
         currentTask.dateCreated = Date()
         currentTask.goal_UID = UID
-        currentTask.task_UID = x.genID()
+        currentTask.task_UID = genID()
         print("SAVING TASK - \(currentTask.task_UID ?? "No ID Set")")
         
         currentTaskContainer.append(currentTask)

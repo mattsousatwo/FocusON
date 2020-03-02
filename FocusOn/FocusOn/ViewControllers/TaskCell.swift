@@ -41,28 +41,6 @@ class TaskCell: UITableViewCell {
         }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-        switch self.isSelected {
-        case true:
-            if taskMarker.isHighlighted == true {
-                taskMarker.isHighlighted = true
-            } else {
-                taskMarker.isHighlighted = false
-            }
-        case false:
-            if taskMarker.isHighlighted == false {
-                taskMarker.isHighlighted = false
-            } else {
-                taskMarker.isHighlighted = true
-            }
-            
-        }
-        
-    }
-    
     // tap action for marker button
     @objc func taskMarkerWasPressed(_ sender: UITapGestureRecognizer) {
         print(#function)

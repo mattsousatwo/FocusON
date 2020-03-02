@@ -33,8 +33,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         todayTable.dataSource = self
         todayTable.delegate = self
         goalDC.createTestGoals() 
-//
-        goalDC.deleteAll()
+
+//        goalDC.deleteAll()
         taskDC.deleteAllTasks()
         
         goalDC.fetchGoals()
@@ -230,7 +230,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // When user is done editing in Task Cell text field - MARK: DONE EDITING CELL
     @IBAction func editingGoalCellDidEnd(_ sender: UITextField) {
         print("\(sender.text ?? "DEFAULT")")
-        
         // MARK: - Goal Cell
         guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
 
@@ -245,8 +244,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
            // goalDC.update(goal: todaysGoal)
             
         } 
-
-        // MARK: - TASK CELL - IMPORTANT: taskLimit needs to equal number of rows in task section of table
+        // MARK: - TASK CELL
         let taskLimit = 2
         for index in 0...taskLimit {
 
