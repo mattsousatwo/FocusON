@@ -34,7 +34,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         todayTable.delegate = self
         goalDC.createTestGoals() 
 
-//        goalDC.deleteAll()
+        goalDC.deleteAll()
         taskDC.deleteAllTasks()
         
         goalDC.fetchGoals()
@@ -144,10 +144,10 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         cell.delegate = self
         
         switch indexPath.section {
-        case 0:
+        case 0: // Goal Section
             cell.textField.text = todaysGoal.name!
             cell.taskMarker.isHighlighted = todaysGoal.isChecked
-        case 1:
+        case 1: // Task Section
             switch indexPath.row {
             case 0:
                 if taskDC.currentTaskContainer.count != 0 {
@@ -164,7 +164,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             default:
                 cell.textField.placeholder = "New Task"
             }
-        case 2:
+        case 2: // Bonus Section
             
             if taskDC.bonusTasksContainter.count != 0 {
                 
@@ -263,16 +263,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             let bonusCell = todayTable.cellForRow(at: [2,z]) as! TaskCell
             
             if bonusCell.textField == sender && sender.text != "" {
-                print("Hello World")
-                    //   print("\(bonusCell.textField.text!)")
-                       // bonus task added - do some work
                 taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!)
                 bonusCellCount += 1
                 todayTable.reloadData()
             }
         }
-  
-
         
     }
     
@@ -300,20 +295,27 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         // Sending data to a container to then be loaded in detailView
         switch indexPath.section {
         case 0:
+            // Goal
             guard let goalID = todaysGoal.goal_UID else { return }
             print("TESTING - " + goalID)
             searchUID = goalID
             searchDataType = .goal
         case 1:
+            // Tasks
+            ///// If Task is saved out of row order, this will cause errors with selecting the correct task
             print("task selected")
             guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
             print("TESTING - " + taskID)
             searchUID = taskID
             searchDataType = .task
+            
         case 2:
-            guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+            // Bonus
+            print("bonus task selected")
+            guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
             searchUID = taskID
-            searchDataType = .task 
+            searchDataType = .bonus
+            
         default:
             print("No Search Tag Found")
         }

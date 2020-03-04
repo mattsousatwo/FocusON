@@ -11,6 +11,7 @@ import UIKit
 class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let goalDC = GoalDataController()
+    var selectedGoalID = String()
     
     // MARK: - Read Me
     
@@ -33,19 +34,19 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         goalDC.fetchGoals()
     }
     
-    // number of sections
+// MARK: number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
         // maybe divide sections up by days?
             // each goal is made on a new day so no 
         return goalDC.pastGoalContainer.count
     }
     
-    // number of rows
+// MARK: number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
-    // Title for Header
+// MARK: Title for Header
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var title = ""
         if goalDC.pastGoalContainer.count != 0 {
@@ -54,7 +55,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return title
     }
     
-    // reusable cell
+// MARK: reusable cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taskCell = "taskCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as! TaskCell
@@ -69,12 +70,36 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         } else {
             cell.textField.text = "Data did not fetch"
         }
-         
+        
+        cell.textField.isUserInteractionEnabled = false
+        
         return cell
         
     }
     
+// MARK: Selecting a cell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+        cell.menuButton.isHidden = false
+        cell.isHighlighted = false
+        
+        // set variable to send to nextView
+        if goalDC.pastGoalContainer.count != 0 {
+            let section = indexPath.section
+            if indexPath == [section, 0] {
+                selectedGoalID = goalDC.pastGoalContainer[section].goal_UID!
+                print("selectedGoalID = \(selectedGoalID)")
+            }
+        }
+        
+    }
     
+// MARK: Deselecting a cell
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+        // hide menu button
+        cell.menuButton.isHidden = true
+    }
     
     /*
     // MARK: - Navigation

@@ -119,10 +119,12 @@ class DetailTableView: UITableViewController {
         print("UpdateButton - Pressed")
         // Save Context
         
-        switch searchDataType {
+        switch searchDataType { 
         case .goal:
             goalDC.saveContext()
         case .task:
+            taskDC.saveContext()
+        case .bonus:
             taskDC.saveContext()
         }
         
@@ -242,13 +244,19 @@ class DetailTableView: UITableViewController {
  
     // Search Tag Extraction - put fetch(withTag) in here
     func interperateSearchTag(withType type: DataType) {
-        switch type {
+        switch type { 
         case .goal:
             standInGoal = goalDC.fetchGoal(withUID: searchUID)
             titleInput.text = standInGoal.name
+            // set other parameters
+            
         case .task:
            standInTask = taskDC.fetchTask(with: searchUID)
            titleInput.text = standInTask.name
+        case .bonus:
+            print("bonus")
+            standInTask = taskDC.fetchTask(with: searchUID)
+            titleInput.text = standInTask.name
         }
         
     }

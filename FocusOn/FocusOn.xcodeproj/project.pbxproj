@@ -72,12 +72,12 @@
 		61179AA2237B415C0044B8BA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				619F55FD23997D6F00F0D0EF /* HistoryVC.swift */,
-				612281392398BC9900B11999 /* DetailTableView.swift */,
 				615A624323982BCE00A99E7A /* TaskCell.swift */,
 				61DEB6BD240D79AF0062F059 /* HistoryCell.swift */,
-				61BC160B237B182700341701 /* ProgressVC.swift */,
 				615B2401239991DE000545F3 /* TodayVC.swift */,
+				619F55FD23997D6F00F0D0EF /* HistoryVC.swift */,
+				612281392398BC9900B11999 /* DetailTableView.swift */,
+				61BC160B237B182700341701 /* ProgressVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

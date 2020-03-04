@@ -110,5 +110,5 @@ enum taskColors {
 }
 
 enum DataType {
-    case goal, task
+    case goal, task, bonus
 }

@@ -38,6 +38,7 @@ class TaskDataController: DataController {
         currentTask.dateCreated = Date()
         currentTask.goal_UID = UID
         currentTask.task_UID = genID()
+        
         print("SAVING TASK - \(currentTask.task_UID ?? "No ID Set")")
         
         currentTaskContainer.append(currentTask)
@@ -48,6 +49,7 @@ class TaskDataController: DataController {
         let bonusTask = TaskData(context: context)
         bonusTask.dateCreated = Date()
         bonusTask.goal_UID = UID
+        bonusTask.task_UID = genID()
         if name != "" {
             bonusTask.name = name
         }

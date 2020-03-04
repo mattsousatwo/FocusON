@@ -10,6 +10,7 @@
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="TaskData" representedClassName="TaskData" syncable="YES">
+        <attribute name="cellPosition" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="goal_UID" attributeType="String"/>
         <attribute name="isChecked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -21,6 +22,6 @@
     </entity>
     <elements>
         <element name="GoalData" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="TaskData" positionX="-63" positionY="27" width="128" height="163"/>
+        <element name="TaskData" positionX="-63" positionY="27" width="128" height="178"/>
     </elements>
 </model>
