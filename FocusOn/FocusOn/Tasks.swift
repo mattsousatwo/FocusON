@@ -31,7 +31,7 @@ class Tasks: Goal {
     }
     
     // set task progress property 
-    override func setProgress(to selectedIndex: Int) {
+    func setProgress(to selectedIndex: Int) {
         
         switch selectedIndex {
         case 0:

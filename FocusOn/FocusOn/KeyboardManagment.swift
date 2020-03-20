@@ -83,4 +83,31 @@ extension TodayVC {
     
 
 }
+
+extension UIImageView {
+    
+    func changeImageSet(to set: taskColors) {
+        switch set {
+        case .blue:
+            self.image = #imageLiteral(resourceName: "(Blue) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Blue) Checked")
+        case .green:
+            self.image = #imageLiteral(resourceName: "(Green) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Green) Checked")
+        case .grey:
+            self.image = #imageLiteral(resourceName: "(Grey) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Grey) Checked")
+        case .pink:
+            self.image = #imageLiteral(resourceName: "(Pink) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Pink) Checked")
+        case .red:
+            self.image = #imageLiteral(resourceName: "(Red) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Red) Checked")
+        case .yellow:
+            self.image = #imageLiteral(resourceName: "(Yellow) Unchecked")
+            self.highlightedImage = #imageLiteral(resourceName: "(Yellow) Checked")
+        }
+        
+    }
+}
  

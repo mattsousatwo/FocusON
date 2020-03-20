@@ -36,7 +36,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 
         goalDC.deleteAll()
         taskDC.deleteAllTasks()
-        
+
         goalDC.fetchGoals()
         todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
@@ -123,7 +123,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         }
     }
     
-    // MARK: reusable cell
+    // MARK: Cell Creation 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let taskCell = "taskCell"
@@ -150,15 +150,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         case 1: // Task Section
             switch indexPath.row {
             case 0:
-                if taskDC.currentTaskContainer.count != 0 {
+                if taskDC.currentTaskContainer.count != 0 { // = more than 1
                     cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
                 }
             case 1:
-                if taskDC.currentTaskContainer.count >= 2 {
+                if taskDC.currentTaskContainer.count >= 2 { // = 2
                     cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
                 }
             case 2:
-                if taskDC.currentTaskContainer.count >= 3 {
+                if taskDC.currentTaskContainer.count >= 3 { // = 3
                     cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
                 }
             default:
@@ -227,7 +227,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
        }
     
     
-    // When user is done editing in Task Cell text field - MARK: DONE EDITING CELL
+    //MARK: Saving a cell -  When user is done editing in Task Cell text field
     @IBAction func editingGoalCellDidEnd(_ sender: UITextField) {
         print("\(sender.text ?? "DEFAULT")")
         // MARK: - Goal Cell
@@ -252,7 +252,10 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             
             if taskCell.textField == sender && sender.text != "" {
             
-             taskDC.saveTask(name: sender.text!, withGoalID: todaysGoal.goal_UID!)
+                // MARK: Setting Task Cell position
+                let task = taskDC.currentTaskContainer[index]
+                task.name = taskCell.textField.text
+                taskDC.saveContext()
                 
             }
         }
@@ -290,7 +293,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = false
-        x.isHighlighted = false
+        x.isHighlighted = false // shown
         
         // Sending data to a container to then be loaded in detailView
         switch indexPath.section {
@@ -304,17 +307,24 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             // Tasks
             ///// If Task is saved out of row order, this will cause errors with selecting the correct task
             print("task selected")
-            guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
-            print("TESTING - " + taskID)
-            searchUID = taskID
-            searchDataType = .task
+      //      x.menuButton.isHidden = true // hidden
+            if taskDC.currentTaskContainer.count != 0 {
+                guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+            
+                print("TESTING - " + taskID)
+                searchUID = taskID
+                searchDataType = .task
+            }
             
         case 2:
             // Bonus
+            // MARK: Needs new Cell Position Implementation
             print("bonus task selected")
-            guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
-            searchUID = taskID
-            searchDataType = .bonus
+            if taskDC.bonusTasksContainter.count != 0 {
+                guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
+                searchUID = taskID
+                searchDataType = .bonus
+            }
             
         default:
             print("No Search Tag Found")
@@ -375,58 +385,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     @IBAction func unwindToTodayVC(segue: UIStoryboardSegue) {
         
         // check for correct segue
-        guard segue.identifier == "unwindToTodayVC" else {return}
+        guard segue.identifier == "unwindToTodayVC" else { return }
         
-        // reference for detailVC
-        let sourceVC = segue.source as! DetailTableView
-        
-        
-        if let selectedIndex = todayTable.indexPathForSelectedRow {
-            let tableCell = todayTable.cellForRow(at: selectedIndex) as! TaskCell
-            
-            // MARK: - UPDATE: Section 3: need to handle 3 sections
-            switch selectedIndex.section  {
-            case 0: // case goal was selected
-                
-                // setting selected cells textField to updated title from DetailVC
-                tableCell.textField.text = sourceVC.newTask.taskTitle
-                
-                // setting notes parameter
-                todaysGoal.notes = sourceVC.notesField.text!
-                
-                // setting progress
-// MARK: #######
-//                todaysGoal.setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
-                
-            case 1: // case a task was selected
-                print("selected task")
-                // MARK: - Error - task title 
-//                todaysGoal.tasks[selectedIndex.row].taskTitle = sourceVC.titleInput.text!
-                
-//                    print("------\ntaskTitle: \(todaysGoal.tasks[selectedIndex.row].taskTitle) \ntaskUID: \(todaysGoal.tasks[selectedIndex.row].task_UID) \ngoalUID: \(todaysGoal.tasks[selectedIndex.row].goal_UID)")
-                    
-                // setting progress
-//                todaysGoal.tasks[selectedIndex.row].setProgress(to: sourceVC.progressControl.selectedSegmentIndex)
-//                    print("\(todaysGoal.tasks[selectedIndex.row].taskProgress)")
-                
-                
-                // set notes
-//                todaysGoal.tasks[selectedIndex.row].taskNotes = sourceVC.notesField.text!
-                
-            case 2:
-                print("Bonus Cell Selected - Finish implementation")
-                
-            default:
-                print("unwindToTodayVC segue")
-            
-            }
-        }
-    
-        
-        
+      
     }
-
-
-
+    
+    
 }
+    
+    
+
+ 
  

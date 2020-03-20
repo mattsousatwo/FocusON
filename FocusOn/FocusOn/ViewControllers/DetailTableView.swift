@@ -13,12 +13,14 @@ import CoreData
 class DetailTableView: UITableViewController {
 
     var newTask = Tasks(title: "", date: Date(), goal_UID: "", task_UID: "")
+    let dataControl = DataController()
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
     var searchUID = String()
     var searchDataType = DataType.goal
     var standInGoal = GoalData()
     var standInTask = TaskData()
+    var markerColor = taskColors.blue
     
     
     
@@ -30,6 +32,12 @@ class DetailTableView: UITableViewController {
     @IBOutlet weak var titleInput: UITextField!
     // Seg Controller - Beginning, In-Progress, Complete
     @IBOutlet weak var progressControl: UISegmentedControl!
+    
+    @IBAction func progressControlPressed(_ sender: Any) {
+        // If pressed enable update button
+       print("Active!")
+        updateButton.isEnabled = true
+    }
     
     // Goal color
     @IBOutlet weak var blueButton: UIButton! // 0
@@ -45,31 +53,47 @@ class DetailTableView: UITableViewController {
   
     
     @IBAction func markerButtonPressed(_ sender: Any) {
+        updateButton.isEnabled = true
         
-        // can change to variable describing DataObject - set color of DataObject
-        var currentColor = taskColors.blue
-    
+        guard let selectedButton = sender as? UIButton else { return }
+        let buttonCollection = [blueButton, greenButton, greyButton, pinkButton, redButton, yellowButton]
+        for x in buttonCollection {
+            if x!.isSelected == false && x! == selectedButton {
+                x!.isSelected = true
+               
+            } else {
+                x!.isSelected = false
+                selectedButton.isSelected = true
+            }
+        }
+
         switch (sender as! UIButton).tag {
         case 0:
             print("blue")
-            currentColor = .blue
+            
+            saveMarkerColor(as: .blue)
         case 1:
             print("green")
-            currentColor = .green
+            
+            saveMarkerColor(as: .green)
         case 2:
             print("grey")
-            currentColor = .grey
+            
+            saveMarkerColor(as: .grey)
         case 3:
             print("pink")
-            currentColor = .pink
+            
+            saveMarkerColor(as: .pink)
         case 4:
             print("red")
-            currentColor = .red
+            
+            saveMarkerColor(as: .red)
         case 5:
             print("yellow")
-            currentColor = .yellow
+            
+            saveMarkerColor(as: .yellow)
         default:
-            print("\(currentColor)")
+            saveMarkerColor(as: .blue)
             print("NO MARKER SELECTED")
         }
         
@@ -107,25 +131,44 @@ class DetailTableView: UITableViewController {
         addDoneButton(to: titleInput, action: nil)
         // hide update button
         updateButton.isEnabled = false
-        // Set TitleInput
-            // MARK: WARNING! - interperateSearchTag will return a non fetchable string if no data is passed
-        interperateSearchTag(withType: searchDataType)
+        // Set TitleInput && progress
+            // MARK: WARNING! - interpretSearchTag will return a non fetchable string if no data is passed
+        interpretSearchTag(withType: searchDataType)
+        // set hightlighted state for marker buttons
+        setHighlightedImages()
     }
     
     // MARK: - BUTTONS
     
+    func setHighlightedImages() {
+        // set hightlighted state for marker buttons
+        blueButton.setImage(#imageLiteral(resourceName: "(Blue) Checked"), for: .selected)
+        greenButton.setImage(#imageLiteral(resourceName: "(Green) Checked"), for: .selected)
+        greyButton.setImage(#imageLiteral(resourceName: "(Grey) Checked"), for: .selected)
+        pinkButton.setImage(#imageLiteral(resourceName: "(Pink) Checked"), for: .selected)
+        redButton.setImage(#imageLiteral(resourceName: "(Red) Checked"), for: .selected)
+        yellowButton.setImage(#imageLiteral(resourceName: "(Yellow) Checked"), for: .selected)
+    }
+    
+
     // update button
     @IBAction func updateButtonPressed(_ sender: Any) {
         print("UpdateButton - Pressed")
         // Save Context
+        let selectedProgressNum = Int16(progressControl.selectedSegmentIndex)
         
-        switch searchDataType { 
+        switch searchDataType {
         case .goal:
+            standInGoal.name = titleInput.text
+            standInGoal.progress = selectedProgressNum
+            standInGoal.notes = notesField.text
             goalDC.saveContext()
-        case .task:
+        default:
+            standInTask.name = titleInput.text
+            standInTask.progress = selectedProgressNum
+            standInTask.notes = notesField.text
             taskDC.saveContext()
-        case .bonus:
-            taskDC.saveContext()
+
         }
         
         
@@ -148,6 +191,13 @@ class DetailTableView: UITableViewController {
         
     }
     
+    // Overriding doneButtonAction to enable updateButton
+    override func doneButtonAction(sender: UITextField) {
+        print("HELLO WORLD")
+        self.view.endEditing(true)
+        updateButton.isEnabled = true
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -159,7 +209,6 @@ class DetailTableView: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 1
     }
-
 
     // higlights row when selected
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -231,6 +280,15 @@ class DetailTableView: UITableViewController {
             let input = titleInput.text
             
             newTask.taskTitle = input ?? "input didnt work"
+            
+            guard let todayVC = segue.destination as? TodayVC else { return }
+            let selectedRow = todayVC.todayTable.indexPathForSelectedRow
+            let selectedCell = todayVC.todayTable.cellForRow(at: selectedRow!) as! TaskCell
+            selectedCell.textField.text = titleInput.text
+            
+            // func to add Image/HighlightedImage by using taskColors
+            selectedCell.taskMarker.changeImageSet(to: markerColor)
+            
         case "TodayToDetail":
             titleInput.text = "TodayToDetailSegue"
             print("TodayToDetail-PickedUp")
@@ -243,23 +301,65 @@ class DetailTableView: UITableViewController {
     }
  
     // Search Tag Extraction - put fetch(withTag) in here
-    func interperateSearchTag(withType type: DataType) {
+    func interpretSearchTag(withType type: DataType) {
+        print(#function)
         switch type { 
         case .goal:
             standInGoal = goalDC.fetchGoal(withUID: searchUID)
             titleInput.text = standInGoal.name
             // set other parameters
+            progressControl.selectedSegmentIndex = Int(standInGoal.progress)
+            guard let currentColor = taskColors(rawValue: standInGoal.markerColor) else { return }
+     
+            markerColor = currentColor
+           
             
-        case .task:
+            
+            handleMarkerSelection()
+            print("\(currentColor.rawValue)")
+            
+        default: // Task/Bonus
            standInTask = taskDC.fetchTask(with: searchUID)
            titleInput.text = standInTask.name
-        case .bonus:
-            print("bonus")
-            standInTask = taskDC.fetchTask(with: searchUID)
-            titleInput.text = standInTask.name
+           progressControl.selectedSegmentIndex = Int(standInTask.progress)
+           guard let currentColor = taskColors(rawValue: standInTask.markerColor) else { return }
+           markerColor = currentColor
         }
         
     }
-
+    
+    // Set Marker Color for coredata element
+    func saveMarkerColor(as tag: taskColors) {
+        switch searchDataType {
+        case .goal:
+            markerColor = tag
+            standInGoal.markerColor = tag.rawValue
+            goalDC.saveContext()
+        default:
+            markerColor = tag
+            standInTask.markerColor = tag.rawValue
+            taskDC.saveContext()
+        }
+        
+    }
+    
+    func handleMarkerSelection() {
+        switch markerColor {
+        case .blue:
+            blueButton.isSelected = true
+        case .green:
+            greenButton.isSelected = true
+        case .grey:
+            greyButton.isSelected = true
+        case .pink:
+            pinkButton.isSelected = true
+        case .red:
+            redButton.isSelected = true
+        case .yellow:
+            yellowButton.isSelected = true
+        }
+    }
+    
 }
 
+ 

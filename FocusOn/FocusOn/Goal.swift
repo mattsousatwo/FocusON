@@ -46,19 +46,6 @@ class Goal: DataController {
         self.tasks.append(newTask)
     }
     
-    // set Progress
-    func setProgress(to selectedIndex: Int) {
-        switch selectedIndex {
-        case 0:
-            self.progress = .beginning
-        case 1:
-            self.progress = .inProgress
-        case 2:
-            self.progress = .complete
-        default:
-            self.progress = .beginning
-        }
-    }
     
     // set color
     func setColor(to selectedColor: taskColors) {

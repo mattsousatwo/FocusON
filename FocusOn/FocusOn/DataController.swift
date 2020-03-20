@@ -96,7 +96,6 @@ class DataController {
         return nil
     }
 
-    
 }
 
 
@@ -105,8 +104,8 @@ enum progress {
     case beginning, inProgress, complete
 }
 
-enum taskColors {
-    case blue, green, grey, pink, red, yellow
+enum taskColors: Int16 {
+    case blue = 0 , green, grey, pink, red, yellow
 }
 
 enum DataType {

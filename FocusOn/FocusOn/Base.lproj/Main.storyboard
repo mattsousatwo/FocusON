@@ -285,6 +285,9 @@
                                                         <segment title="In-Progress"/>
                                                         <segment title="Complete"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="progressControlPressed:" destination="Rg5-Xs-A1D" eventType="valueChanged" id="IrB-Ry-JgG"/>
+                                                    </connections>
                                                 </segmentedControl>
                                             </subviews>
                                             <constraints>

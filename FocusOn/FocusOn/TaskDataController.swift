@@ -39,6 +39,7 @@ class TaskDataController: DataController {
         currentTask.goal_UID = UID
         currentTask.task_UID = genID()
         
+        
         print("SAVING TASK - \(currentTask.task_UID ?? "No ID Set")")
         
         currentTaskContainer.append(currentTask)
@@ -83,6 +84,12 @@ class TaskDataController: DataController {
         }
         catch {
         }
+        // If taskContainer is empty { create three tasks } 
+        if currentTaskContainer.count == 0 {
+            for _ in 1...3 {
+                saveTask(withGoalID: goalUID)
+            }
+        }
         parseBonusTasks()
     }
     
@@ -116,14 +123,35 @@ class TaskDataController: DataController {
     
     // to seperate tasks - if task.count >3 append tasks into bonus container
     func parseBonusTasks() {
-        if currentTaskContainer.count >= 3 {
+        if currentTaskContainer.count >= 4 {
             // for task[3...MAX] append to bonusContainer
-            for x in 3...currentTaskContainer.count - 1 {
+            for x in 4...currentTaskContainer.count - 1 {
                 bonusTasksContainter.append(currentTaskContainer[x])
             }
         }
         print("BonusContainer = \(bonusTasksContainter.count)\n currentTaskContainer = \(currentTaskContainer.count) !&")
     }
+    
+    // Display Tasks in saved order.
+    func distrubuteTasks() {
+        if currentTaskContainer.count != 0 {
+            for task in currentTaskContainer {
+                // accesing specified task index
+                guard let currentIndex  = currentTaskContainer.firstIndex(of: task) else { return }
+                // if taskSavedPosition is equal to currentIndex
+                if task.cellPosition != currentIndex {
+                    // convert Int16 position to Int
+                    let newPos = Int(task.cellPosition)
+                    // insert into current TaskContainer
+                    currentTaskContainer.insert(task, at: newPos)
+                        
+                    }
+                
+            }
+        }
+    }
+    
+    
     
     // MARK: Delete
     
