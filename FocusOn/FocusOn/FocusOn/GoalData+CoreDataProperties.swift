@@ -1,8 +1,8 @@
 //
-//  TaskData+CoreDataProperties.swift
+//  GoalData+CoreDataProperties.swift
 //  FocusOn
 //
-//  Created by Matthew Sousa on 3/3/20.
+//  Created by Matthew Sousa on 2/11/20.
 //  Copyright © 2020 Matthew Sousa. All rights reserved.
 //
 //
@@ -11,13 +11,13 @@ import Foundation
 import CoreData
 
 
-extension TaskData {
+extension GoalData {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TaskData> {
-        return NSFetchRequest<TaskData>(entityName: "TaskData")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalData> {
+        return NSFetchRequest<GoalData>(entityName: "GoalData")
     }
 
-    @NSManaged public var cellPosition: Int16
+    @NSManaged public var completedCellCount: Int16
     @NSManaged public var dateCreated: Date?
     @NSManaged public var goal_UID: String?
     @NSManaged public var isChecked: Bool
@@ -25,6 +25,5 @@ extension TaskData {
     @NSManaged public var name: String?
     @NSManaged public var notes: String?
     @NSManaged public var progress: Int16
-    @NSManaged public var task_UID: String?
 
 }
