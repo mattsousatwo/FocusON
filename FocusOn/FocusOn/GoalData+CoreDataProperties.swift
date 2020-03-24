@@ -17,6 +17,7 @@ extension GoalData {
         return NSFetchRequest<GoalData>(entityName: "GoalData")
     }
 
+    @NSManaged public var completedCellCount: Int16
     @NSManaged public var dateCreated: Date?
     @NSManaged public var goal_UID: String?
     @NSManaged public var isChecked: Bool

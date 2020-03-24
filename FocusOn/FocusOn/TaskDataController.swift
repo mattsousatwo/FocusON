@@ -46,11 +46,13 @@ class TaskDataController: DataController {
         saveContext()
     }
     
-    func saveBonusTask(name: String = "", withGoalID UID: String) {
+    func saveBonusTask(name: String = "", withGoalID UID: String, atPos position: Int16? = 0) {
         let bonusTask = TaskData(context: context)
         bonusTask.dateCreated = Date()
         bonusTask.goal_UID = UID
         bonusTask.task_UID = genID()
+        guard let cellPosition = position else { return }
+        bonusTask.cellPosition = cellPosition
         if name != "" {
             bonusTask.name = name
         }
@@ -90,7 +92,7 @@ class TaskDataController: DataController {
                 saveTask(withGoalID: goalUID)
             }
         }
-        parseBonusTasks()
+     //   parseBonusTasks()
     }
     
     // Fetch specified task
@@ -107,6 +109,21 @@ class TaskDataController: DataController {
         return task.first!
     }
     
+    
+    func createGoalWithTasks() -> GoalData {
+        let goalDC = GoalDataController()
+        goalDC.deleteAll()
+        deleteAllTasks()
+        goalDC.saveGoal(goal: Goal(), title: "Test Goal")
+        let goalID = goalDC.goalContainer.first!.goal_UID!
+        for _ in 0...2 {
+            
+            saveTask(name: "Test Task", withGoalID: goalID)
+        }
+        saveBonusTask(name: "Test Bonus Cell", withGoalID: goalID)
+        return goalDC.goalContainer.first(where: { $0.goal_UID! == goalID } )!
+    }
+    
         // not sure if i still need this func
     func fetchAllTasks() {
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
@@ -118,7 +135,7 @@ class TaskDataController: DataController {
                 
         }
         // load bonus tasks into bonusContainer
-        parseBonusTasks()
+   //     parseBonusTasks()
     }
     
     // to seperate tasks - if task.count >3 append tasks into bonus container
@@ -145,8 +162,8 @@ class TaskDataController: DataController {
                     // insert into current TaskContainer
                     currentTaskContainer.insert(task, at: newPos)
                         
-                    }
-                
+                }
+            
             }
         }
     }

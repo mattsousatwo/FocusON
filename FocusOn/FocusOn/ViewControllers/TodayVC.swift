@@ -12,8 +12,6 @@ import CoreData
 
 class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, TaskCellDelegate {
     
-    
-    
     let taskDC = TaskDataController() 
     let goalDC = GoalDataController()
     var todaysGoal = GoalData()
@@ -22,11 +20,10 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     var searchUID = String()
     var searchDataType = DataType.goal
    
-    
-    
+    // Label to display task count
+    @IBOutlet weak var taskCountLabel: UILabel!
     // Table View for today vc
     @IBOutlet weak var todayTable: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,12 +33,21 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 
         goalDC.deleteAll()
         taskDC.deleteAllTasks()
-
-        goalDC.fetchGoals()
-        todaysGoal = goalDC.goalContainer.first!
+        
+    //    taskDC.createGoalWithTasks()
+        
+      //  goalDC.fetchGoals()
+        // MARK: - CREATE TEST GOALS
+        //// select the history tab && then select the cell by clicking outside of the textfield, this will trigger the error
+        //// in HistoryVC tableView.didSelectCellForRowAt() is where the switching of display modes is triggered  at line 151
+        todaysGoal = taskDC.createGoalWithTasks()
+        
+        
+     //   todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         if taskDC.bonusTasksContainter.count != 0 {
             bonusCellCount = taskDC.bonusTasksContainter.count + 1 //3
+            print("BonusCell inital Count \(bonusCellCount) ")
         }
         if taskDC.currentTaskContainer.count != 0 {
             print("taskContainer $$$$ == \(taskDC.currentTaskContainer.count)")
@@ -58,7 +64,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
         registerGestures()
         registerForKeyboardNotifications()
-        
+        // Inital label
+        updateCompletedTasksLabel()
+     //  taskCountLabel.text = "You have 0\\5 tasks completed"
     }
     
     // new task button gestures
@@ -72,7 +80,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // MARK: - TaskCellDelegate
     // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
-        // if firstCell { highlight all tasks }
+        // handle task completed count
+        if marker == true {
+            
+            updateCompletedTasksLabel()
+        } else if marker == false {
+            
+            updateCompletedTasksLabel()
+        }
+         // if firstCell { highlight all tasks }
         let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
         if cell == firstCell {
             // update todaysGoal
@@ -83,6 +99,9 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                 for index in visibleRows {
                     let selectedCell = todayTable.cellForRow(at: index) as! TaskCell
                     selectedCell.taskMarker.isHighlighted = marker
+                  
+                    
+                    updateCompletedTasksLabel()
                     // Save task cell marker 
                 }
             }
@@ -167,7 +186,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         case 2: // Bonus Section
             
             if taskDC.bonusTasksContainter.count != 0 {
-                
+                // MARK: SHOULD FIGURE OUT NEW IMPLEMENTATION
                 for x in 0...tableView.numberOfRows(inSection: 2) - 2 {
                     switch indexPath.row {
                     case x:
@@ -266,9 +285,29 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             let bonusCell = todayTable.cellForRow(at: [2,z]) as! TaskCell
             
             if bonusCell.textField == sender && sender.text != "" {
-                taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!)
-                bonusCellCount += 1
+                taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!, atPos: Int16(z))
+                bonusCellCount = taskDC.bonusTasksContainter.count + 1
+           //     bonusCellCount += 1
+                // append indexPaths with highlighted marker
+                var highlightedIndexPaths = [IndexPath]()
+                guard let visibleIndexPaths = todayTable.indexPathsForVisibleRows else { return }
+                for row in visibleIndexPaths {
+                    let currentRow = todayTable.cellForRow(at: row) as! TaskCell
+                    if currentRow.taskMarker.isHighlighted == true {
+                        highlightedIndexPaths.append(row)
+                    }
+                }
+                // reload table
                 todayTable.reloadData()
+                // set highlighted markers
+                for row in highlightedIndexPaths {
+                    let currentRow = todayTable.cellForRow(at: row) as! TaskCell
+                    currentRow.taskMarker.isHighlighted = true
+                }
+                // update completedTasks / totalTasks label 
+                updateCompletedTasksLabel()
+                print("BonusCellCount = \(bonusCellCount) ")
+                print("savedBonusCell.name: \(taskDC.bonusTasksContainter[z].name!) \nsavedBonusCell.cellPosition:  \(taskDC.bonusTasksContainter[z].cellPosition)")
             }
         }
         
@@ -323,7 +362,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             if taskDC.bonusTasksContainter.count != 0 {
                 guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
                 searchUID = taskID
-                searchDataType = .bonus
+                searchDataType = .bonus 
             }
             
         default:
@@ -343,7 +382,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
      
   
     
-        // MARK: - passing data to detailVC not showing up
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     // Get the new view controller using segue.destination.
     // Pass the selected object to the new view controller.

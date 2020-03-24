@@ -164,7 +164,8 @@ class GoalDataController: DataController {
                 if compareDays(from: (data.dateCreated)!) == false  { // if data.dateCreated != today, add & remove goal
                     // MARK: compareDays == true && uncomment removeAll() - for createTestData() 
                     pastGoalContainer.append(data)
-            //        goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
+                    goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
+                    saveGoal(goal: Goal() )
                 }
             }
             print("\n+++++ goalContainer.count = \(goalContainer.count)")

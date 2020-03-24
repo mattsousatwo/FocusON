@@ -324,6 +324,7 @@ class DetailTableView: UITableViewController {
            progressControl.selectedSegmentIndex = Int(standInTask.progress)
            guard let currentColor = taskColors(rawValue: standInTask.markerColor) else { return }
            markerColor = currentColor
+           handleMarkerSelection()
         }
         
     }

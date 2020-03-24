@@ -96,6 +96,7 @@
                     <tabBarItem key="tabBarItem" title="Today" image="tray" catalog="system" id="oxk-UR-xK4"/>
                     <navigationItem key="navigationItem" title="Today" id="2v3-P0-U1r"/>
                     <connections>
+                        <outlet property="taskCountLabel" destination="Gbh-eK-y9m" id="T89-nh-7WD"/>
                         <outlet property="todayTable" destination="ocm-2P-WcS" id="wWD-ax-6K6"/>
                         <segue destination="e5F-WL-V7a" kind="presentation" identifier="TodayToDetail" id="4CT-aX-inA"/>
                     </connections>
