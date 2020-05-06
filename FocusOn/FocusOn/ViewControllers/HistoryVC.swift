@@ -35,6 +35,12 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         goalDC.fetchGoals()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        historyTableView.reloadData()
+    }
+    
+    
+    
 // MARK: number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
         // maybe divide sections up by days?

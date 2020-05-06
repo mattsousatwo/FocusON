@@ -29,24 +29,24 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         super.viewDidLoad()
         todayTable.dataSource = self
         todayTable.delegate = self
-        goalDC.createTestGoals() 
+//        goalDC.createTestGoals()
 
         goalDC.deleteAll()
         taskDC.deleteAllTasks()
         
     //    taskDC.createGoalWithTasks()
         
-      //  goalDC.fetchGoals()
+        goalDC.fetchGoals()
         // MARK: - CREATE TEST GOALS
         //// select the history tab && then select the cell by clicking outside of the textfield, this will trigger the error
         //// in HistoryVC tableView.didSelectCellForRowAt() is where the switching of display modes is triggered  at line 151
-        todaysGoal = taskDC.createGoalWithTasks()
+      //  todaysGoal = taskDC.createGoalWithTasks()
         
         
-     //   todaysGoal = goalDC.goalContainer.first!
+        todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         if taskDC.bonusTasksContainter.count != 0 {
-            bonusCellCount = taskDC.bonusTasksContainter.count + 1 //3
+            bonusCellCount = taskDC.bonusTasksContainter.count //3
             print("BonusCell inital Count \(bonusCellCount) ")
         }
         if taskDC.currentTaskContainer.count != 0 {
@@ -67,6 +67,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         // Inital label
         updateCompletedTasksLabel()
      //  taskCountLabel.text = "You have 0\\5 tasks completed"
+        manageLocalNotifications()
     }
     
     // new task button gestures
@@ -82,11 +83,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
         // handle task completed count
         if marker == true {
-            
             updateCompletedTasksLabel()
+            manageLocalNotifications()
         } else if marker == false {
-            
             updateCompletedTasksLabel()
+            manageLocalNotifications()
         }
          // if firstCell { highlight all tasks }
         let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
@@ -102,6 +103,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                   
                     
                     updateCompletedTasksLabel()
+                    manageLocalNotifications()
                     // Save task cell marker 
                 }
             }
@@ -164,9 +166,15 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
         switch indexPath.section {
         case 0: // Goal Section
+            print("Goal was created")
+            if todaysGoal.name! == "" {
+                cell.textField.placeholder = "New Goal"
+            } else {
             cell.textField.text = todaysGoal.name!
+            }
             cell.taskMarker.isHighlighted = todaysGoal.isChecked
         case 1: // Task Section
+            print("Task was created \(indexPath.row)")
             switch indexPath.row {
             case 0:
                 if taskDC.currentTaskContainer.count != 0 { // = more than 1
@@ -184,15 +192,14 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                 cell.textField.placeholder = "New Task"
             }
         case 2: // Bonus Section
+            print("Bonus was created \(indexPath.row)")
             
             if taskDC.bonusTasksContainter.count != 0 {
                 // MARK: SHOULD FIGURE OUT NEW IMPLEMENTATION
-                for x in 0...tableView.numberOfRows(inSection: 2) - 2 {
+                for x in 0...tableView.numberOfRows(inSection: 2) - 1 {
                     switch indexPath.row {
                     case x:
                         cell.textField.text = taskDC.bonusTasksContainter[x].name
-                    case tableView.numberOfRows(inSection: 2):
-                        cell.textField.placeholder = "Bonus Task"
                     default:
                         cell.textField.placeholder = "Bonus Task"
                     }
@@ -280,37 +287,59 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         }
 
         // MARK: - Bonus Cell
-        let bonusCellRowCount = bonusCellCount - 1
+        let bonusCellRowCount = taskDC.bonusTasksContainter.count - 1
+        //  let bonusCellRowCount = bonusCellCount - 1
         for z in 0...bonusCellRowCount {
             let bonusCell = todayTable.cellForRow(at: [2,z]) as! TaskCell
-            
+                    
+            // test 1
+            if bonusCell.textField == sender {
+                print("Test 1 Successful")
+            }
+            // Test 2
+         if bonusCell.textField == sender && sender.text != "" {
+                print("Test 2 Successful")
+            }
+                    
             if bonusCell.textField == sender && sender.text != "" {
-                taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!, atPos: Int16(z))
-                bonusCellCount = taskDC.bonusTasksContainter.count + 1
-           //     bonusCellCount += 1
+//              taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!, atPos: Int16(z))
+//              bonusCellCount = taskDC.bonusTasksContainter.count
+                print("BonusCellCount = \(bonusCellCount) - before saving")
+                print("BonusCellRowCount = \(bonusCellRowCount) ")
+                // Update current bonus task
+                let bonusTask = taskDC.bonusTasksContainter[z]
+                bonusTask.name = bonusCell.textField.text
+                taskDC.saveContext()
+                // Create a new bonus task
+                taskDC.saveBonusTask(withGoalID: todaysGoal.goal_UID!)
+//              bonusCellCount = taskDC.bonusTasksContainter.count
+                                                
+                bonusCellCount += 1
                 // append indexPaths with highlighted marker
                 var highlightedIndexPaths = [IndexPath]()
                 guard let visibleIndexPaths = todayTable.indexPathsForVisibleRows else { return }
                 for row in visibleIndexPaths {
                     let currentRow = todayTable.cellForRow(at: row) as! TaskCell
-                    if currentRow.taskMarker.isHighlighted == true {
+                if currentRow.taskMarker.isHighlighted == true {
                         highlightedIndexPaths.append(row)
                     }
                 }
-                // reload table
-                todayTable.reloadData()
-                // set highlighted markers
-                for row in highlightedIndexPaths {
-                    let currentRow = todayTable.cellForRow(at: row) as! TaskCell
-                    currentRow.taskMarker.isHighlighted = true
-                }
-                // update completedTasks / totalTasks label 
-                updateCompletedTasksLabel()
-                print("BonusCellCount = \(bonusCellCount) ")
-                print("savedBonusCell.name: \(taskDC.bonusTasksContainter[z].name!) \nsavedBonusCell.cellPosition:  \(taskDC.bonusTasksContainter[z].cellPosition)")
+        // reload table
+        todayTable.reloadData()
+        // set highlighted markers
+        for row in highlightedIndexPaths {
+            let currentRow = todayTable.cellForRow(at: row) as! TaskCell
+            currentRow.taskMarker.isHighlighted = true
+        }
+        // update completedTasks / totalTasks label
+        updateCompletedTasksLabel()
+        manageLocalNotifications()
+        print("BonusCellCount = \(bonusCellCount) - after saving")
+        print("BonusCellRowCount = \(bonusCellRowCount) ")
+        print("savedBonusCell.name: \(taskDC.bonusTasksContainter[z].name ?? "empty name") \nsavedBonusCell.cellPosition:  \(taskDC.bonusTasksContainter[z].cellPosition)")
             }
         }
-        
+                
     }
     
     // New Task button
@@ -331,43 +360,50 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // if user selects a row - show menu button
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
-        x.menuButton.isHidden = false
-        x.isHighlighted = false // shown
         
-        // Sending data to a container to then be loaded in detailView
-        switch indexPath.section {
-        case 0:
-            // Goal
-            guard let goalID = todaysGoal.goal_UID else { return }
-            print("TESTING - " + goalID)
-            searchUID = goalID
-            searchDataType = .goal
-        case 1:
-            // Tasks
-            ///// If Task is saved out of row order, this will cause errors with selecting the correct task
-            print("task selected")
-      //      x.menuButton.isHidden = true // hidden
-            if taskDC.currentTaskContainer.count != 0 {
-                guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
-            
-                print("TESTING - " + taskID)
-                searchUID = taskID
-                searchDataType = .task
-            }
-            
-        case 2:
-            // Bonus
-            // MARK: Needs new Cell Position Implementation
-            print("bonus task selected")
-            if taskDC.bonusTasksContainter.count != 0 {
-                guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
-                searchUID = taskID
-                searchDataType = .bonus 
-            }
-            
-        default:
-            print("No Search Tag Found")
+        if x.textField.text != "" {
+            x.menuButton.isHidden = false
+              x.isHighlighted = false // shown
+              
+              // Sending data to a container to then be loaded in detailView
+              switch indexPath.section {
+              case 0:
+                  // Goal
+                  guard let goalID = todaysGoal.goal_UID else { return }
+                  print("TESTING - " + goalID)
+                  searchUID = goalID
+                  searchDataType = .goal
+              case 1:
+                  // Tasks
+                  ///// If Task is saved out of row order, this will cause errors with selecting the correct task
+                  print("task selected")
+            //      x.menuButton.isHidden = true // hidden
+                  if taskDC.currentTaskContainer.count != 0 {
+                      guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
+                  
+                      print("TESTING - " + taskID)
+                      searchUID = taskID
+                      searchDataType = .task
+                  }
+                  
+              case 2:
+                  // Bonus
+                  // MARK: Needs new Cell Position Implementation
+                  print("bonus task selected")
+                  if taskDC.bonusTasksContainter.count != 0 {
+                      guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
+                      searchUID = taskID
+                      searchDataType = .bonus
+                  }
+                  
+              default:
+                  print("No Search Tag Found")
+              }
+        } else {
+            print("Textfield at index \(indexPath) is empty") 
         }
+        
+        
              
      }
  

@@ -91,6 +91,7 @@ class TaskDataController: DataController {
             for _ in 1...3 {
                 saveTask(withGoalID: goalUID)
             }
+            saveBonusTask(withGoalID: goalUID)
         }
      //   parseBonusTasks()
     }
