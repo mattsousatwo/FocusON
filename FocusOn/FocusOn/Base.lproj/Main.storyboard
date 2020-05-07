@@ -63,33 +63,43 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fX1-gA-4qB">
-                                <rect key="frame" x="5" y="44" width="404" height="61.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" verticalHuggingPriority="251" horizontalCompressionResistancePriority="754" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fX1-gA-4qB">
+                                <rect key="frame" x="5" y="44" width="356" height="61.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="FocusON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjs-BA-Xcd">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="41"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="356" height="41"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 0 Tasks complete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gbh-eK-y9m">
-                                        <rect key="frame" x="0.0" y="41" width="404" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="41" width="356" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LjX-7r-CIq">
+                                <rect key="frame" x="381" y="59" width="18" height="31.5"/>
+                                <state key="normal" image="plus" catalog="system"/>
+                                <connections>
+                                    <action selector="newTaskButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="veX-c3-iIn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90746951219512195" green="0.90746951219512195" blue="0.90746951219512195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="LjX-7r-CIq" firstAttribute="leading" secondItem="fX1-gA-4qB" secondAttribute="trailing" constant="20" id="1rX-SM-2tm"/>
                             <constraint firstItem="fX1-gA-4qB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="Boq-Dl-GLC"/>
                             <constraint firstItem="ocm-2P-WcS" firstAttribute="top" secondItem="fX1-gA-4qB" secondAttribute="bottom" id="D9t-dx-l73"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LjX-7r-CIq" secondAttribute="trailing" constant="15" id="Jpt-R4-PoY"/>
                             <constraint firstItem="ocm-2P-WcS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Qfe-TY-AHX"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fX1-gA-4qB" secondAttribute="trailing" constant="5" id="YTN-qe-60Y"/>
+                            <constraint firstItem="LjX-7r-CIq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Rt8-fE-3zt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ocm-2P-WcS" secondAttribute="trailing" id="a3S-PT-84U"/>
                             <constraint firstItem="fX1-gA-4qB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="eAX-6m-qtv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ocm-2P-WcS" secondAttribute="bottom" id="rQx-4h-26s"/>
+                            <constraint firstItem="ocm-2P-WcS" firstAttribute="top" secondItem="LjX-7r-CIq" secondAttribute="bottom" constant="15" id="zSf-r4-n8z"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -463,6 +473,7 @@
         <image name="chart.bar" catalog="system" width="64" height="44"/>
         <image name="folder" catalog="system" width="64" height="46"/>
         <image name="info.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="plus" catalog="system" width="64" height="56"/>
         <image name="tray" catalog="system" width="64" height="44"/>
     </resources>
 </document>

@@ -87,12 +87,12 @@ class TaskDataController: DataController {
         catch {
         }
         // If taskContainer is empty { create three tasks } 
-        if currentTaskContainer.count == 0 {
-            for _ in 1...3 {
-                saveTask(withGoalID: goalUID)
-            }
-            saveBonusTask(withGoalID: goalUID)
-        }
+//        if currentTaskContainer.count == 0 {
+//            for _ in 1...3 {
+//                saveTask(withGoalID: goalUID)
+//            }
+//            saveBonusTask(withGoalID: goalUID)
+//        }
      //   parseBonusTasks()
     }
     
