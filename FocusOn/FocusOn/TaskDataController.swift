@@ -18,6 +18,7 @@ class TaskDataController: DataController {
     var currentTaskContainer: [TaskData] = []
     var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
+    var selectedTaskContainer: [TaskData] = []
     
      override init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -87,16 +88,28 @@ class TaskDataController: DataController {
         catch {
         }
         // If taskContainer is empty { create three tasks } 
-//        if currentTaskContainer.count == 0 {
-//            for _ in 1...3 {
-//                saveTask(withGoalID: goalUID)
-//            }
-//            saveBonusTask(withGoalID: goalUID)
-//        }
+        if currentTaskContainer.count == 0 {
+            for _ in 1...3 {
+                saveTask(withGoalID: goalUID)
+            }
+        //    saveBonusTask(withGoalID: goalUID)
+        }
      //   parseBonusTasks()
     }
     
-    // Fetch specified task
+    
+    // Fetch tasks for specified goal - HistoryVC
+    func fetchTasksFor(goalUID: String) {
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        request.predicate = NSPredicate(format: "goal_UID = %@", goalUID)
+        do {
+            selectedTaskContainer = try context.fetch(request)
+        } catch {
+        }
+    }
+    
+    
+    // Fetch a single specified task
     func fetchTask(with goalUID: String) -> TaskData {
         var task: [TaskData] = []
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()

@@ -82,6 +82,7 @@
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LjX-7r-CIq">
                                 <rect key="frame" x="381" y="59" width="18" height="31.5"/>
+                                <color key="tintColor" red="0.73762484328645694" green="0.8630302731625128" blue="0.9059391618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="plus" catalog="system"/>
                                 <connections>
                                     <action selector="newTaskButtonWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="veX-c3-iIn"/>
@@ -106,6 +107,7 @@
                     <tabBarItem key="tabBarItem" title="Today" image="tray" catalog="system" id="oxk-UR-xK4"/>
                     <navigationItem key="navigationItem" title="Today" id="2v3-P0-U1r"/>
                     <connections>
+                        <outlet property="newTaskButton" destination="LjX-7r-CIq" id="txo-2T-ME0"/>
                         <outlet property="taskCountLabel" destination="Gbh-eK-y9m" id="T89-nh-7WD"/>
                         <outlet property="todayTable" destination="ocm-2P-WcS" id="wWD-ax-6K6"/>
                         <segue destination="e5F-WL-V7a" kind="presentation" identifier="TodayToDetail" id="4CT-aX-inA"/>

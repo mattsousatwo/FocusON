@@ -83,7 +83,7 @@ extension TodayVC {
     
     // Display / update task count label 
     func updateCompletedTasksLabel() {
-        taskCountLabel.text = "You have 0\\5 tasks completed"
+        taskCountLabel.text = "You have 0\\4 tasks completed"
         var tempCount: Int16 = 0
         guard let totalTasks = todayTable.visibleCells as? [TaskCell] else { return }
         if totalTasks.count != 0 {
@@ -95,7 +95,8 @@ extension TodayVC {
             todaysGoal.completedCellCount = tempCount
             goalDC.saveContext()
             
-            taskCountLabel.text = "You have \(todaysGoal.completedCellCount)\\\(totalTasks.count) tasks completed"
+            taskCountLabel.text = "You have \(todaysGoal.completedCellCount)\\\(taskDC.currentTaskContainer.count + 1) tasks completed"
+            print("task count = \(totalTasks.count)")
         }
 
     }

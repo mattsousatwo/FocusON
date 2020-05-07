@@ -24,6 +24,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     @IBOutlet weak var taskCountLabel: UILabel!
     // Table View for today vc
     @IBOutlet weak var todayTable: UITableView!
+    // New task button
+    @IBOutlet weak var newTaskButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +64,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 //        goalDC.printTimeStamps()
         print("todays Date: \(todaysGoal.dateCreated!) ")
         
-        
+        newTaskButton.tintColor = #colorLiteral(red: 0.7376248433, green: 0.8630302732, blue: 0.9059391618, alpha: 1)
+        newTaskButton.isUserInteractionEnabled = false
         registerForKeyboardNotifications()
         // Inital label
         updateCompletedTasksLabel()
@@ -72,11 +75,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     
     // New task button
     @IBAction func newTaskButtonWasPressed(_ sender: Any) {
-        // trigger Action controller
-            // then save task
-            // reload table
-        // MARK :: Execute an Action Sheet Style Alert Controller by:
-            
         // Initialize AlertController
         let alertController = UIAlertController(title: "Add a new Task", message: nil, preferredStyle: .alert)
           
@@ -90,6 +88,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             // MARK: Save Bonus Task
             self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
             print(alertText)
+            self.updateCompletedTasksLabel()
+            self.manageLocalNotifications()
             self.todayTable.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action")
@@ -321,7 +321,25 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                 }
             }
         }
-
+        
+        // Checking to see if visible cells textfields are all full 2
+        guard let visibleCells = todayTable.visibleCells as? [TaskCell] else { return }
+        let filteredCells = visibleCells.filter( { $0.textField.text != "" } )
+        if visibleCells.count == filteredCells.count {
+            print("filtered cells test works")
+            newTaskButton.isUserInteractionEnabled = true
+            newTaskButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        } else {
+            print("Cells are empty")
+        }
+        
+            
+        
+        
+        
+        
+        
+        
 //        // MARK: - Bonus Cell
 //        let bonusCellRowCount = taskDC.bonusTasksContainter.count - 1
 //        //  let bonusCellRowCount = bonusCellCount - 1

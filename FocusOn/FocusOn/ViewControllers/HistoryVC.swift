@@ -15,13 +15,6 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var selectedGoalID = String()
     var displayMode: DisplayMode = .goalMode
     
-    // MARK: - Read Me
-    
-    // Fetch coredata entities and reload tableView if there is data stored.
-        // - Maybe display each goal and the number of completed tasks / total tasks
-            // then if user selects a goal take user into another view or reload the view? to populate it with the stored tasks within a goal with the goal at the top section like in TodayVC
-            // similarly, when a user selects on a cell it will take you to detail view
-    
     @IBOutlet weak var historyTableView: UITableView!
     
     override func viewDidLoad() {
@@ -49,7 +42,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         case .goalMode:
             return goalDC.pastGoalContainer.count
         case .taskMode:
-            return 3
+            return 2
         }
     }
     
@@ -63,11 +56,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             case 0:
                 return 1
             case 1:
-                return 3
-            case 2:
-                return taskDC.bonusTasksContainter.count // - Bonus cell count
+                return taskDC.selectedTaskContainer.count
             default:
-                return 1
+                return 0
             }
         }
         
@@ -108,20 +99,15 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             
         case .taskMode:
             let xGoal = goalDC.fetchGoal(withUID: selectedGoalID)
-            taskDC.fetchTasks(with: selectedGoalID)
+            taskDC.fetchTasksFor(goalUID: selectedGoalID)
+            print("selectedTaskContainer \(taskDC.selectedTaskContainer.count)")
             switch indexPath.section {
             case 0: // Goal
                 cell.textField.text = xGoal.name!
             case 1: // Task
                 for row in 0...2 {
                     if indexPath.row == row {
-                        cell.textField.text = taskDC.currentTaskContainer[row].name!
-                    }
-                }
-            case 2: // Bonus
-                for row in 0...taskDC.bonusTasksContainter.count {
-                    if indexPath.row == row {
-                        cell.textField.text = taskDC.bonusTasksContainter[row].name!
+                        cell.textField.text = taskDC.selectedTaskContainer[row].name!
                     }
                 }
             default:
@@ -150,23 +136,17 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 selectedGoalID = goalDC.pastGoalContainer[section].goal_UID!
                 print("selectedGoalID = \(selectedGoalID)")
                 
-                
-                
-                // MARK: Switching display mode
-                //// This should display all the tasks that go with the selected goal and reload the table to resemble TodayVC (3 sections, and 1 row for goals, 3 rows for tasks, and 1 row for the created bonus  cell )
-                /////  Error:
-                ///         " Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Invalid update: invalid number of sections. The number of sections contained in the table view after the update (3) must be equal to the number of sections contained in the table view before the update (1), plus or minus the number of sections inserted or deleted (0 inserted, 0 deleted).' "
                 displayMode = .taskMode
                 print(displayMode.rawValue)
                 
-                historyTableView.beginUpdates()
-                let task = 1
-                let paths: [IndexPath] = [ [task, 0], [task, 1], [task, 2] ]
+             //   historyTableView.beginUpdates()
+             //   let task = 1
+            //    let paths: [IndexPath] = [ [task, 0], [task, 1], [task, 2] ]
                 
-                historyTableView.insertRows(at: paths, with: .automatic)
+             //   historyTableView.insertRows(at: paths, with: .automatic)
                     
-                // historyTableView.reloadData()
-                historyTableView.endUpdates()
+                historyTableView.reloadData()
+              //  historyTableView.endUpdates()
                 
                 // use selectedGoalID to fetch for goals tasks
                 // set variable to goalTaskDisplayMode
