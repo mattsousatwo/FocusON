@@ -19,6 +19,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     var currentGoal = GoalData()
     var searchUID = String()
     var searchDataType = DataType.goal
+    var lastDeletedTask: TaskData?
+    var lastDeletedTaskIndex: IndexPath?
    
     // Label to display task count
     @IBOutlet weak var taskCountLabel: UILabel!
@@ -393,7 +395,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = true
-        
+        x.isHighlighted = true
     }
       
     // if user selects a row - show menu button
@@ -442,10 +444,91 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             print("Textfield at index \(indexPath) is empty") 
         }
         
-        
+        let cell = todayTable.cellForRow(at: todayTable.indexPathForSelectedRow!)
+        if cell?.isEditing == true {
+            cell?.isSelected = false
+            
+        }
              
      }
  
+    // MARK: - Deleting a cell
+    // Can edit cell if cell is made after 3rd task cell
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        switch indexPath.section {
+        case 0:
+            return false
+        case 1:
+            if indexPath.row > 2 {
+                return true
+            } else {
+                return false
+            }
+        default:
+            return false
+        }
+    }
+    
+    // Enabling trailing swipe actions for cell
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var actions: [UIContextualAction]
+        
+        guard let task = taskDC.currentTaskContainer[indexPath.row] as TaskData? else { return nil }
+        
+        let deleteButton = UIContextualAction(style: .destructive, title: "Delete") { (action, view, actionPreformed) in
+            print("Delete Button Active")
+            
+            self.lastDeletedTask = task
+            self.lastDeletedTaskIndex = indexPath
+            // MARK: DELETE TASK FUNC GOES HERE
+            // self.taskDC.delete(task: task.task_UID!)
+            self.taskDC.deleteTask(at: indexPath, in: self.todayTable)
+            self.manageLocalNotifications()
+            self.updateCompletedTasksLabel()
+            self.todayTable.reloadData()
+        }
+        let completeButton = UIContextualAction(style: .normal, title: "Complete") { (action, view, actionPreformed) in
+            print("Complete Button Active")
+            task.progress = 2
+            self.taskDC.saveContext()
+        }
+        completeButton.backgroundColor = #colorLiteral(red: 0.003390797181, green: 0.4353298545, blue: 0.7253979445, alpha: 1)
+        let inProgressButton = UIContextualAction(style: .normal, title: "In-Progress") { (action, view, actionPreformed) in
+            print("In-Progress Button Active")
+            task.progress = 1
+            self.taskDC.saveContext()
+        }
+        inProgressButton.backgroundColor = #colorLiteral(red: 0.3998935819, green: 0.6000403762, blue: 0.7998998761, alpha: 1)
+        let beginningButton = UIContextualAction(style: .normal, title: "Beginning") { (action, view, actionPreformed) in
+            print("Beginning Button Active")
+            task.progress = 0
+            self.taskDC.saveContext()
+        }
+        beginningButton.backgroundColor = #colorLiteral(red: 0.09408376366, green: 0.156873703, blue: 0.1450745761, alpha: 1)
+        
+        actions = [deleteButton, completeButton, inProgressButton, beginningButton]
+        
+        return UISwipeActionsConfiguration(actions: actions)
+    }
+    
+    // User shook phone 
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            guard let lastDeletedTask = lastDeletedTask, let lastDeletedIndexPath = lastDeletedTaskIndex else { return }
+            todayTable.beginUpdates()
+            
+            taskDC.currentTaskContainer.insert(lastDeletedTask, at: lastDeletedIndexPath.row)
+            
+            todayTable.insertRows(at: [lastDeletedIndexPath], with: .automatic)
+            
+            todayTable.endUpdates()
+        }
+        lastDeletedTask = nil
+        lastDeletedTaskIndex = nil
+        
+        updateCompletedTasksLabel()
+        manageLocalNotifications()
+    }
 
     
     // MARK: - Navigation

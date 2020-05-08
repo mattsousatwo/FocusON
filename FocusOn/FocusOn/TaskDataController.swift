@@ -198,6 +198,34 @@ class TaskDataController: DataController {
         saveContext()
     }
     
+    // use task ID of task to delete
+    func delete(task: String) {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: taskData)
+        request.predicate = NSPredicate(format: "task_UID = %@", task)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(deleteRequest)
+        } catch {
+        }
+        saveContext()
+    }
+    
+    // Delete the task from the currentTaskContainer 
+    func deleteTask(at indexPath: IndexPath?, in table: UITableView) {
+        guard let indexPath = indexPath else { return }
+        
+        table.beginUpdates()
+        
+        currentTaskContainer.remove(at: indexPath.row)
+        
+        table.deleteRows(at: [indexPath], with: .automatic)
+        
+        table.endUpdates()
+       
+        saveContext()
+        
+    }
+    
     
     
 }
