@@ -105,10 +105,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             case 0: // Goal
                 cell.textField.text = xGoal.name!
             case 1: // Task
-                for row in 0...2 {
-                    if indexPath.row == row {
-                        cell.textField.text = taskDC.selectedTaskContainer[row].name!
-                    }
+                if taskDC.selectedTaskContainer.count != 0 {
+                    cell.textField.text = taskDC.selectedTaskContainer[indexPath.row].name!
                 }
             default:
                 cell.textField.text = "EMPTY "

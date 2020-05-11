@@ -511,7 +511,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         return UISwipeActionsConfiguration(actions: actions)
     }
     
-    // User shook phone 
+    // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             guard let lastDeletedTask = lastDeletedTask, let lastDeletedIndexPath = lastDeletedTaskIndex else { return }
