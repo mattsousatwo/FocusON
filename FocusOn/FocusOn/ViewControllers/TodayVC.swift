@@ -26,98 +26,34 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     @IBOutlet weak var taskCountLabel: UILabel!
     // Table View for today vc
     @IBOutlet weak var todayTable: UITableView!
-    // New task button
-    @IBOutlet weak var newTaskButton: UIButton!
+    // Add Button in nav bar
+    @IBOutlet weak var addTaskButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        todayTable.dataSource = self
-        todayTable.delegate = self
-//        goalDC.createTestGoals()
 
+        configureTodayVC()
+        
         goalDC.deleteAll()
         taskDC.deleteAllTasks()
-        
+    //        goalDC.createTestGoals()
     //    taskDC.createGoalWithTasks()
-        
-        goalDC.fetchGoals()
-        // MARK: - CREATE TEST GOALS
-        //// select the history tab && then select the cell by clicking outside of the textfield, this will trigger the error
-        //// in HistoryVC tableView.didSelectCellForRowAt() is where the switching of display modes is triggered  at line 151
-      //  todaysGoal = taskDC.createGoalWithTasks()
-        
-        
-        todaysGoal = goalDC.goalContainer.first!
-        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
-        if taskDC.bonusTasksContainter.count != 0 {
-            bonusCellCount = taskDC.bonusTasksContainter.count //3
-            print("BonusCell inital Count \(bonusCellCount) ")
-        }
-        if taskDC.currentTaskContainer.count != 0 {
-            print("taskContainer $$$$ == \(taskDC.currentTaskContainer.count)")
-            print("taskContainer[0].name = \(taskDC.currentTaskContainer[0].name ?? "default")")
-        }
-        
-       // todaysGoal = goalDC.fetchTodaysGoal()!
-        print("todaysGoal UID: \(todaysGoal.goal_UID!)\n")
-        
-        
-        
-//        goalDC.printTimeStamps()
-        print("todays Date: \(todaysGoal.dateCreated!) ")
-        
-        newTaskButton.tintColor = #colorLiteral(red: 0.7376248433, green: 0.8630302732, blue: 0.9059391618, alpha: 1)
-        newTaskButton.isUserInteractionEnabled = false
-        registerForKeyboardNotifications()
-        // Inital label
-        updateCompletedTasksLabel()
-     //  taskCountLabel.text = "You have 0\\5 tasks completed"
-        manageLocalNotifications()
+
     }
-    
-    // New task button
-    @IBAction func newTaskButtonWasPressed(_ sender: Any) {
-        // Initialize AlertController
-        let alertController = UIAlertController(title: "Add a new Task", message: nil, preferredStyle: .alert)
-          
-        alertController.addTextField(configurationHandler: {
-            textfield in
-            textfield.placeholder = "New Task"
-        })
-        
-        let addTask = UIAlertAction(title: "Add Task", style: .default) { (action) in
-            guard let alertText = alertController.textFields?.first?.text else { return }
-            // MARK: Save Bonus Task
-            self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
-            print(alertText)
-            self.updateCompletedTasksLabel()
-            self.manageLocalNotifications()
-            self.todayTable.reloadData()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action")
-        }
-            
-        
-        alertController.addAction(addTask)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true) {
-            // Code to be run after view is displayed
-        }
-        
+
+    // Add a new task at bottom of table view if three cells are filled
+    @IBAction func addTaskButtonWasPressed(_ sender: Any) {
+        presentNewTaskAlertController()
     }
-    
-    
     
     // MARK: - TaskCellDelegate
     // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
         // handle task completed count
         if marker == true {
-            updateCompletedTasksLabel()
-            manageLocalNotifications()
+            updateTaskCountAndNotifications()
         } else if marker == false {
-            updateCompletedTasksLabel()
-            manageLocalNotifications()
+            updateTaskCountAndNotifications()
         }
          // if firstCell { highlight all tasks }
         let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
@@ -131,13 +67,18 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                     let selectedCell = todayTable.cellForRow(at: index) as! TaskCell
                     selectedCell.taskMarker.isHighlighted = marker
                   
-                    
-                    updateCompletedTasksLabel()
-                    manageLocalNotifications()
-                    // Save task cell marker 
+                    updateTaskCountAndNotifications()
                 }
             }
+        } else {
+            if firstCell.taskMarker.isHighlighted == true {
+                firstCell.taskMarker.isHighlighted = false
+                todaysGoal.isChecked = false
+            }
         }
+        // Check if all task markers are complete
+        checkMarkersInRowsForCompletion()
+        
         for cell in taskDC.currentTaskContainer {
             cell.isChecked = marker
         }
@@ -208,40 +149,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                 cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
             }
             
-//            switch indexPath.row {
-//            case 0:
-//                if taskDC.currentTaskContainer.count != 0 { // = more than 1
-//                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
-//                }
-//            case 1:
-//                if taskDC.currentTaskContainer.count >= 2 { // = 2
-//                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
-//                }
-//            case 2:
-//                if taskDC.currentTaskContainer.count >= 3 { // = 3
-//                    cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
-//                }
-//            default:
-//                cell.textField.placeholder = "New Task"
-//            }
-//        case 2: // Bonus Section
-//            print("Bonus was created \(indexPath.row)")
-//
-//            if taskDC.bonusTasksContainter.count != 0 {
-//                // MARK: SHOULD FIGURE OUT NEW IMPLEMENTATION
-//                for x in 0...tableView.numberOfRows(inSection: 2) - 1 {
-//                    switch indexPath.row {
-//                    case x:
-//                        cell.textField.text = taskDC.bonusTasksContainter[x].name
-//                    default:
-//                        cell.textField.placeholder = "Bonus Task"
-//                    }
-//                }
-//                // MARK: - fix how text is selected && correct bonus cell amount is not displayed
-//            } else {
-//                cell.textField.placeholder = "Bonus Task"
-//            }
-//
         default:
             cell.textField.placeholder = "New Task"
         }
@@ -254,12 +161,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         var title = ""
-        
-        // new section titles
-        // 0: "New Task Entry"
-        // 1: "Daily Goal"
-        // 2: "Tasks"
-        // 3: "bonus tasks"
+
         if taskDC.currentTaskContainer.count == 0 {
             if section == 0 {
                 title = "Daily Goal"
@@ -324,68 +226,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             }
         }
         
-        // Checking to see if visible cells textfields are all full 2
-        guard let visibleCells = todayTable.visibleCells as? [TaskCell] else { return }
-        let filteredCells = visibleCells.filter( { $0.textField.text != "" } )
-        if visibleCells.count == filteredCells.count {
-            print("filtered cells test works")
-            newTaskButton.isUserInteractionEnabled = true
-            newTaskButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        } else {
-            print("Cells are empty")
-        }
+        // Checking to see if visible cells textfields are all full
+        checkRowsForCompletion()
+        // Check if all markers are checked
+        checkMarkersInRowsForCompletion()
         
-            
-        
-        
-        
-        
-        
-        
-//        // MARK: - Bonus Cell
-//        let bonusCellRowCount = taskDC.bonusTasksContainter.count - 1
-//        //  let bonusCellRowCount = bonusCellCount - 1
-//        for z in 0...bonusCellRowCount {
-//            let bonusCell = todayTable.cellForRow(at: [2,z]) as! TaskCell
-//            if bonusCell.textField == sender && sender.text != "" {
-////              taskDC.saveBonusTask(name: bonusCell.textField.text!, withGoalID: todaysGoal.goal_UID!, atPos: Int16(z))
-////              bonusCellCount = taskDC.bonusTasksContainter.count
-//                print("BonusCellCount = \(bonusCellCount) - before saving")
-//                print("BonusCellRowCount = \(bonusCellRowCount) ")
-//                // Update current bonus task
-//                let bonusTask = taskDC.bonusTasksContainter[z]
-//                bonusTask.name = bonusCell.textField.text
-//                taskDC.saveContext()
-//                // Create a new bonus task
-//                taskDC.saveBonusTask(withGoalID: todaysGoal.goal_UID!)
-////              bonusCellCount = taskDC.bonusTasksContainter.count
-//
-//                bonusCellCount += 1
-//                // append indexPaths with highlighted marker
-//                var highlightedIndexPaths = [IndexPath]()
-//                guard let visibleIndexPaths = todayTable.indexPathsForVisibleRows else { return }
-//                for row in visibleIndexPaths {
-//                    let currentRow = todayTable.cellForRow(at: row) as! TaskCell
-//                if currentRow.taskMarker.isHighlighted == true {
-//                        highlightedIndexPaths.append(row)
-//                    }
-//                }
-//        // reload table
-//        todayTable.reloadData()
-//        // set highlighted markers
-//        for row in highlightedIndexPaths {
-//            let currentRow = todayTable.cellForRow(at: row) as! TaskCell
-//            currentRow.taskMarker.isHighlighted = true
-//        }
-//        // update completedTasks / totalTasks label
-//        updateCompletedTasksLabel()
-//        manageLocalNotifications()
-//        print("BonusCellCount = \(bonusCellCount) - after saving")
-//        print("BonusCellRowCount = \(bonusCellRowCount) ")
-//        print("savedBonusCell.name: \(taskDC.bonusTasksContainter[z].name ?? "empty name") \nsavedBonusCell.cellPosition:  \(taskDC.bonusTasksContainter[z].cellPosition)")
-//            }
-//        }
-//
     }
     
     
@@ -427,16 +272,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                       searchDataType = .task
                   }
                   
-//              case 2:
-//                  // Bonus
-//                  // MARK: Needs new Cell Position Implementation
-//                  print("bonus task selected")
-//                  if taskDC.bonusTasksContainter.count != 0 {
-//                      guard let taskID = taskDC.bonusTasksContainter[indexPath.row].task_UID else { return }
-//                      searchUID = taskID
-//                      searchDataType = .bonus
-//                  }
-//
               default:
                   print("No Search Tag Found")
               }
@@ -483,8 +318,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             // MARK: DELETE TASK FUNC GOES HERE
             // self.taskDC.delete(task: task.task_UID!)
             self.taskDC.deleteTask(at: indexPath, in: self.todayTable)
-            self.manageLocalNotifications()
-            self.updateCompletedTasksLabel()
+            self.updateTaskCountAndNotifications()
             self.todayTable.reloadData()
         }
         let completeButton = UIContextualAction(style: .normal, title: "Complete") { (action, view, actionPreformed) in
@@ -526,8 +360,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         lastDeletedTask = nil
         lastDeletedTaskIndex = nil
         
-        updateCompletedTasksLabel()
-        manageLocalNotifications()
+        updateTaskCountAndNotifications()
     }
 
     

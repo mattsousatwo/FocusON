@@ -80,26 +80,6 @@ extension TodayVC {
         print(#function)
         todayTable.contentInset.bottom = targetHeight
     }
-    
-    // Display / update task count label 
-    func updateCompletedTasksLabel() {
-        taskCountLabel.text = "You have 0\\4 tasks completed"
-        var tempCount: Int16 = 0
-        guard let totalTasks = todayTable.visibleCells as? [TaskCell] else { return }
-        if totalTasks.count != 0 {
-            for task in totalTasks {
-                if task.taskMarker.isHighlighted == true {
-                    tempCount+=1
-                }
-            }
-            todaysGoal.completedCellCount = tempCount
-            goalDC.saveContext()
-            
-            taskCountLabel.text = "You have \(todaysGoal.completedCellCount)\\\(taskDC.currentTaskContainer.count + 1) tasks completed"
-            print("task count = \(totalTasks.count)")
-        }
-
-    }
 
 }// todayVC
 
