@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6122813A2398BC9900B11999 /* DetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612281392398BC9900B11999 /* DetailTableView.swift */; };
+		613E1C172469EED1007429CC /* HistoryExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E1C162469EED1007429CC /* HistoryExtention.swift */; };
 		615A624423982BCE00A99E7A /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615A624323982BCE00A99E7A /* TaskCell.swift */; };
 		615B2402239991DF000545F3 /* TodayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B2401239991DE000545F3 /* TodayVC.swift */; };
 		616851F823B5BA720043F915 /* TaskDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616851F723B5BA720043F915 /* TaskDataController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		612281392398BC9900B11999 /* DetailTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableView.swift; sourceTree = "<group>"; };
+		613E1C162469EED1007429CC /* HistoryExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryExtention.swift; sourceTree = "<group>"; };
 		615A624323982BCE00A99E7A /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		615B2401239991DE000545F3 /* TodayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVC.swift; sourceTree = "<group>"; };
 		616851F723B5BA720043F915 /* TaskDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		61BC1608237B169800341701 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				613E1C162469EED1007429CC /* HistoryExtention.swift */,
 				6169EFE7240CD82400EF0D4D /* DataController.swift */,
 				61EEF1AC23B3B581001CD295 /* GoalDataController.swift */,
 				616851F723B5BA720043F915 /* TaskDataController.swift */,
@@ -222,6 +225,7 @@
 				6169EFE8240CD82400EF0D4D /* DataController.swift in Sources */,
 				615B2402239991DF000545F3 /* TodayVC.swift in Sources */,
 				61BC160C237B182700341701 /* ProgressVC.swift in Sources */,
+				613E1C172469EED1007429CC /* HistoryExtention.swift in Sources */,
 				619F55FE23997D6F00F0D0EF /* HistoryVC.swift in Sources */,
 				61F084A5240F4D5700A3559E /* TaskData+CoreDataProperties.swift in Sources */,
 				61BC15F3237B156600341701 /* SceneDelegate.swift in Sources */,

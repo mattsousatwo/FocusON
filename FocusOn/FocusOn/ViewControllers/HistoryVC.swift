@@ -17,21 +17,17 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var historyTableView: UITableView!
     
+    @IBOutlet weak var backBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        historyTableView.delegate = self
-        historyTableView.dataSource = self
         
-        // reload Goals
-        goalDC.fetchGoals()
+        configureHistoryVC()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         historyTableView.reloadData()
     }
-    
     
     
 // MARK: number of sections
@@ -106,7 +102,12 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 cell.textField.text = xGoal.name!
             case 1: // Task
                 if taskDC.selectedTaskContainer.count != 0 {
-                    cell.textField.text = taskDC.selectedTaskContainer[indexPath.row].name!
+                    if let taskText = taskDC.selectedTaskContainer[indexPath.row].name {
+                        cell.textField.text = taskText
+                    } else {
+                        cell.textField.placeholder = "New Task Here"
+                    }
+                   // cell.textField.text = taskDC.selectedTaskContainer[indexPath.row].name!
                 }
             default:
                 cell.textField.text = "EMPTY "
@@ -136,45 +137,16 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 
                 displayMode = .taskMode
                 print(displayMode.rawValue)
-                
-             //   historyTableView.beginUpdates()
-             //   let task = 1
-            //    let paths: [IndexPath] = [ [task, 0], [task, 1], [task, 2] ]
-                
-             //   historyTableView.insertRows(at: paths, with: .automatic)
-                    
+  
+                backButtonIsHidden(false)
                 historyTableView.reloadData()
-              //  historyTableView.endUpdates()
-                
-                // use selectedGoalID to fetch for goals tasks
-                // set variable to goalTaskDisplayMode
-                // reload table with selected tasks
-                // put switch statment on displayMode in cell creation methods
                 
             }
         }
         
     }
     
-//    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-//        switch displayMode {
-//        case .goalMode:
-//            return
-//        case .taskMode:
-//            historyTableView.beginUpdates()
-//            let task = 1
-//            let paths: [IndexPath] = [ [task, 0], [task, 1], [task, 2] ]
-//         
-//            historyTableView.insertRows(at: paths, with: .automatic)
-//             
-//            // historyTableView.reloadData()
-//            historyTableView.endUpdates()
-//        }
-//    }
-//    
     
-    
-    // MARK: how do insert rows?
     
     
 // MARK: Deselecting a cell
@@ -194,8 +166,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     */
 
+    @IBAction func backBarButtonWasPressed(_ sender: Any) {
+        backButtonIsHidden(true)
+    }
+    
 }
 
-enum DisplayMode: String {
-    case goalMode = "Display: GoalMode\n", taskMode = "Display: TaskMode\n"
-}
+
