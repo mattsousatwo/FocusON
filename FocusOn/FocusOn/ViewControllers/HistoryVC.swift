@@ -10,10 +10,24 @@ import UIKit
 
 class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    // Display
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
     var selectedGoalID = String()
+    var selectedGoal: GoalData?
     var displayMode: DisplayMode = .goalMode
+    // Deleted Goals & Tasks
+    var lastDeletedGoal: GoalData?
+    var lastDeletedGoalIndex: IndexPath?
+    var lastDeletedTask: TaskData?
+    var lastDeletedTaskIndex: IndexPath?
+    // Delete All
+    var deleteAllGoal: GoalData?
+    var deleteAllGoalIndex: IndexPath?
+    var deleteAllGoalPosition: Int?
+    var deleteAllTasks: [TaskData]?
+    var deleteAllTasksIndex: [IndexPath]?
+    var goalCount = 1
     
     @IBOutlet weak var historyTableView: UITableView!
     
@@ -46,7 +60,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch displayMode {
         case .goalMode:
-            return 1
+            if goalDC.pastGoalContainer.count != 0 {
+                return 1
+            }
+            return 0
         case .taskMode:
             switch section {
             case 0:
@@ -65,13 +82,20 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         switch displayMode {
         case .goalMode:
+            navigationItem.title = "History"
             var title = "" 
             if goalDC.pastGoalContainer.count != 0 {
                 title = "\(goalDC.formatDate(from: goalDC.pastGoalContainer[section]) ?? "DEFAULT VALUE")"
             }
             return title
         case .taskMode:
-            return nil
+            navigationItem.title = "\( goalDC.formatDate(from: selectedGoal) ?? "History" )"
+            switch section {
+            case 0:
+                return "Goal"
+            default:
+                return "Tasks"
+            }
         }
     }
     
@@ -94,12 +118,11 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
             
         case .taskMode:
-            let xGoal = goalDC.fetchGoal(withUID: selectedGoalID)
-            taskDC.fetchTasksFor(goalUID: selectedGoalID)
-            print("selectedTaskContainer \(taskDC.selectedTaskContainer.count)")
             switch indexPath.section {
             case 0: // Goal
-                cell.textField.text = xGoal.name!
+                if let goal = selectedGoal {
+                    cell.textField.text = goal.name!
+                }
             case 1: // Task
                 if taskDC.selectedTaskContainer.count != 0 {
                     if let taskText = taskDC.selectedTaskContainer[indexPath.row].name {
@@ -107,7 +130,6 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     } else {
                         cell.textField.placeholder = "New Task Here"
                     }
-                   // cell.textField.text = taskDC.selectedTaskContainer[indexPath.row].name!
                 }
             default:
                 cell.textField.text = "EMPTY "
@@ -115,7 +137,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
         
         
-
+        addMenuGesture(to: cell, in: self)
+        
         cell.textField.isUserInteractionEnabled = false
         
         return cell
@@ -138,23 +161,150 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 displayMode = .taskMode
                 print(displayMode.rawValue)
   
-                backButtonIsHidden(false)
-                historyTableView.reloadData()
+                
                 
             }
         }
         
     }
     
-    
-    
-    
 // MARK: Deselecting a cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! TaskCell
         // hide menu button
         cell.menuButton.isHidden = true
+        selectedGoalID = ""
     }
+    
+    // MARK: - Deleting a Cell
+    
+    // Can delete Goal
+    // Cannot delete tasks or goals if in taskMode
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        switch displayMode {
+        case .goalMode:
+            return true
+        case .taskMode:
+            return true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var actions: [UIContextualAction]
+        var title = ""
+        
+        if indexPath == [0,0] &&
+        displayMode == .taskMode {
+            title = "Delete All"
+        } else {
+            title = "Delete"
+        }
+        let deleteButton = UIContextualAction(style: .destructive, title: title) { (action, view, actionPreformed) in
+            switch self.displayMode {
+            case .goalMode:
+                let goal = self.goalDC.pastGoalContainer[indexPath.row]
+                self.delete(goal, at: indexPath, displayMode: .goalMode)
+            case .taskMode:
+                switch indexPath.section {
+                case 0: // Goal
+                    // MARK: Delete All
+                    self.presentDeleteAllWarrning()
+                case 1: // Task
+                    // MARK: Delete single task
+                    let task = self.taskDC.selectedTaskContainer[indexPath.row]
+                    self.delete(task, at: indexPath)
+                    self.historyTableView.reloadData()
+                default:
+                    return
+                }
+            }
+        }
+        
+        let cancelButton = UIContextualAction(style: .normal, title: "Cancel") { (action, view, actionPreformed) in
+            actionPreformed(true)
+        }
+        
+        actions = [deleteButton, cancelButton]
+        
+        return UISwipeActionsConfiguration(actions: actions)
+    }
+    
+    // User shook phone (Undo)
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print(#function)
+            // check if goal or task is used
+            switch checkDeleteMode() {
+            case .task: // lastTaskDeleted is != nil
+                guard let deletedTask = lastDeletedTask, let deletedTaskIndex = lastDeletedTaskIndex else { return }
+                // insert task back into table and array
+                historyTableView.beginUpdates()
+                taskDC.selectedTaskContainer.insert(deletedTask, at: deletedTaskIndex.row)
+                historyTableView.insertRows(at: [deletedTaskIndex], with: .automatic)
+                historyTableView.endUpdates()
+            case .goal: // lastGoalDeleted is != nil
+                guard let deletedGoal = lastDeletedGoal, let deletedGoalIndex = lastDeletedGoalIndex else { return }
+                // Insert goal back into table and array
+                historyTableView.beginUpdates()
+                goalDC.pastGoalContainer.insert(deletedGoal, at: deletedGoalIndex.row)
+                historyTableView.insertRows(at: [deletedGoalIndex], with: .automatic)
+                historyTableView.endUpdates()
+            case .deleteAll:
+                print("DeleteAll")
+                
+                // Get goal and tasks
+                guard let goal = deleteAllGoal else { return }
+                print("1")
+//                guard let goalIndex = deleteAllGoalIndex else { return }
+                print("2")
+                guard let goalPos = deleteAllGoalPosition else { return }
+                print("3")
+                guard let tasks = deleteAllTasks else { return }
+                print("4")
+                guard let tasksIndex = deleteAllTasksIndex else { return }
+                print("5")
+                print(goal.goal_UID ?? "")
+                print(selectedGoalID)
+                print(displayMode)
+                // Insert rows
+                goalDC.pastGoalContainer.insert(goal, at: goalPos)
+                
+                for index in tasksIndex {
+                    for task in tasks {
+                        taskDC.pastTaskContainer.insert(task, at: index.row)
+                    }
+                }
+                
+                if goal.goal_UID! == selectedGoalID {
+                    print("should insert rows")
+                    selectedGoal = goal
+                    for index in tasksIndex {
+                        for task in tasks {
+                            taskDC.selectedTaskContainer.insert(task, at: index.row)
+                        }
+                    }
+
+                }
+                historyTableView.reloadData()
+            default:
+                return
+            }
+            
+            // reset deleted store
+            clearDeletedCache()
+            for view in historyTableView.visibleCells {
+                guard let view = view as? TaskCell else { return }
+                view.menuButton.isHidden = true
+            }
+            navigationItem.title = "History"
+            historyTableView.reloadData()
+            
+        }
+    }
+    
+    
+    
+    
     
     /*
     // MARK: - Navigation

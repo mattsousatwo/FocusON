@@ -13,16 +13,18 @@ extension TodayVC {
     
     // Configure TodayVC
     func configureTodayVC() {
+        // Assign Delegates
         todayTable.dataSource = self
         todayTable.delegate = self
-        
+        // fetch CoreData Elements
         goalDC.fetchGoals()
         todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
-        navigationItem.title = "Task Count: 10/12"
+        // Set up view
         registerForKeyboardNotifications()
         updateTaskCountAndNotifications()
         addButtonIsHidden(true)
+        // Prompt user to create tasks 
         if todaysGoal.name == "" {
             presentNewDayActionSheet()
         }

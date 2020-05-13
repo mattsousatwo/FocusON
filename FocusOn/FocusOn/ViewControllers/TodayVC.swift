@@ -32,10 +32,12 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureTodayVC()
+        
         
         goalDC.deleteAll()
         taskDC.deleteAllTasks()
+        configureTodayVC()
+        
     //        goalDC.createTestGoals()
     //    taskDC.createGoalWithTasks()
 
@@ -317,7 +319,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             self.lastDeletedTaskIndex = indexPath
             // MARK: DELETE TASK FUNC GOES HERE
             // self.taskDC.delete(task: task.task_UID!)
-            self.taskDC.deleteTask(at: indexPath, in: self.todayTable)
+            self.taskDC.deleteCurrentTask(at: indexPath, in: self.todayTable)
             self.updateTaskCountAndNotifications()
             self.todayTable.reloadData()
         }
@@ -325,18 +327,21 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             print("Complete Button Active")
             task.progress = 2
             self.taskDC.saveContext()
+            actionPreformed(true)
         }
         completeButton.backgroundColor = #colorLiteral(red: 0.003390797181, green: 0.4353298545, blue: 0.7253979445, alpha: 1)
         let inProgressButton = UIContextualAction(style: .normal, title: "In-Progress") { (action, view, actionPreformed) in
             print("In-Progress Button Active")
             task.progress = 1
             self.taskDC.saveContext()
+            actionPreformed(true)
         }
         inProgressButton.backgroundColor = #colorLiteral(red: 0.3998935819, green: 0.6000403762, blue: 0.7998998761, alpha: 1)
         let beginningButton = UIContextualAction(style: .normal, title: "Beginning") { (action, view, actionPreformed) in
             print("Beginning Button Active")
             task.progress = 0
             self.taskDC.saveContext()
+            actionPreformed(true)
         }
         beginningButton.backgroundColor = #colorLiteral(red: 0.09408376366, green: 0.156873703, blue: 0.1450745761, alpha: 1)
         

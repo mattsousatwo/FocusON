@@ -156,12 +156,14 @@ class GoalDataController: DataController {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
         print("goalContainer.count: \(goalContainer.count)")
+        
         // if there is a goal in goalContainer & first goal is from today
-        if goalContainer.count != 0 && compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
+        if goalContainer.count != 0 &&
+            compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
             print("goalContainer.count != 0 && compareDays(from: ) == false \n")
             for data in goalContainer {
-                print("name: \(data.name ?? "default text"), \nuid: \(data.goal_UID ?? "default uid") \n")
-                if compareDays(from: (data.dateCreated)!) == false  { // if data.dateCreated != today, add & remove goal
+                if compareDays(from: (data.dateCreated)!) == false  {
+                    // if data.dateCreated != today, add & remove goal
                     // MARK: compareDays == true && uncomment removeAll() - for createTestData() 
                     pastGoalContainer.append(data)
                     goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
@@ -175,30 +177,15 @@ class GoalDataController: DataController {
             saveGoal(goal: Goal())
         }
     }
-   /*
-    // Fetch all tasks for selected Goal
-    func fetchTasksForGoal() {
-        if goalContainer.count != 0 {
-            let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
-            do {
-                currentTaskContainer = try context.fetch(request)
-            } catch let error as NSError {
-                print("Could not fetch tasks for current goal. Error: \(error), userInfo: \(error.userInfo)")
-            }
-        }
-    }
-    */
-    
-    
-    
-    // MARK: Return Count
-    func numberOfTasks(for: Goal) {
-              
-    }
        
     // MARK: Delete
-    func deleteTask() {
-       
+    func delete(goal: GoalData, at indexPath: IndexPath?, in table: UITableView) {
+        guard let indexPath = indexPath else { return }
+        table.beginUpdates()
+        pastGoalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID!})
+        table.deleteRows(at: [indexPath], with: .automatic)
+        table.endUpdates()
+        saveContext()
     }
     
     func deleteAll() {

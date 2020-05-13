@@ -211,7 +211,7 @@ class TaskDataController: DataController {
     }
     
     // Delete the task from the currentTaskContainer 
-    func deleteTask(at indexPath: IndexPath?, in table: UITableView) {
+    func deleteCurrentTask(at indexPath: IndexPath?, in table: UITableView) {
         guard let indexPath = indexPath else { return }
         
         table.beginUpdates()
@@ -223,7 +223,20 @@ class TaskDataController: DataController {
         table.endUpdates()
        
         saveContext()
+    }
+    
+    func deleteTaskFromHistory(at indexPath: IndexPath?, in table: UITableView) {
+         guard let indexPath = indexPath else { return }
+         
+         table.beginUpdates()
+         
+         selectedTaskContainer.remove(at: indexPath.row)
+         
+         table.deleteRows(at: [indexPath], with: .automatic)
+         
+         table.endUpdates()
         
+         saveContext()
     }
     
     
