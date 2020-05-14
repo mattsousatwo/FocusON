@@ -14,6 +14,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
     var selectedGoalID = String()
+    var selectedTaskID: String?
+    var dataType: DataType?
     var selectedGoal: GoalData?
     var displayMode: DisplayMode = .goalMode
     // Deleted Goals & Tasks
@@ -32,6 +34,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var historyTableView: UITableView!
     
     @IBOutlet weak var backBarButton: UIBarButtonItem!
+    
+    @IBOutlet weak var newTaskButton: UIBarButtonItem!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,21 +157,39 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         cell.menuButton.isHidden = false
         cell.isHighlighted = false
         
-        // set variable to send to nextView
-        if goalDC.pastGoalContainer.count != 0 {
-            let section = indexPath.section
-            if indexPath == [section, 0] {
-                selectedGoalID = goalDC.pastGoalContainer[section].goal_UID!
-                print("selectedGoalID = \(selectedGoalID)")
-                
-                displayMode = .taskMode
-                print(displayMode.rawValue)
-  
-                
-                
-            }
-        }
         
+        switch displayMode {
+        case .goalMode:
+            // set variable to send to nextView
+            if goalDC.pastGoalContainer.count != 0 {
+                let section = indexPath.section
+                    if indexPath == [section, 0] {
+                        selectedGoalID = goalDC.pastGoalContainer[section].goal_UID!
+                        print("selectedGoalID = \(selectedGoalID)")
+                    }
+                }
+        case .taskMode:
+            print("Seleted Row")
+          // MARK: NEED TO ASSIGN TASK ROW
+            switch indexPath.section {
+            case 0:
+                print("selected GoalID = \(selectedGoal?.goal_UID ?? "is empty")")
+            case 1:
+                if taskDC.selectedTaskContainer.count != 0 {
+                    selectedTaskID = taskDC.selectedTaskContainer[indexPath.row].task_UID
+                }
+                
+                
+                
+                
+            default:
+                print("section not found - HistoryVC > didSelectRow")
+            }
+            
+            
+            
+            
+        }
     }
     
 // MARK: Deselecting a cell
@@ -306,19 +330,63 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
     
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        print(#function)
+        switch segue.identifier {
+        case "HistoryToDetail":
+            guard let navigation = segue.destination as? UINavigationController else { return }
+            guard let detailVC = navigation.topViewController as? DetailTableView else { return }
+            
+            print("Test 1 - segue")
+            
+            guard let searchDataType = dataType else { return }
+            
+            print("Test 2 - segue")
+            
+            switch displayMode {
+                
+            case .goalMode:
+                detailVC.searchUID = selectedGoalID
+                detailVC.searchDataType = .goal
+                
+            case .taskMode:
+                // If First Index - Goal
+                if historyTableView.indexPathForSelectedRow == [0,0] {
+                    detailVC.searchUID = selectedGoalID
+                    detailVC.searchDataType = searchDataType
+                    
+                } else {
+                    // Else If Task
+                    if taskDC.selectedTaskContainer.count != 0 {
+                        guard let selectedTaskID = selectedTaskID else { return }
+                        detailVC.searchUID = selectedTaskID
+                        detailVC.searchDataType = searchDataType
+                    }
+                }
+                
+            }
+        default:
+            print("No Segue Found")
+        }
+        
+        
     }
-    */
+    
 
     @IBAction func backBarButtonWasPressed(_ sender: Any) {
         backButtonIsHidden(true)
+        newTaskButtonIsHidden(true)
     }
+    
+    @IBAction func newTaskButtonWasPressed(_ sender: Any) {
+        presentNewTaskMessage()
+    }
+    
     
 }
 

@@ -24,6 +24,7 @@ extension HistoryVC {
         historyTableView.dataSource = self
         goalDC.fetchGoals()
         backButtonIsHidden(true)
+        newTaskButtonIsHidden(true)
     }
     
     
@@ -41,6 +42,43 @@ extension HistoryVC {
         
     }
     
+    // Enable/Disable newTaskButton & functionality of button
+    func newTaskButtonIsHidden(_ isHidden: Bool) {
+        if isHidden == true {
+            newTaskButton.isEnabled = false
+            newTaskButton.tintColor = UIColor.clear
+        } else { // isHidden == false
+            newTaskButton.isEnabled = true
+            newTaskButton.tintColor = UIColor.blue
+        }
+    }
+    
+    // Presnet Alert Controller and save task
+    func presentNewTaskMessage() {
+        let alertController = UIAlertController(title: "Add a new Task", message: nil, preferredStyle: .alert)
+          
+        alertController.addTextField(configurationHandler: {
+            textfield in
+            textfield.placeholder = "New Task"
+        })
+        
+        let addTask = UIAlertAction(title: "Add Task", style: .default) { (action) in
+            guard let alertText = alertController.textFields?.first?.text else { return }
+            // MARK: Save Bonus Task
+            self.taskDC.saveTask(name: alertText, withGoalID: self.selectedGoalID)
+            print(alertText)
+            self.taskDC.fetchTasksFor(goalUID: self.selectedGoalID)
+            self.historyTableView.reloadData()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action")
+        }
+            
+        
+        alertController.addAction(addTask)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+
     // adding button to swap display modes
     func addMenuGesture(to cell: TaskCell, in view: UIViewController) {
         let gesture = UITapGestureRecognizer(target: view, action: #selector(taskModeButtonWasPressed))
@@ -50,12 +88,37 @@ extension HistoryVC {
     // swap display modes when menu button was pressed
     @objc func taskModeButtonWasPressed() {
         print(#function)
-        displayMode = .taskMode
-        backButtonIsHidden(false)
-        selectedGoal = goalDC.fetchGoal(withUID: selectedGoalID)
-        taskDC.fetchTasksFor(goalUID: selectedGoalID)
-        historyTableView.reloadData()
-        // MARK: if displayMode == .taskMode { segue to detailView } 
+        // MARK: if displayMode == .taskMode { segue to detailView }
+        
+        switch displayMode {
+        case .goalMode:
+            print(".goalMode went through")
+            displayMode = .taskMode
+            backButtonIsHidden(false)
+            newTaskButtonIsHidden(false)
+            selectedGoal = goalDC.fetchGoal(withUID: selectedGoalID)
+            taskDC.fetchTasksFor(goalUID: selectedGoalID)
+            historyTableView.reloadData()
+        case .taskMode:
+            // setup Segue
+            print(".taskMode went through")
+            // SETUP PREPARE FOR SEGUE
+            // send over searchType & searchUID
+            if historyTableView.indexPathForSelectedRow == [0,0] {
+                guard let selectedGoal = selectedGoal else { return }
+                print("Test 1 - taskModeButton")
+                selectedGoalID = selectedGoal.goal_UID!
+                dataType = .goal
+            } else {
+                guard let selectedIndex = historyTableView.indexPathForSelectedRow else { return }
+                print("Test 2 - taskModeButton")
+                if taskDC.selectedTaskContainer.count != 0 {
+                    selectedTaskID = taskDC.selectedTaskContainer[selectedIndex.row].task_UID!
+                    dataType = .task
+                }
+            }
+            performSegue(withIdentifier: "HistoryToDetail", sender: nil)
+        }
     }
     
     // Delete specific goal - from pastGoalContainer
@@ -86,6 +149,7 @@ extension HistoryVC {
         return nil
     }
     
+    // Func to remove saved deleted tasks - Maybe can remove excluding clause
     func clearDeletedCache(_ excluding: DeletedTaskMode? = nil) {
         guard let excluding = excluding else {
             lastDeletedGoal = nil
@@ -172,6 +236,7 @@ extension HistoryVC {
         
         // Go back to goalMode
         backButtonIsHidden(true)
+        newTaskButtonIsHidden(true)
         selectedGoalID = ""
     }
     

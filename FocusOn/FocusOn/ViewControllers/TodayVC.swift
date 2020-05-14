@@ -236,15 +236,16 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     }
     
     
-    
-    // MARK: - Selecting a Cell
+    // MARK: Deselecting a cell
     // deselcting row will hide menu button
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
         x.menuButton.isHidden = true
         x.isHighlighted = true
+        searchUID = ""
     }
       
+    // MARK: Selecting a Cell
     // if user selects a row - show menu button
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let x = tableView.cellForRow(at: indexPath) as! TaskCell
