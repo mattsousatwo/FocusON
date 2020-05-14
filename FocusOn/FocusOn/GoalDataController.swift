@@ -100,7 +100,7 @@ class GoalDataController: DataController {
         }
         print(goalContainer.first?.name ?? "default")
     }
-    
+
     
     // get and return the title for an entity by the UID
     func fetchGoal(withUID UID: String ) -> GoalData {

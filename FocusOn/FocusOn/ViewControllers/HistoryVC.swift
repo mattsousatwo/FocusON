@@ -112,6 +112,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         switch displayMode {
         case .goalMode:
+            cell.textField.isUserInteractionEnabled = false
             if goalDC.pastGoalContainer.count != 0 {
                 
             let row = indexPath.row
@@ -124,6 +125,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }
             
         case .taskMode:
+            cell.textField.isUserInteractionEnabled = true
+            addDoneButton(to: cell.textField, action: nil)
             switch indexPath.section {
             case 0: // Goal
                 if let goal = selectedGoal {
@@ -144,8 +147,6 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         
         addMenuGesture(to: cell, in: self)
-        
-        cell.textField.isUserInteractionEnabled = false
         
         return cell
         
@@ -174,6 +175,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             switch indexPath.section {
             case 0:
                 print("selected GoalID = \(selectedGoal?.goal_UID ?? "is empty")")
+                
             case 1:
                 if taskDC.selectedTaskContainer.count != 0 {
                     selectedTaskID = taskDC.selectedTaskContainer[indexPath.row].task_UID
@@ -342,12 +344,21 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             guard let navigation = segue.destination as? UINavigationController else { return }
             guard let detailVC = navigation.topViewController as? DetailTableView else { return }
             
+            guard let selectedIndex = historyTableView.indexPathForSelectedRow else { return }
+            guard let selectedRow = historyTableView.cellForRow(at: selectedIndex) as? TaskCell else { return }
+
+            
             print("Test 1 - segue")
             
             guard let searchDataType = dataType else { return }
             
             print("Test 2 - segue")
-            
+            switch searchDataType {
+            case .goal:
+                print("Goals - searchID = \(selectedGoalID)")
+            default:
+                print("Tasks - searchID = \(selectedTaskID ?? "isEmpty")")
+            }
             switch displayMode {
                 
             case .goalMode:
@@ -357,18 +368,25 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             case .taskMode:
                 // If First Index - Goal
                 if historyTableView.indexPathForSelectedRow == [0,0] {
+                    print(".taskMode > Goal")
+                    print("Goals 2 - searchID = \(selectedGoalID)")
                     detailVC.searchUID = selectedGoalID
                     detailVC.searchDataType = searchDataType
+                    // Mark unselectRow
+                    selectedRow.menuButton.isHidden = true
+                    historyTableView.deselectRow(at: selectedIndex, animated: false)
                     
                 } else {
                     // Else If Task
+                    print(".taskMode > Task ")
                     if taskDC.selectedTaskContainer.count != 0 {
                         guard let selectedTaskID = selectedTaskID else { return }
                         detailVC.searchUID = selectedTaskID
                         detailVC.searchDataType = searchDataType
+                        selectedRow.menuButton.isHidden = true
+                        historyTableView.deselectRow(at: selectedIndex, animated: false)
                     }
                 }
-                
             }
         default:
             print("No Segue Found")

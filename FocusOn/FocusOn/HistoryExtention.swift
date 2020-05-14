@@ -89,7 +89,8 @@ extension HistoryVC {
     @objc func taskModeButtonWasPressed() {
         print(#function)
         // MARK: if displayMode == .taskMode { segue to detailView }
-        
+        guard let selectedIndex = historyTableView.indexPathForSelectedRow else { return }
+        guard let selectedRow = historyTableView.cellForRow(at: selectedIndex) as? TaskCell else { return }
         switch displayMode {
         case .goalMode:
             print(".goalMode went through")
@@ -99,10 +100,11 @@ extension HistoryVC {
             selectedGoal = goalDC.fetchGoal(withUID: selectedGoalID)
             taskDC.fetchTasksFor(goalUID: selectedGoalID)
             historyTableView.reloadData()
+            selectedRow.menuButton.isHidden = true
+            historyTableView.deselectRow(at: selectedIndex, animated: false)
         case .taskMode:
             // setup Segue
             print(".taskMode went through")
-            // SETUP PREPARE FOR SEGUE
             // send over searchType & searchUID
             if historyTableView.indexPathForSelectedRow == [0,0] {
                 guard let selectedGoal = selectedGoal else { return }
