@@ -127,5 +127,28 @@ extension TodayVC {
         }
     }
     
+    // Editing Cell Did Finish - save task or goal
+    func saveTextFrom(sender: UITextField?) {
+        guard let textField = sender else { return }
+        guard let index = todayTable.getIndexPath(of: textField) else { return }
+        
+        switch index.section {
+        case 0: // Goal
+            todaysGoal.name = textField.text!
+            goalDC.saveContext()
+            print(#function + " Goal Row")
+        default: // Default
+            if taskDC.currentTaskContainer.count != 0 {
+                taskDC.currentTaskContainer[index.row].name = textField.text
+                taskDC.saveContext()
+                print(#function + " Task Row")
+            }
+        }
+        // Check to see if visible textfields are all filled in - activate add button
+        checkRowsForCompletion()
+        // Check if all markers are checked
+        checkMarkersInRowsForCompletion()
+    }
+    
     
 } // TodayVC

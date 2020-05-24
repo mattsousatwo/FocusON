@@ -42,6 +42,12 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     //    taskDC.createGoalWithTasks()
 
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
+        todayTable.reloadData()
+        print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
+    }
 
     // Add a new task at bottom of table view if three cells are filled
     @IBAction func addTaskButtonWasPressed(_ sender: Any) {
@@ -196,43 +202,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     
     //MARK: Saving a cell -  When user is done editing in Task Cell text field
     @IBAction func editingGoalCellDidEnd(_ sender: UITextField) {
-        print("\(sender.text ?? "DEFAULT")")
-        // MARK: - Goal Cell
-        guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
-
-        if firstCell.textField == sender && sender.text != nil {
-            print("First row [0,0]")
-            
-            todaysGoal.name = sender.text!
-            goalDC.saveContext()
-            print("goal title: \(todaysGoal.name!)\ngoal date: \(todaysGoal.dateCreated!)\ngoal UID: \(todaysGoal.goal_UID!)\n...\n")
-            
-            // Update cell
-           // goalDC.update(goal: todaysGoal)
-            
-        } 
-        // MARK: - TASK CELL
-        if taskDC.currentTaskContainer.count != 0 {
-            for index in 0...taskDC.currentTaskContainer.count - 1  {
-
-                let taskCell = todayTable.cellForRow(at: [1, index]) as! TaskCell
-            
-                if taskCell.textField == sender && sender.text != "" {
-            
-                    // MARK: Setting Task Cell position
-                    let task = taskDC.currentTaskContainer[index]
-                    task.name = taskCell.textField.text
-                    taskDC.saveContext()
-                
-                }
-            }
-        }
-        
-        // Checking to see if visible cells textfields are all full
-        checkRowsForCompletion()
-        // Check if all markers are checked
-        checkMarkersInRowsForCompletion()
-        
+        saveTextFrom(sender: sender)
     }
     
     
@@ -401,6 +371,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                     // pass selected cells UID to next view and load GoalData by the UID predicate
                     detailVC.searchUID = searchUID
                     detailVC.searchDataType = searchDataType
+                    detailVC.previousView = .today
                     print("searchUID: \(searchUID)\ndataType: \(searchDataType)\n")
                    //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
                     

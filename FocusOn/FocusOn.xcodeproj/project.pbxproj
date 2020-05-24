@@ -14,6 +14,7 @@
 		615B2402239991DF000545F3 /* TodayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B2401239991DE000545F3 /* TodayVC.swift */; };
 		616851F823B5BA720043F915 /* TaskDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616851F723B5BA720043F915 /* TaskDataController.swift */; };
 		6169EFE8240CD82400EF0D4D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169EFE7240CD82400EF0D4D /* DataController.swift */; };
+		61794C9024731C850070142D /* DetailExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61794C8F24731C850070142D /* DetailExtension.swift */; };
 		619F55FE23997D6F00F0D0EF /* HistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619F55FD23997D6F00F0D0EF /* HistoryVC.swift */; };
 		61BC15F1237B156600341701 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC15F0237B156600341701 /* AppDelegate.swift */; };
 		61BC15F3237B156600341701 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC15F2237B156600341701 /* SceneDelegate.swift */; };
@@ -42,6 +43,7 @@
 		615B2401239991DE000545F3 /* TodayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayVC.swift; sourceTree = "<group>"; };
 		616851F723B5BA720043F915 /* TaskDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataController.swift; sourceTree = "<group>"; };
 		6169EFE7240CD82400EF0D4D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		61794C8F24731C850070142D /* DetailExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailExtension.swift; sourceTree = "<group>"; };
 		619F55FD23997D6F00F0D0EF /* HistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVC.swift; sourceTree = "<group>"; };
 		61BC15ED237B156600341701 /* FocusOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BC15F0237B156600341701 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			children = (
 				613E1C182469F5BE007429CC /* TodayExtension.swift */,
 				613E1C162469EED1007429CC /* HistoryExtention.swift */,
+				61794C8F24731C850070142D /* DetailExtension.swift */,
 				6169EFE7240CD82400EF0D4D /* DataController.swift */,
 				61EEF1AC23B3B581001CD295 /* GoalDataController.swift */,
 				616851F723B5BA720043F915 /* TaskDataController.swift */,
@@ -219,6 +222,7 @@
 				61BC15F1237B156600341701 /* AppDelegate.swift in Sources */,
 				6122813A2398BC9900B11999 /* DetailTableView.swift in Sources */,
 				615A624423982BCE00A99E7A /* TaskCell.swift in Sources */,
+				61794C9024731C850070142D /* DetailExtension.swift in Sources */,
 				61EEF1B023B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld in Sources */,
 				61BC1607237B168700341701 /* Tasks.swift in Sources */,
 				61DEB6BE240D79AF0062F059 /* HistoryCell.swift in Sources */,

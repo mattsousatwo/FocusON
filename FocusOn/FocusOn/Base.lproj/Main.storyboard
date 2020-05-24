@@ -116,6 +116,9 @@
                                                     <rect key="frame" x="44" y="10" width="330" height="55"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="editingTexfieldDidEnd:" destination="6aA-Hw-DD0" eventType="editingDidEnd" id="l6J-Sf-EdG"/>
+                                                    </connections>
                                                 </textField>
                                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="info.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ByZ-au-UWQ">
                                                     <rect key="frame" x="384" y="20.5" width="20" height="34"/>
@@ -173,8 +176,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YYJ-MW-b6G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="mBD-hV-yjd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3764" y="-368"/>
+            <point key="canvasLocation" x="3843" y="-368"/>
         </scene>
         <!--ProgressVC-->
         <scene sceneID="OJJ-cl-KsD">
@@ -399,6 +403,7 @@
                         <outlet property="updateButton" destination="r6m-5Q-w1n" id="Go1-nf-GjM"/>
                         <outlet property="yellowButton" destination="Cvl-EK-dwd" id="ftn-Iu-1q3"/>
                         <segue destination="GgO-gs-bhd" kind="unwind" identifier="unwindToTodayVC" unwindAction="unwindToTodayVCWithSegue:" id="hQl-3h-Ev9"/>
+                        <segue destination="mBD-hV-yjd" kind="unwind" identifier="unwindToHistoryVC" unwindAction="unwindToHistoryVCWithSegue:" id="nAO-us-B9A"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXI-sw-LVD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

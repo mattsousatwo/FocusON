@@ -348,11 +348,11 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             guard let selectedRow = historyTableView.cellForRow(at: selectedIndex) as? TaskCell else { return }
 
             
-            print("Test 1 - segue")
+            
             
             guard let searchDataType = dataType else { return }
             
-            print("Test 2 - segue")
+            
             switch searchDataType {
             case .goal:
                 print("Goals - searchID = \(selectedGoalID)")
@@ -374,7 +374,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     detailVC.searchDataType = searchDataType
                     // Mark unselectRow
                     selectedRow.menuButton.isHidden = true
-                    historyTableView.deselectRow(at: selectedIndex, animated: false)
+                //    historyTableView.deselectRow(at: selectedIndex, animated: false)
                     
                 } else {
                     // Else If Task
@@ -384,9 +384,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         detailVC.searchUID = selectedTaskID
                         detailVC.searchDataType = searchDataType
                         selectedRow.menuButton.isHidden = true
-                        historyTableView.deselectRow(at: selectedIndex, animated: false)
+                     //   historyTableView.deselectRow(at: selectedIndex, animated: false)
                     }
                 }
+                detailVC.previousView = .history
             }
         default:
             print("No Segue Found")
@@ -394,6 +395,12 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         
     }
+    
+    @IBAction func editingTexfieldDidEnd(_ sender: Any) {
+        guard let textField = sender as? UITextField else { return }
+        saveTextFrom(sender: textField)
+    }
+    
     
 
     @IBAction func backBarButtonWasPressed(_ sender: Any) {
@@ -405,7 +412,11 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         presentNewTaskMessage()
     }
     
+    @IBAction func unwindToHistoryVC(segue: UIStoryboardSegue) {
+        
+        guard segue.identifier == "unwindToHistoryVC" else { return }
+        
+    }
     
 }
-
 

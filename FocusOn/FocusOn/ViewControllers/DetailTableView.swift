@@ -21,8 +21,7 @@ class DetailTableView: UITableViewController {
     var standInGoal = GoalData()
     var standInTask = TaskData()
     var markerColor = taskColors.blue
-    
-    
+    var previousView: Views?
     
 
     // Update Button Reference
@@ -66,7 +65,7 @@ class DetailTableView: UITableViewController {
                 selectedButton.isSelected = true
             }
         }
-
+        
         switch (sender as! UIButton).tag {
         case 0:
             print("blue")
@@ -96,7 +95,6 @@ class DetailTableView: UITableViewController {
             saveMarkerColor(as: .blue)
             print("NO MARKER SELECTED")
         }
-        
     }
     
     
@@ -121,36 +119,9 @@ class DetailTableView: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        
-    }
-
-    // Setup for ViewDidLoad()
-    func configure() {
-        // handle keyboard
-        addDoneButton(to: notesField, action: nil)
-        addDoneButton(to: titleInput, action: nil)
-        // hide update button
-        updateButton.isEnabled = false
-        // Set TitleInput && progress
-            // MARK: WARNING! - interpretSearchTag will return a non fetchable string if no data is passed
-        interpretSearchTag(withType: searchDataType)
-        // set hightlighted state for marker buttons
-        setHighlightedImages()
     }
     
     // MARK: - BUTTONS
-    
-    func setHighlightedImages() {
-        // set hightlighted state for marker buttons
-        blueButton.setImage(#imageLiteral(resourceName: "(Blue) Checked"), for: .selected)
-        greenButton.setImage(#imageLiteral(resourceName: "(Green) Checked"), for: .selected)
-        greyButton.setImage(#imageLiteral(resourceName: "(Grey) Checked"), for: .selected)
-        pinkButton.setImage(#imageLiteral(resourceName: "(Pink) Checked"), for: .selected)
-        redButton.setImage(#imageLiteral(resourceName: "(Red) Checked"), for: .selected)
-        yellowButton.setImage(#imageLiteral(resourceName: "(Yellow) Checked"), for: .selected)
-    }
-    
-
     // update button
     @IBAction func updateButtonPressed(_ sender: Any) {
         print("UpdateButton - Pressed")
@@ -171,8 +142,15 @@ class DetailTableView: UITableViewController {
 
         }
         
-        
-        performSegue(withIdentifier: "unwindToTodayVC", sender: self)
+        switch previousView {
+        case .today:
+            performSegue(withIdentifier: "unwindToTodayVC", sender: self)
+        case .history:
+            performSegue(withIdentifier: "unwindToHistoryVC", sender: self)
+        default:
+            return
+        }
+
     }
     
     
@@ -188,7 +166,7 @@ class DetailTableView: UITableViewController {
                     updateButton.isEnabled = false
                 }
             }
-        
+         
     }
     
     // Overriding doneButtonAction to enable updateButton
@@ -238,77 +216,29 @@ class DetailTableView: UITableViewController {
         case "TodayToDetail":
             titleInput.text = "TodayToDetailSegue"
             print("TodayToDetail-PickedUp")
+            
         case "HistoryToDetail":
             
             print("DetailTableView > HistoryToDetail.Segue")
+            let input = titleInput.text
+            newTask.taskTitle = input ?? "input did not work" 
+            
+            guard let historyVC = segue.destination as? HistoryVC else { return }
+            let selectedRow = historyVC.historyTableView.indexPathForSelectedRow
+            let selectedCell = historyVC.historyTableView.cellForRow(at: selectedRow!) as! TaskCell
+            selectedCell.textField.text = titleInput.text
+            
+            selectedCell.taskMarker.changeImageSet(to: markerColor)
+        case "unwindToHistoryVC":
+            print("unwindToHistoryVC Segue ")
+            
         default:
             print("No Segue Found - DetailViewController")
         }
         
         
-      
     }
- 
-    // Search Tag Extraction - put fetch(withTag) in here
-    func interpretSearchTag(withType type: DataType) {
-        print(#function)
-        switch type { 
-        case .goal:
-            standInGoal = goalDC.fetchGoal(withUID: searchUID)
-            titleInput.text = standInGoal.name
-            // set other parameters
-            progressControl.selectedSegmentIndex = Int(standInGoal.progress)
-            guard let currentColor = taskColors(rawValue: standInGoal.markerColor) else { return }
-     
-            markerColor = currentColor
-           
-            
-            
-            handleMarkerSelection()
-            print("\(currentColor.rawValue)")
-            
-        default: // Task/Bonus
-           standInTask = taskDC.fetchTask(with: searchUID)
-           titleInput.text = standInTask.name
-           progressControl.selectedSegmentIndex = Int(standInTask.progress)
-           guard let currentColor = taskColors(rawValue: standInTask.markerColor) else { return }
-           markerColor = currentColor
-           handleMarkerSelection()
-        }
-        
-    }
-    
-    // Set Marker Color for coredata element
-    func saveMarkerColor(as tag: taskColors) {
-        switch searchDataType {
-        case .goal:
-            markerColor = tag
-            standInGoal.markerColor = tag.rawValue
-            goalDC.saveContext()
-        default:
-            markerColor = tag
-            standInTask.markerColor = tag.rawValue
-            taskDC.saveContext()
-        }
-        
-    }
-    
-    func handleMarkerSelection() {
-        switch markerColor {
-        case .blue:
-            blueButton.isSelected = true
-        case .green:
-            greenButton.isSelected = true
-        case .grey:
-            greyButton.isSelected = true
-        case .pink:
-            pinkButton.isSelected = true
-        case .red:
-            redButton.isSelected = true
-        case .yellow:
-            yellowButton.isSelected = true
-        }
-    }
+
     
 }
 

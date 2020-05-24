@@ -13,6 +13,9 @@ enum DeletedTaskMode {
     case goal, task, deleteAll
 }
 
+enum Views {
+    case today, history
+}
 
 import UIKit
 
@@ -69,6 +72,10 @@ extension HistoryVC {
             print(alertText)
             self.taskDC.fetchTasksFor(goalUID: self.selectedGoalID)
             self.historyTableView.reloadData()
+            print("BEFORE \n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
+            
+            
+            print(" AFTER \n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action")
         }
@@ -128,6 +135,9 @@ extension HistoryVC {
         lastDeletedGoal = goal
         lastDeletedGoalIndex = index
         goalDC.delete(goal: goal, at: index, in: historyTableView)
+        taskDC.selectedTaskContainer.removeAll()
+        taskDC.saveContext()
+        clearDeletedCache(.goal)
         historyTableView.reloadData()
     }
     
@@ -136,6 +146,7 @@ extension HistoryVC {
         lastDeletedTask = task
         lastDeletedTaskIndex = index
         taskDC.deleteTaskFromHistory(at: index, in: historyTableView)
+        clearDeletedCache(.task)
         historyTableView.reloadData()
     }
     
@@ -197,11 +208,12 @@ extension HistoryVC {
         // Initialize AlertController
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
             
-        let customAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in print("Launch Custom Action")
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in print("Launch Custom Action")
             
             self.removeGoalAndTasks()
             self.displayMode = .goalMode
             self.backButtonIsHidden(true)
+            self.navigationItem.title = "History"
             self.historyTableView.reloadData()
         }
             
@@ -209,7 +221,7 @@ extension HistoryVC {
         }
             
         // Add Action to Controller
-        alertController.addAction(customAction)
+        alertController.addAction(deleteAction)
             
         alertController.addAction(cancelAction)
             
@@ -242,5 +254,44 @@ extension HistoryVC {
         selectedGoalID = ""
     }
     
+    // Editing cell ended - save task or goal - will only be run in .taskMode
+    func saveTextFrom(sender: UITextField?) {
+        guard let textField = sender else { return }
+        guard let index = historyTableView.getIndexPath(of: textField) else { return }
+        
+        switch index.section {
+        case 0: // Goal
+            if textField.text != nil {
+                selectedGoal?.name = textField.text
+                goalDC.saveContext()
+                print(#function + " Goal Row")
+            }
+        default: // Task
+            if taskDC.selectedTaskContainer.count != 0 {
+                taskDC.selectedTaskContainer[index.row].name = textField.text
+                taskDC.saveContext()
+                print(#function + " Task Row")
+            }
+        }
+    }
+  
     
+} // HistoryVC
+ 
+ 
+
+extension UITableView {
+    
+    // Return index of textField - used in didFinishEditing
+    func getIndexPath(of textField: UITextField?) -> IndexPath? {
+        guard let textField = textField else { return nil }
+        guard let array = self.visibleCells as? [TaskCell] else { return nil }
+        var x: IndexPath?
+        for cell in array {
+            if textField == cell.textField {
+                x = self.indexPath(for: cell)
+            }
+        }
+        return x
+    }
 }
