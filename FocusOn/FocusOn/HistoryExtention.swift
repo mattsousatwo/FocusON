@@ -5,17 +5,6 @@
 //  Created by Matthew Sousa on 5/11/20.
 //  Copyright © 2020 Matthew Sousa. All rights reserved.
 //
-enum DisplayMode: String {
-    case goalMode = "Display: GoalMode\n", taskMode = "Display: TaskMode\n"
-}
-
-enum DeletedTaskMode {
-    case goal, task, deleteAll
-}
-
-enum Views {
-    case today, history
-}
 
 import UIKit
 
@@ -30,6 +19,40 @@ extension HistoryVC {
         newTaskButtonIsHidden(true)
     }
     
+    // TaskCellDelegate
+    func updateMarker(for cell: TaskCell) {
+        
+        guard let visibleRows = historyTableView.indexPathsForVisibleRows else { return }
+        
+        switch displayMode {
+        case .goalMode:
+            for index in visibleRows {
+                let goal = goalDC.pastGoalContainer[index.row]
+                guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return }
+                cell.taskMarker.changeImageSet(to: markerSelection)
+                cell.taskMarker.isHighlighted = goal.isChecked
+                
+            }
+        case .taskMode:
+            for index in visibleRows {
+                switch index.section {
+                case 0:
+                    // Goal
+                    guard let goal = selectedGoal else { return }
+                    guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return }
+                    cell.taskMarker.changeImageSet(to: markerSelection)
+                    cell.taskMarker.isHighlighted = goal.isChecked
+                default:
+                    // Task
+                    let task = taskDC.selectedTaskContainer[index.row]
+                    guard let markerSelection = taskColors(rawValue: task.markerColor) else { return }
+                    cell.taskMarker.changeImageSet(to: markerSelection)
+                    cell.taskMarker.isHighlighted = task.isChecked
+                    
+                }
+            }
+        }
+    }
     
     // Enable/Disable backBarButton & functionality of button
     func backButtonIsHidden(_ isHidden: Bool) {
@@ -280,18 +303,3 @@ extension HistoryVC {
  
  
 
-extension UITableView {
-    
-    // Return index of textField - used in didFinishEditing
-    func getIndexPath(of textField: UITextField?) -> IndexPath? {
-        guard let textField = textField else { return nil }
-        guard let array = self.visibleCells as? [TaskCell] else { return nil }
-        var x: IndexPath?
-        for cell in array {
-            if textField == cell.textField {
-                x = self.indexPath(for: cell)
-            }
-        }
-        return x
-    }
-}

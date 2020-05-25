@@ -99,15 +99,3 @@ class DataController {
 }
 
 
-
-enum progress {
-    case beginning, inProgress, complete
-}
-
-enum taskColors: Int16 {
-    case blue = 0 , green, grey, pink, red, yellow
-}
-
-enum DataType {
-    case goal, task, bonus
-}

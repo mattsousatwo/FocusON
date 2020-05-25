@@ -11,6 +11,8 @@ import UIKit
 protocol TaskCellDelegate {
     
     func didTaskCell(_ cell: TaskCell, change marker: Bool)
+    
+    func updateTaskMarkers(_ cell: TaskCell)
 }
 
 class TaskCell: UITableViewCell {
@@ -54,6 +56,26 @@ class TaskCell: UITableViewCell {
         let taskMarkerAction = UITapGestureRecognizer(target: self, action: #selector(taskMarkerWasPressed(_:)))
         taskMarker.addGestureRecognizer(taskMarkerAction)
         taskMarker.isUserInteractionEnabled = true
+        delegate?.updateTaskMarkers(self)
     }
+    
+    // MARK: CAN DELETE
+    // Get indexPath of TaskCell
+    func indexPath() -> IndexPath? {
+        var index: IndexPath?
+        
+        guard let delegate = delegate as? UITableView else { return nil }
+        
+        guard let visibleCells = delegate.visibleCells as? [TaskCell] else { return nil }
+        
+        for xCell in visibleCells {
+            if xCell == self {
+                index = delegate.indexPath(for: xCell)
+            }
+        }
+        
+        return index
+    }
+    
 
 }

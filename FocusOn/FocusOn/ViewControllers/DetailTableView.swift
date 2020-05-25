@@ -218,10 +218,14 @@ class DetailTableView: UITableViewController {
             print("TodayToDetail-PickedUp")
             
         case "HistoryToDetail":
+            print("HistoryToDetail > DetailTableView")
+
+        case "unwindToHistoryVC":
+            print("unwindToHistoryVC Segue ")
             
             print("DetailTableView > HistoryToDetail.Segue")
             let input = titleInput.text
-            newTask.taskTitle = input ?? "input did not work" 
+            newTask.taskTitle = input ?? "input did not work"
             
             guard let historyVC = segue.destination as? HistoryVC else { return }
             let selectedRow = historyVC.historyTableView.indexPathForSelectedRow
@@ -229,8 +233,6 @@ class DetailTableView: UITableViewController {
             selectedCell.textField.text = titleInput.text
             
             selectedCell.taskMarker.changeImageSet(to: markerColor)
-        case "unwindToHistoryVC":
-            print("unwindToHistoryVC Segue ")
             
         default:
             print("No Segue Found - DetailViewController")

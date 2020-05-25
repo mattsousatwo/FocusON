@@ -8,7 +8,8 @@
 
 import UIKit
 
-class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, TaskCellDelegate {
+    
     
     // Display
     let goalDC = GoalDataController()
@@ -49,6 +50,50 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         historyTableView.reloadData()
     }
     
+    // MARK: TaskCell Delegate
+    func didTaskCell(_ cell: TaskCell, change marker: Bool) {
+        
+        cell.taskMarker.isHighlighted = marker
+        
+        guard let visibleRows = historyTableView.indexPathsForVisibleRows else { return }
+        
+        switch displayMode {
+        case .goalMode:
+            for index in visibleRows {
+                if cell == historyTableView.cellForRow(at: index) {
+                let goal = goalDC.pastGoalContainer[index.row]
+                goal.isChecked = marker
+                print(#function)
+                goalDC.saveContext()
+                }
+            }
+        case .taskMode:
+            for index in visibleRows {
+                switch index {
+                case [0,0]:
+                    // goal
+                    if cell == historyTableView.cellForRow(at: index) {
+                    guard let goal = selectedGoal else { return }
+                    goal.isChecked = marker
+                    goalDC.saveContext()
+                    }
+                default:
+                    // task
+                    if cell == historyTableView.cellForRow(at: index) {
+                        let task = taskDC.selectedTaskContainer[index.row]
+                        task.isChecked = marker
+                        taskDC.saveContext()
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    // Loading task markers
+    func updateTaskMarkers(_ cell: TaskCell) {
+        updateMarker(for: cell)
+    }
     
 // MARK: number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,7 +163,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let row = indexPath.row
             let section = indexPath.section
                 if section == row {
-                    cell.textField.text = goalDC.pastGoalContainer[row].name
+                    let goal = goalDC.pastGoalContainer[row]
+                    cell.textField.text = goal.name
+                    guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
+                    changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
                 }
             } else {
                 cell.textField.text = "Data did not fetch"
@@ -131,14 +179,20 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             case 0: // Goal
                 if let goal = selectedGoal {
                     cell.textField.text = goal.name!
+                    guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
+                    changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
                 }
             case 1: // Task
                 if taskDC.selectedTaskContainer.count != 0 {
-                    if let taskText = taskDC.selectedTaskContainer[indexPath.row].name {
-                        cell.textField.text = taskText
+                    let task = taskDC.selectedTaskContainer[indexPath.row]
+                    if task.name != "" {
+                         cell.textField.text = task.name
                     } else {
                         cell.textField.placeholder = "New Task Here"
                     }
+                   
+                    guard let markerSelection = taskColors(rawValue: task.markerColor) else { return cell }
+                    changeMarker(for: cell, to: markerSelection, highlighted: task.isChecked)
                 }
             default:
                 cell.textField.text = "EMPTY "

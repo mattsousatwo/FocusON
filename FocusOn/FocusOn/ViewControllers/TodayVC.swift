@@ -35,7 +35,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
         
         goalDC.deleteAll()
-        taskDC.deleteAllTasks()
+         taskDC.deleteAllTasks()
         configureTodayVC()
         
     //        goalDC.createTestGoals()
@@ -46,6 +46,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     override func viewDidAppear(_ animated: Bool) {
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         todayTable.reloadData()
+        updateTaskCountAndNotifications()
         print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
     }
 
@@ -100,6 +101,24 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
     }
     
+    // Change Colors for Task Marker
+    func updateTaskMarkers(_ cell: TaskCell) {
+        
+        guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
+        if cell == firstCell {
+            guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return }
+            cell.taskMarker.changeImageSet(to: markerSelection)
+            print(#function)
+        } else {
+            guard let cellIndexPath = cell.indexPath() else { return }
+            let task = taskDC.currentTaskContainer[cellIndexPath.row]
+            guard let markerSelection = taskColors(rawValue: task.markerColor) else { return }
+            cell.taskMarker.changeImageSet(to: markerSelection)
+            print(#function)
+        }
+            
+    }
+    
     
      // MARK: - todayTableView Setup
     
@@ -150,16 +169,26 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             cell.textField.text = todaysGoal.name!
             }
             cell.taskMarker.isHighlighted = todaysGoal.isChecked
+            // Change Markers to selected Color
+            guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return cell }
+            print("markerSelection = \(markerSelection.rawValue)")
+            
+            changeMarker(for: cell, to: markerSelection, highlighted: todaysGoal.isChecked)
+    
         case 1: // Task Section
             print("Task was created \(indexPath.row)")
-            
             if taskDC.currentTaskContainer.count != 0 {
-                cell.textField.text = taskDC.currentTaskContainer[indexPath.row].name
+                let task = taskDC.currentTaskContainer[indexPath.row]
+                cell.textField.text = task.name
+                guard let markerSelection = taskColors(rawValue: task.markerColor) else { return cell }
+                changeMarker(for: cell, to: markerSelection, highlighted: task.isChecked)
             }
             
         default:
             cell.textField.placeholder = "New Task"
         }
+        
+        
         
         return cell
     }
