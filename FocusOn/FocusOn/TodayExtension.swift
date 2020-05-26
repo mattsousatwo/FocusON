@@ -115,15 +115,51 @@ extension TodayVC {
         }
     }
     
+    // MARK: SHOULD REFACTOR
     // Check if all rows are checked, if so check off goal
     func checkMarkersInRowsForCompletion() {
-        guard let visibleCells = todayTable.visibleCells as? [TaskCell] else { return }
-        let checkedCells = visibleCells.filter( { $0.taskMarker.isHighlighted == true } )
-        if checkedCells.count == visibleCells.count - 1 {
-            let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
+        // total cells
+        guard let totalCells = todayTable.visibleCells as? [TaskCell] else { return }
+        // Count == number of cells to complete goal
+        let countToCompleteGoal = totalCells.count - 1
+        let lessThanCompletion = countToCompleteGoal - 1
+        
+       
+        // cells that are checked off
+        let checkedCellsInView = totalCells.filter( { $0.taskMarker.isHighlighted == true } )
+        
+        var checkedCells = [TaskCell]()
+        for cell in checkedCellsInView {
+            if todayTable.indexPath(for: cell)?.section == 1 {
+                checkedCells.append(cell)
+            }
+        }
+        
+        
+        
+        
+    
+        print("checkedGoals = \(checkedCells.count) : \(countToCompleteGoal) ( \(lessThanCompletion) )")
+        print("checkedGoals -- todaysGoal.isChecked = \(todaysGoal.isChecked)")
+        print("checkedGoals \n")
+        
+        // first cell
+        let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
+        
+        // If checkedCells are == totalCells
+        if checkedCells.count == countToCompleteGoal {
+            
             firstCell.taskMarker.isHighlighted = true
             todaysGoal.isChecked = true
             goalDC.saveContext()
+            
+            // If checkedCells are less than count needed to complete goal
+        } else if checkedCells.count == lessThanCompletion &&
+        firstCell.taskMarker.isHighlighted == true {
+            
+            
+            todaysGoal.isChecked = false
+            firstCell.taskMarker.isHighlighted = false
         }
     }
     

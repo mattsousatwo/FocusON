@@ -92,7 +92,6 @@
 				CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */,
 				265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -138,8 +137,8 @@
 				61BC15F2237B156600341701 /* SceneDelegate.swift */,
 				61179AA2237B415C0044B8BA /* ViewControllers */,
 				61BC1608237B169800341701 /* Model */,
+				61E27444247CE5290014A634 /* Assets */,
 				61BC15F6237B156600341701 /* Main.storyboard */,
-				61BC15F9237B156900341701 /* Assets.xcassets */,
 				61BC15FB237B156900341701 /* LaunchScreen.storyboard */,
 				61BC15FE237B156900341701 /* Info.plist */,
 			);
@@ -164,6 +163,14 @@
 				615245DE247B409F008C32B8 /* Enumerations.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		61E27444247CE5290014A634 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				61BC15F9237B156900341701 /* Assets.xcassets */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		C529C6FA0FA50E23DA2B7BD4 /* Frameworks */ = {
