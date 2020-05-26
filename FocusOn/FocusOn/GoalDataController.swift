@@ -179,7 +179,7 @@ class GoalDataController: DataController {
     }
        
     // MARK: Delete
-    // MARK: WILL CAUSE ERROR - "*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Invalid update: invalid number of sections. The number of sections contained in the table view after the update (0) must be equal to the number of sections contained in the table view before the update (1), plus or minus the number of sections inserted or deleted (0 inserted, 0 deleted).'"
+    // Used in HistoryVC to delete a goal 
     func delete(goal: GoalData, at indexPath: IndexPath?, in table: UITableView) {
         guard let indexPath = indexPath else { return }
         
@@ -193,6 +193,8 @@ class GoalDataController: DataController {
         print(#function + "\(pastGoalContainer.count)")
         
         table.deleteRows(at: [indexPath], with: .automatic)
+        
+        table.deleteSections([indexPath.section], with: .automatic)
         
         table.endUpdates()
         

@@ -47,7 +47,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         todayTable.reloadData()
         updateTaskCountAndNotifications()
-        todayTable.checkGoalToUpdateTaskCells() 
+        todayTable.checkGoalToUpdateTaskCells()
         print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
     }
 
