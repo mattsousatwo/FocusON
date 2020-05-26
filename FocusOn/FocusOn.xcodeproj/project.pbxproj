@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1E20951C762AE512ED1BBA /* libPods-FocusOn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E72EB65CDA051385C28318C1 /* libPods-FocusOn.a */; };
 		6122813A2398BC9900B11999 /* DetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612281392398BC9900B11999 /* DetailTableView.swift */; };
 		613E1C172469EED1007429CC /* HistoryExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E1C162469EED1007429CC /* HistoryExtention.swift */; };
 		613E1C192469F5BE007429CC /* TodayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E1C182469F5BE007429CC /* TodayExtension.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOn.release.xcconfig"; path = "Target Support Files/Pods-FocusOn/Pods-FocusOn.release.xcconfig"; sourceTree = "<group>"; };
 		612281392398BC9900B11999 /* DetailTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableView.swift; sourceTree = "<group>"; };
 		613E1C162469EED1007429CC /* HistoryExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryExtention.swift; sourceTree = "<group>"; };
 		613E1C182469F5BE007429CC /* TodayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayExtension.swift; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		61F38B7E23F3359000E7F4A2 /* GoalData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GoalData+CoreDataClass.swift"; path = "FocusOn/GoalData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		61F38B7F23F3359000E7F4A2 /* GoalData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GoalData+CoreDataProperties.swift"; path = "FocusOn/GoalData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		61F84FA3239F3BC70067913F /* KeyboardManagment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManagment.swift; sourceTree = "<group>"; };
+		CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOn.debug.xcconfig"; path = "Target Support Files/Pods-FocusOn/Pods-FocusOn.debug.xcconfig"; sourceTree = "<group>"; };
+		E72EB65CDA051385C28318C1 /* libPods-FocusOn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FocusOn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,12 +79,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E1E20951C762AE512ED1BBA /* libPods-FocusOn.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2249C577139F357456AAB946 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */,
+				265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		61179AA2237B415C0044B8BA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +118,8 @@
 				61F38B7F23F3359000E7F4A2 /* GoalData+CoreDataProperties.swift */,
 				61BC15EF237B156600341701 /* FocusOn */,
 				61BC15EE237B156600341701 /* Products */,
+				2249C577139F357456AAB946 /* Pods */,
+				C529C6FA0FA50E23DA2B7BD4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +166,14 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		C529C6FA0FA50E23DA2B7BD4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E72EB65CDA051385C28318C1 /* libPods-FocusOn.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -156,6 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61BC1601237B156900341701 /* Build configuration list for PBXNativeTarget "FocusOn" */;
 			buildPhases = (
+				DEAE1FC30AD1C0D068CCB4B9 /* [CP] Check Pods Manifest.lock */,
 				61BC15E9237B156600341701 /* Sources */,
 				61BC15EA237B156600341701 /* Frameworks */,
 				61BC15EB237B156600341701 /* Resources */,
@@ -214,6 +240,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DEAE1FC30AD1C0D068CCB4B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FocusOn-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		61BC15E9237B156600341701 /* Sources */ = {
@@ -386,6 +437,7 @@
 		};
 		61BC1602237B156900341701 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -404,6 +456,7 @@
 		};
 		61BC1603237B156900341701 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
