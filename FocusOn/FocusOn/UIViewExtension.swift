@@ -25,8 +25,38 @@ extension UITableView {
         return x
     }
     
-  
-
+    // If firstCell (Goal) task marker is selected, check off all tasks
+    func checkGoalToUpdateTaskCells() {
+        print("Marker")
+        guard let firstRow = self.cellForRow(at: [0,0]) as? TaskCell else { return }
+        print(#function)
+        let isSelected = firstRow.taskMarker.isHighlighted
+        print("Change taskMarkers.isSelected to \(isSelected)")
+        updateTaskMarkersIn(sec: 1, to: isSelected)
+        
+    }
+    
+    // Check all markers in selected section
+    func updateTaskMarkersIn(sec: Int, to marker: Bool) {
+        guard let selectedRows = self.rowsIn(section: sec) else { return }
+        for index in selectedRows {
+            guard let cell = self.cellForRow(at: index) as? TaskCell else { return }
+            cell.taskMarker.isHighlighted = marker
+        }
+    }
+    
+    // Return all rows in selected section
+    func rowsIn(section: Int) -> [IndexPath]? {
+        guard let visibleRows = self.indexPathsForVisibleRows else { return nil }
+        var paths: [IndexPath]?
+        for index in visibleRows {
+            if index.section == section {
+                paths?.append(index)
+            }
+        }
+        return paths
+    }
+    
 }
 
 extension UIViewController {

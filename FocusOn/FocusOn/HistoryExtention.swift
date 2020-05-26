@@ -299,6 +299,17 @@ extension HistoryVC {
     }
   
     
+    // Func to print test statments 
+    func printMarkerSelection(for goal: GoalData? = nil, for task: TaskData? = nil) {
+        if let goal = goal {
+            print("printMarkerSelection: goal: \(goal.isChecked)")
+        } else if let task = task {
+            print("printMarkerSelection: task: \(task.isChecked)")
+        }
+    print("printMarkerSelection: --------" + "\n")
+    }
+    
+    
 } // HistoryVC
  
  

@@ -150,5 +150,44 @@ extension TodayVC {
         checkMarkersInRowsForCompletion()
     }
     
+    // TaskCell Delegate
+    func taskMarkerWasPressed(_ marker: Bool, _ cell: TaskCell) {
+        guard let visibleRows = todayTable.indexPathsForVisibleRows else { return }
+        guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
+        // Save marker selection
+        switch cell {
+        case firstCell:
+            print("firstCell was pressed -------")
+            todaysGoal.isChecked = marker
+            // all task markers are complete
+            for visibleRowIndex in visibleRows {
+                guard let visibleCell = todayTable.cellForRow(at: visibleRowIndex) as? TaskCell else { return }
+                visibleCell.taskMarker.isHighlighted = marker
+                print("visibleCell = \(visibleRowIndex)")
+                if visibleRowIndex.section > 0 {
+                    let rowIndex = visibleRowIndex
+                    let task = taskDC.currentTaskContainer[rowIndex.row]
+                    task.isChecked = marker
+                }
+            }
+            
+            goalDC.saveContext()
+            taskDC.saveContext()
+        default:
+            guard let x = todayTable.indexPath(for: cell) else { return }
+            let task = taskDC.currentTaskContainer[x.row]
+            task.isChecked = marker
+            taskDC.saveContext()
+        }
+        
+        // Update completed task count
+        updateTaskCountAndNotifications()
+        // Check if all task markers are complete
+        checkMarkersInRowsForCompletion()
+        
+    }
+    
+    
+    
     
 } // TodayVC

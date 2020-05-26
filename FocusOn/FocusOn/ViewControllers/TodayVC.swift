@@ -47,6 +47,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         todayTable.reloadData()
         updateTaskCountAndNotifications()
+        todayTable.checkGoalToUpdateTaskCells() 
         print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
     }
 
@@ -58,46 +59,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // MARK: - TaskCellDelegate
     // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
-        // handle task completed count
-        if marker == true {
-            updateTaskCountAndNotifications()
-        } else if marker == false {
-            updateTaskCountAndNotifications()
-        }
-         // if firstCell { highlight all tasks }
-        let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
-        if cell == firstCell {
-            // update todaysGoal
-            todaysGoal.isChecked = marker
-            
-            print("\(cell.textField.text!)")
-            if let visibleRows = todayTable.indexPathsForVisibleRows {
-                for index in visibleRows {
-                    let selectedCell = todayTable.cellForRow(at: index) as! TaskCell
-                    selectedCell.taskMarker.isHighlighted = marker
-                  
-                    updateTaskCountAndNotifications()
-                }
-            }
-        } else {
-            if firstCell.taskMarker.isHighlighted == true {
-                firstCell.taskMarker.isHighlighted = false
-                todaysGoal.isChecked = false
-            }
-        }
-        // Check if all task markers are complete
-        checkMarkersInRowsForCompletion()
-        
-        for cell in taskDC.currentTaskContainer {
-            cell.isChecked = marker
-        }
-        for cell in taskDC.bonusTasksContainter {
-            cell.isChecked = marker
-        }
-        // save context
-        goalDC.saveContext()
-        taskDC.saveContext()
-        print("\ntodaysGoal.isChecked = \(todaysGoal.isChecked)")
+       
+        taskMarkerWasPressed(marker, cell)
         
     }
     
@@ -110,7 +73,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             cell.taskMarker.changeImageSet(to: markerSelection)
             print(#function)
         } else {
-            guard let cellIndexPath = cell.indexPath() else { return }
+            guard let cellIndexPath = todayTable.indexPath(for: cell) else { return }
             let task = taskDC.currentTaskContainer[cellIndexPath.row]
             guard let markerSelection = taskColors(rawValue: task.markerColor) else { return }
             cell.taskMarker.changeImageSet(to: markerSelection)
@@ -147,7 +110,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
         let cell = tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as! TaskCell
         
-      
+        
         addDoneButton(to: cell.textField, action: #selector(doneButtonAction(sender:)))
         
         // segue recognizer
@@ -168,12 +131,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             } else {
             cell.textField.text = todaysGoal.name!
             }
-            cell.taskMarker.isHighlighted = todaysGoal.isChecked
+//            cell.taskMarker.isHighlighted = todaysGoal.isChecked
             // Change Markers to selected Color
             guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return cell }
             print("markerSelection = \(markerSelection.rawValue)")
             
             changeMarker(for: cell, to: markerSelection, highlighted: todaysGoal.isChecked)
+            
     
         case 1: // Task Section
             print("Task was created \(indexPath.row)")

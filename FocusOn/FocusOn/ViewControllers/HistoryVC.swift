@@ -53,13 +53,13 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     // MARK: TaskCell Delegate
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
         
-        cell.taskMarker.isHighlighted = marker
-        
+        // get all visible rows index
         guard let visibleRows = historyTableView.indexPathsForVisibleRows else { return }
         
         switch displayMode {
         case .goalMode:
             for index in visibleRows {
+                // save goal marker as checked
                 if cell == historyTableView.cellForRow(at: index) {
                 let goal = goalDC.pastGoalContainer[index.row]
                 goal.isChecked = marker
@@ -72,6 +72,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 switch index {
                 case [0,0]:
                     // goal
+                    // save goal marker as checked
                     if cell == historyTableView.cellForRow(at: index) {
                     guard let goal = selectedGoal else { return }
                     goal.isChecked = marker
@@ -79,6 +80,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     }
                 default:
                     // task
+                    // save task marker as checked
                     if cell == historyTableView.cellForRow(at: index) {
                         let task = taskDC.selectedTaskContainer[index.row]
                         task.isChecked = marker
@@ -155,6 +157,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         let taskCell = "taskCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as! TaskCell
         
+        cell.delegate = self
+        
         switch displayMode {
         case .goalMode:
             cell.textField.isUserInteractionEnabled = false
@@ -167,6 +171,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     cell.textField.text = goal.name
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
                     changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
+                    printMarkerSelection(for: goal)
                 }
             } else {
                 cell.textField.text = "Data did not fetch"
@@ -181,6 +186,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     cell.textField.text = goal.name!
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
                     changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
+                    printMarkerSelection(for: goal)
                 }
             case 1: // Task
                 if taskDC.selectedTaskContainer.count != 0 {
@@ -193,6 +199,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                    
                     guard let markerSelection = taskColors(rawValue: task.markerColor) else { return cell }
                     changeMarker(for: cell, to: markerSelection, highlighted: task.isChecked)
+                    printMarkerSelection(for: nil, for: task)
                 }
             default:
                 cell.textField.text = "EMPTY "
@@ -210,8 +217,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! TaskCell
         cell.menuButton.isHidden = false
-        cell.isHighlighted = false
-        
+
         
         switch displayMode {
         case .goalMode:
