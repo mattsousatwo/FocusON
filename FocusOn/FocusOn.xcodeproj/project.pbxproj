@@ -29,6 +29,8 @@
 		61BC160C237B182700341701 /* ProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC160B237B182700341701 /* ProgressVC.swift */; };
 		61D5C1542463279400A80874 /* NotificationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D5C1532463279400A80874 /* NotificationControl.swift */; };
 		61DEB6BE240D79AF0062F059 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DEB6BD240D79AF0062F059 /* HistoryCell.swift */; };
+		61E27447247D613A0014A634 /* confetti.json in Resources */ = {isa = PBXBuildFile; fileRef = 61E27445247D61390014A634 /* confetti.json */; };
+		61E27448247D613A0014A634 /* checkComplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 61E27446247D613A0014A634 /* checkComplete.json */; };
 		61EEF1AD23B3B581001CD295 /* GoalDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EEF1AC23B3B581001CD295 /* GoalDataController.swift */; };
 		61EEF1B023B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61EEF1AE23B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld */; };
 		61F084A4240F4D5700A3559E /* TaskData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F084A2240F4D5700A3559E /* TaskData+CoreDataClass.swift */; };
@@ -63,6 +65,8 @@
 		61BC160B237B182700341701 /* ProgressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressVC.swift; sourceTree = "<group>"; };
 		61D5C1532463279400A80874 /* NotificationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationControl.swift; sourceTree = "<group>"; };
 		61DEB6BD240D79AF0062F059 /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		61E27445247D61390014A634 /* confetti.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = confetti.json; sourceTree = "<group>"; };
+		61E27446247D613A0014A634 /* checkComplete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checkComplete.json; sourceTree = "<group>"; };
 		61EEF1AC23B3B581001CD295 /* GoalDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataController.swift; sourceTree = "<group>"; };
 		61EEF1AF23B3B7C7001CD295 /* FocusOnDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocusOnDataModel.xcdatamodel; sourceTree = "<group>"; };
 		61F084A2240F4D5700A3559E /* TaskData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskData+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -151,16 +155,16 @@
 				613E1C182469F5BE007429CC /* TodayExtension.swift */,
 				613E1C162469EED1007429CC /* HistoryExtention.swift */,
 				61794C8F24731C850070142D /* DetailExtension.swift */,
+				615245DC247B4057008C32B8 /* UIViewExtension.swift */,
+				61F84FA3239F3BC70067913F /* KeyboardManagment.swift */,
 				6169EFE7240CD82400EF0D4D /* DataController.swift */,
 				61EEF1AC23B3B581001CD295 /* GoalDataController.swift */,
 				616851F723B5BA720043F915 /* TaskDataController.swift */,
 				61BC1606237B168700341701 /* Tasks.swift */,
 				61BC1604237B167500341701 /* Goal.swift */,
-				61F84FA3239F3BC70067913F /* KeyboardManagment.swift */,
 				61D5C1532463279400A80874 /* NotificationControl.swift */,
-				61EEF1AE23B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld */,
-				615245DC247B4057008C32B8 /* UIViewExtension.swift */,
 				615245DE247B409F008C32B8 /* Enumerations.swift */,
+				61EEF1AE23B3B7C7001CD295 /* FocusOnDataModel.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -168,6 +172,8 @@
 		61E27444247CE5290014A634 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				61E27446247D613A0014A634 /* checkComplete.json */,
+				61E27445247D61390014A634 /* confetti.json */,
 				61BC15F9237B156900341701 /* Assets.xcassets */,
 			);
 			name = Assets;
@@ -241,6 +247,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				61BC15FD237B156900341701 /* LaunchScreen.storyboard in Resources */,
+				61E27447247D613A0014A634 /* confetti.json in Resources */,
+				61E27448247D613A0014A634 /* checkComplete.json in Resources */,
 				61BC15FA237B156900341701 /* Assets.xcassets in Resources */,
 				61BC15F8237B156600341701 /* Main.storyboard in Resources */,
 			);

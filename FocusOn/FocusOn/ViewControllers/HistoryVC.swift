@@ -77,6 +77,16 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     guard let goal = selectedGoal else { return }
                     goal.isChecked = marker
                     goalDC.saveContext()
+                        // Check off all cells
+                        for visibleRowIndex in visibleRows {
+                            guard let visibleCell = historyTableView.cellForRow(at: visibleRowIndex) as? TaskCell else { return }
+                            visibleCell.taskMarker.isHighlighted = marker
+                            if visibleRowIndex.section > 0 {
+                                let rowIndex = visibleRowIndex
+                                let task = taskDC.selectedTaskContainer[rowIndex.row]
+                                task.isChecked = marker
+                            }
+                        }
                     }
                 default:
                     // task
@@ -89,7 +99,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 }
             }
         }
-        
+        // Check if all task markers are complete 
+        checkMarkersInRowsForCompletion()
     }
     
     // Loading task markers

@@ -296,6 +296,9 @@ extension HistoryVC {
                 print(#function + " Task Row")
             }
         }
+        
+        // Check if all task markers are complete
+        checkMarkersInRowsForCompletion()
     }
   
     
@@ -308,6 +311,58 @@ extension HistoryVC {
         }
     print("printMarkerSelection: --------" + "\n")
     }
+    
+    
+    // Check row markers and check off goal if tasks are complete
+    func checkMarkersInRowsForCompletion() {
+        print(#function)
+        // TotalCells
+        guard let totalCells = historyTableView.visibleCells as? [TaskCell] else { return }
+        // number of cells to complete goal
+        let countToCheckOffGoal = totalCells.count - 1
+        let lessThanCountToCheckOffGoal = countToCheckOffGoal - 1
+        
+        
+        switch displayMode {
+        case .goalMode:
+            print(#function + " Goal Mode - do nothing ")
+        case .taskMode:
+            print(#function + " Task Mode - checkCountOfCheckedCells ")
+            
+            // Get all checked cells
+            let checkedCellsInView = totalCells.filter( { $0.taskMarker.isHighlighted == true } )
+            // Get all checked cells in section 1
+            var checkedCells = [TaskCell]()
+            for cell in checkedCellsInView {
+                if historyTableView.indexPath(for: cell)?.section == 1 {
+                    checkedCells.append(cell)
+                }
+            }
+            print(#function + "checked/total - \(checkedCells.count) : \(countToCheckOffGoal)")
+            // First Cell
+            guard let firstCell = historyTableView.cellForRow(at: [0,0]) as? TaskCell else { return }
+            print(#function + " firstCell")
+            // If count to check goal was reached - check off goal cell and save
+            if checkedCells.count == countToCheckOffGoal {
+                firstCell.taskMarker.isHighlighted = true
+                selectedGoal?.isChecked = true
+                goalDC.saveContext()
+                
+                // Else if checkedCells are less than count needed to complete goal
+                // && firstCell is checked off
+            } else if checkedCells.count == lessThanCountToCheckOffGoal &&
+                firstCell.taskMarker.isHighlighted == true {
+                
+                selectedGoal?.isChecked = false
+                firstCell.taskMarker.isHighlighted = false
+                
+            }
+            
+            
+            
+        }
+    }
+    
     
     
 } // HistoryVC

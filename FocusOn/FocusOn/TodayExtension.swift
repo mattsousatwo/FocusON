@@ -127,21 +127,17 @@ extension TodayVC {
        
         // cells that are checked off
         let checkedCellsInView = totalCells.filter( { $0.taskMarker.isHighlighted == true } )
-        
+        // Append cells if in section 1
         var checkedCells = [TaskCell]()
         for cell in checkedCellsInView {
             if todayTable.indexPath(for: cell)?.section == 1 {
                 checkedCells.append(cell)
             }
         }
-        
-        
-        
-        
-    
+
         print("checkedGoals = \(checkedCells.count) : \(countToCompleteGoal) ( \(lessThanCompletion) )")
         print("checkedGoals -- todaysGoal.isChecked = \(todaysGoal.isChecked)")
-        print("checkedGoals \n")
+        
         
         // first cell
         let firstCell = todayTable.cellForRow(at: [0,0]) as! TaskCell
