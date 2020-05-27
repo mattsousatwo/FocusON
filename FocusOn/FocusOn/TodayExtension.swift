@@ -39,17 +39,14 @@ extension TodayVC {
     // Display / update task count label
     func updateCompletedTasksLabel() {
         navigationItem.title = "Task Count: 0/4"
-        var tempCount: Int16 = 0
         guard let totalTasks = todayTable.visibleCells as? [TaskCell] else { return }
         if totalTasks.count != 0 {
-            for task in totalTasks {
-                if task.taskMarker.isHighlighted == true {
-                    tempCount+=1
-                }
-            }
-            todaysGoal.completedCellCount = tempCount
+            
+            let highlightedTaskCells = totalTasks.filter( { $0.taskMarker.isHighlighted == true })
+            todaysGoal.completedCellCount = Int16(highlightedTaskCells.count)
             goalDC.saveContext()
-            navigationItem.title = "Task Count: \(todaysGoal.completedCellCount)\\\(taskDC.currentTaskContainer.count + 1)"
+           // navigationItem.title = "Task Count: \(todaysGoal.completedCellCount)\\\(taskDC.currentTaskContainer.count + 1)"
+            navigationItem.title = "Task Count: \(highlightedTaskCells.count)\\\(taskDC.currentTaskContainer.count + 1)"
             print("task count = \(totalTasks.count)")
         }
 
@@ -104,7 +101,7 @@ extension TodayVC {
     }
     
     // Enable add button if three tasks are filled
-    func checkRowsForCompletion() {
+    func checkIfCellsAreFull() {
         guard let visibleCells = todayTable.visibleCells as? [TaskCell] else { return }
         let filteredCells = visibleCells.filter( { $0.textField.text != ""} )
         if visibleCells.count == filteredCells.count {
@@ -148,7 +145,7 @@ extension TodayVC {
             firstCell.taskMarker.isHighlighted = true
             todaysGoal.isChecked = true
             goalDC.saveContext()
-            
+            animation.playCompletionAnimationIn(view: view, of: self, withType: .today)
             // If checkedCells are less than count needed to complete goal
         } else if checkedCells.count == lessThanCompletion &&
         firstCell.taskMarker.isHighlighted == true {
@@ -176,10 +173,8 @@ extension TodayVC {
                 print(#function + " Task Row")
             }
         }
-        // Check to see if visible textfields are all filled in - activate add button
-        checkRowsForCompletion()
-        // Check if all markers are checked
-        checkMarkersInRowsForCompletion()
+        // Enable add button if three tasks are filled
+        checkIfCellsAreFull()
     }
     
     // TaskCell Delegate
@@ -212,10 +207,11 @@ extension TodayVC {
             taskDC.saveContext()
         }
         
-        // Update completed task count
-        updateTaskCountAndNotifications()
+        
         // Check if all task markers are complete
         checkMarkersInRowsForCompletion()
+        // Update completed task count
+        updateTaskCountAndNotifications()
         
     }
     

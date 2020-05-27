@@ -21,6 +21,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     var searchDataType = DataType.goal
     var lastDeletedTask: TaskData?
     var lastDeletedTaskIndex: IndexPath?
+    let animation = Animations()
    
     // Label to display task count
     @IBOutlet weak var taskCountLabel: UILabel!
@@ -60,6 +61,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
        
+
+
         taskMarkerWasPressed(marker, cell)
         
     }

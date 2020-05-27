@@ -31,6 +31,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     var deleteAllTasks: [TaskData]?
     var deleteAllTasksIndex: [IndexPath]?
     var goalCount = 1
+    // Animation
+    let animation = Animations()
     
     @IBOutlet weak var historyTableView: UITableView!
     
