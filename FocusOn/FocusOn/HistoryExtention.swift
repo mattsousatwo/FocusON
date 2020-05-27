@@ -103,6 +103,7 @@ extension HistoryVC {
             print(alertText)
             self.taskDC.fetchTasksFor(goalUID: self.selectedGoalID)
             self.historyTableView.reloadData()
+            self.checkMarkersInRowsForCompletion()
             print("BEFORE \n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
             
             

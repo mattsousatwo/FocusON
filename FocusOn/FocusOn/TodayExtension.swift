@@ -68,20 +68,20 @@ extension TodayVC {
     
     // alert controller to add a new task in todayVC
     func presentNewTaskAlertController() {
-          let alertController = UIAlertController(title: "Add a new Task", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add a new Task", message: nil, preferredStyle: .alert)
             
-          alertController.addTextField(configurationHandler: {
-              textfield in
-              textfield.placeholder = "New Task"
-          })
+        alertController.addTextField(configurationHandler: {
+            textfield in
+            textfield.placeholder = "New Task"
+        })
           
-          let addTask = UIAlertAction(title: "Add Task", style: .default) { (action) in
-              guard let alertText = alertController.textFields?.first?.text else { return }
-              // MARK: Save Bonus Task
-              self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
-              print(alertText)
-              self.updateTaskCountAndNotifications()
-              self.todayTable.reloadData()
+        let addTask = UIAlertAction(title: "Add Task", style: .default) { (action) in
+            guard let alertText = alertController.textFields?.first?.text else { return }
+            // MARK: Save Bonus Task
+            self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
+            print(alertText)
+            self.updateTaskCountAndNotifications()
+            self.todayTable.reloadData()
             // uncheck goal if checked off and goal was added kl
             self.checkMarkersInRowsForCompletion()
           }
