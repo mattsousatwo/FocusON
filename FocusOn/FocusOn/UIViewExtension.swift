@@ -57,6 +57,16 @@ extension UITableView {
         return paths
     }
     
+    // clear buttons
+    func clearMenuButtons() {
+        guard let x = self.visibleCells as? [TaskCell] else { return }
+        let y = x.filter( { $0.menuButton.isHidden == false } )
+        
+        for cell in y {
+            cell.menuButton.isHidden = true
+        }
+        
+    }
 }
 
 extension UIViewController {

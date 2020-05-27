@@ -49,7 +49,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        historyTableView.reloadData()
+        configureViewDidAppear()
     }
     
     // MARK: TaskCell Delegate

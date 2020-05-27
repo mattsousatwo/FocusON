@@ -30,6 +30,20 @@ extension TodayVC {
         }
     }
     
+    // configureView After View Appears
+    func configureViewDidAppear() {
+        
+        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
+        todayTable.reloadData()
+        updateTaskCountAndNotifications()
+        todayTable.checkGoalToUpdateTaskCells()
+        print(#function)
+        
+        print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
+        
+        todayTable.clearMenuButtons()
+    }
+    
     // updateTaskCount and reset notification timer
     func updateTaskCountAndNotifications() {
         updateCompletedTasksLabel()
@@ -68,9 +82,10 @@ extension TodayVC {
               print(alertText)
               self.updateTaskCountAndNotifications()
               self.todayTable.reloadData()
+            // uncheck goal if checked off and goal was added kl
+            self.checkMarkersInRowsForCompletion()
           }
-          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action")
-          }
+          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action") }
               
           
           alertController.addAction(addTask)
@@ -214,8 +229,5 @@ extension TodayVC {
         updateTaskCountAndNotifications()
         
     }
-    
-    
-    
     
 } // TodayVC

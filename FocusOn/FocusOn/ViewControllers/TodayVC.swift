@@ -45,11 +45,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
-        todayTable.reloadData()
-        updateTaskCountAndNotifications()
-        todayTable.checkGoalToUpdateTaskCells()
-        print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
+        
+        configureViewDidAppear()
     }
 
     // Add a new task at bottom of table view if three cells are filled
@@ -370,6 +367,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                     detailVC.previousView = .today
                     print("searchUID: \(searchUID)\ndataType: \(searchDataType)\n")
                    //  detailVC.standInGoal = goalDC.fetchGoal(withUID: todaysGoal.goal_UID!)
+                    x.menuButton.isHidden = true
                     
                 } else {
                     
@@ -378,7 +376,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             }
             
         }
-        
+        searchUID = ""
         
         
 }

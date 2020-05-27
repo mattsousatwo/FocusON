@@ -40,21 +40,31 @@ extension DetailTableView {
         switch type {
         case .goal:
             standInGoal = goalDC.fetchGoal(withUID: searchUID)
+            // Set title
             titleInput.text = standInGoal.name
-            // set other parameters
+            // Set Progress
             progressControl.selectedSegmentIndex = Int(standInGoal.progress)
+            // Set Marker Color
             guard let currentColor = taskColors(rawValue: standInGoal.markerColor) else { return }
             markerColor = currentColor
             handleMarkerSelection()
             print("\(currentColor.rawValue)")
+            // Set Notes
+            notesField.text = standInGoal.notes
             
         default: // Task/Bonus
-           standInTask = taskDC.fetchTask(with: searchUID)
-           titleInput.text = standInTask.name
-           progressControl.selectedSegmentIndex = Int(standInTask.progress)
-           guard let currentColor = taskColors(rawValue: standInTask.markerColor) else { return }
-           markerColor = currentColor
-           handleMarkerSelection()
+            standInTask = taskDC.fetchTask(with: searchUID)
+            // Set Title
+            titleInput.text = standInTask.name
+            // Set Progress
+            progressControl.selectedSegmentIndex = Int(standInTask.progress)
+            // Set Color
+            guard let currentColor = taskColors(rawValue: standInTask.markerColor) else { return }
+            markerColor = currentColor
+            handleMarkerSelection()
+            // Set Notes
+            notesField.text = standInTask.notes
+            
         }
     }
     

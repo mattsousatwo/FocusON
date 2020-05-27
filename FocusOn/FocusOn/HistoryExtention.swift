@@ -19,6 +19,14 @@ extension HistoryVC {
         newTaskButtonIsHidden(true)
     }
     
+    // Reload and clear search tags
+    func configureViewDidAppear() {
+        historyTableView.reloadData()
+        historyTableView.clearMenuButtons()
+        selectedGoalID = ""
+        selectedTaskID = ""        
+    }
+    
     // TaskCellDelegate
     func updateMarker(for cell: TaskCell) {
         
