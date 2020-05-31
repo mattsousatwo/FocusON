@@ -236,6 +236,18 @@ class GoalDataController: DataController {
     }
     */
     
+    // return an array of all the goals for progressVC
+    func fetchAllGoals() -> [GoalData] {
+        var array: [GoalData] = []
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            array = try context.fetch(request)
+        } catch let error as NSError {
+            print("Could not fetch GoalData: \(error), \(error.userInfo)")
+        }
+        return array
+    }
+    
     // New Fetch Goals method - May 27
     func getGoals() {
         printOne(#function + " --- start")

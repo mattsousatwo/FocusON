@@ -108,6 +108,16 @@ class TaskDataController: DataController {
         }
     }
     
+    func fetchAllTasks() -> [TaskData] {
+        var container: [TaskData] = []
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        do {
+            container = try context.fetch(request)
+        } catch {
+        }
+        return container 
+    }
+    
     
     // Fetch a single specified task
     func fetchTask(with goalUID: String) -> TaskData {
