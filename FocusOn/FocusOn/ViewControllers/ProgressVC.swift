@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import Charts
 
 class ProgressVC: UIViewController {
+    
+    let graphs = Graph()
+
+    @IBOutlet weak var barChart: BarChartView!
     
     
     // Fetch() coreData entites if there is stored data display bar graph
@@ -25,7 +30,9 @@ class ProgressVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        graphs.loadGraph(barChart)
+        
         let x = Goal(title: "Finish Set Up")
         print("goal title: \(x.title)\ngoal date: \(x.date)\ngoal UID: \(x.UID)\n")
         
