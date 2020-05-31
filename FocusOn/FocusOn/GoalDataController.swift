@@ -186,25 +186,26 @@ class GoalDataController: DataController {
        
     // MARK: Delete
     // Used in HistoryVC to delete a goal 
-    func delete(goal: GoalData, at indexPath: IndexPath?, in table: UITableView) {
-        guard let indexPath = indexPath else { return }
+    func delete(goal: GoalData, at indexPath: IndexPath, in table: UITableView) {
         
-        print(#function + "\(pastGoalContainer.count)")
-        
+        print("Test 102 " + "goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
         table.beginUpdates()
-        
+            
         pastGoalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID!})
-        
-        
-        print(#function + "\(pastGoalContainer.count)")
-        
+            
+        deleteGoalsWith(UIDs: [goal.goal_UID!] )
+            
         table.deleteRows(at: [indexPath], with: .automatic)
-        
+            
         table.deleteSections([indexPath.section], with: .automatic)
-        
+            
         table.endUpdates()
-        
+            
         saveContext()
+        
+        print("Test 102 " + "goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
+        
+        
     }
     
     func deleteAll() {
@@ -294,7 +295,7 @@ class GoalDataController: DataController {
     func deleteGoalsWith(UIDs tags: [String]) {
         for tag in tags {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        request.predicate = NSPredicate(format: "goal_UID", tag)
+        request.predicate = NSPredicate(format: "goal_UID = %@", tag)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
             do {
                 try context.execute(deleteRequest)

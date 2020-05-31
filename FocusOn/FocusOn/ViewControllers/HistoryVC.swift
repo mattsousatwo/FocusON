@@ -301,7 +301,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         let deleteButton = UIContextualAction(style: .destructive, title: title) { (action, view, actionPreformed) in
             switch self.displayMode {
             case .goalMode:
-                let goal = self.goalDC.pastGoalContainer[indexPath.row]
+                let goal = self.goalDC.pastGoalContainer[indexPath.section]
                 self.delete(goal, at: indexPath, displayMode: .goalMode)
             case .taskMode:
                 switch indexPath.section {

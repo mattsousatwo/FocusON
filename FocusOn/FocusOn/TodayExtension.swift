@@ -25,7 +25,7 @@ extension TodayVC {
     // Configure TodayVC
     func configureTodayVC() {
 
-        deleteGoalsAndTasks(false)
+        deleteGoalsAndTasks(false )
                 
         
         // Assign Delegates
