@@ -11,14 +11,31 @@ import Foundation
 
 extension TodayVC {
     
+    func deleteGoalsAndTasks(_ bool: Bool = true) {
+        switch bool {
+        case true:
+            print(#function + " true")
+            goalDC.deleteAll()
+            taskDC.deleteAllTasks()
+        default:
+            print(#function + " false")
+        }
+    }
+    
     // Configure TodayVC
     func configureTodayVC() {
+
+        deleteGoalsAndTasks(false)
+                
+        
         // Assign Delegates
         todayTable.dataSource = self
         todayTable.delegate = self
         // fetch CoreData Elements
-        goalDC.fetchGoals()
-        todaysGoal = goalDC.goalContainer.first!
+        goalDC.getGoals()
+//         goalDC.fetchGoals()
+        todaysGoal = goalDC.currentGoal
+//        todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         // Set up view
         registerForKeyboardNotifications()
@@ -32,7 +49,11 @@ extension TodayVC {
     
     // configureView After View Appears
     func configureViewDidAppear() {
-        
+        // if current goal changed (if new day) - load new task
+        goalDC.getGoals()
+         if todaysGoal.goal_UID! != goalDC.currentGoal.goal_UID! {
+            todaysGoal = goalDC.currentGoal
+        }
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         todayTable.reloadData()
         updateTaskCountAndNotifications()

@@ -177,19 +177,19 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             cell.textField.isUserInteractionEnabled = false
             if goalDC.pastGoalContainer.count != 0 {
                 
+            let sec = indexPath.section
             let row = indexPath.row
-            let section = indexPath.section
-                if section == row {
-                    let goal = goalDC.pastGoalContainer[row]
+                for _ in goalDC.pastGoalContainer {
+                    
+                    let goal = goalDC.pastGoalContainer[sec]
                     cell.textField.text = goal.name
+                    print("Test 101 - HISTORYVC > cellForRowAt() > row: \(row), title: \(goal.name ?? "isEmpty")")
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
                     changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
                     printMarkerSelection(for: goal)
+                    
                 }
-            } else {
-                cell.textField.text = "Data did not fetch"
             }
-            
         case .taskMode:
             cell.textField.isUserInteractionEnabled = true
             addDoneButton(to: cell.textField, action: nil)

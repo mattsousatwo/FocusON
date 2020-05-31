@@ -14,7 +14,8 @@ extension HistoryVC {
     func configureHistoryVC() {
         historyTableView.delegate = self
         historyTableView.dataSource = self
-        goalDC.fetchGoals()
+        goalDC.getGoals()
+//        goalDC.fetchGoals()
         backButtonIsHidden(true)
         newTaskButtonIsHidden(true)
     }

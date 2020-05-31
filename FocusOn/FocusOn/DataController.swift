@@ -63,6 +63,7 @@ class DataController {
     }
     
     
+    // False == Same Day, True == Next Day 
     func compareDays(from date1: Date) -> Bool {
         let days1 = Calendar.current.component(.day, from: date1)
         let days2 = Calendar.current.component(.day, from: endOfDay())
@@ -77,6 +78,35 @@ class DataController {
             return false
         }
     }
+    
+    // Check if dates Month, Day match
+    func isDateFromToday(_ date: Date?) -> Bool? {
+        print(#function)
+        guard let inputDate = date else { return nil }
+        let todaysDate = Date()
+        // Get dates
+        let tYear = Calendar.current.component(.year, from: todaysDate)
+        let tMonth = Calendar.current.component(.month, from: todaysDate)
+        let tDay = Calendar.current.component(.day, from: todaysDate)
+        
+        let iYear = Calendar.current.component(.year, from: inputDate)
+        let iMonth = Calendar.current.component(.month, from: inputDate)
+        let iDay = Calendar.current.component(.day, from: inputDate)
+        
+        // Check if dates match
+        // If ALL components MATCH
+        if tYear == iYear && tMonth == iMonth && tDay == iDay {
+            print(#function + "true")
+            return true
+        // Else { if ANY of the compnents DONT MATCH
+        } else if tYear != iYear || tMonth != iMonth || tDay != iDay {
+            print(#function + "false")
+            return false
+        }
+        return nil
+    }
+    
+    
     
     func formatDate(from goal: GoalData? = nil, from task: TaskData? = nil) -> String? {
         

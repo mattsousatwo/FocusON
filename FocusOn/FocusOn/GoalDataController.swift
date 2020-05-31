@@ -155,25 +155,31 @@ class GoalDataController: DataController {
         } catch let error as NSError {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
-        print("goalContainer.count: \(goalContainer.count)")
+//        print("goalContainer.count: \(goalContainer.count)")
         
         // if there is a goal in goalContainer & first goal is from today
         if goalContainer.count != 0 &&
             compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
-            print("goalContainer.count != 0 && compareDays(from: ) == false \n")
+//            print("goalContainer.count != 0 && compareDays(from: ) == false \n")
+            if pastGoalContainer.count != 0 {
+                pastGoalContainer.removeAll()
+            }
             for data in goalContainer {
                 if compareDays(from: (data.dateCreated)!) == false  {
                     // if data.dateCreated != today, add & remove goal
-                    // MARK: compareDays == true && uncomment removeAll() - for createTestData() 
+                    // MARK: compareDays == true && uncomment removeAll() - for createTestData()
+//                    print("Test 100 - count BEFORE : \(goalContainer.count)")
                     pastGoalContainer.append(data)
                     goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
                     saveGoal(goal: Goal() )
+//                    print("Test 100 - count AFTER : \(goalContainer.count)")
                 }
             }
-            print("\n+++++ goalContainer.count = \(goalContainer.count)")
-            print("+++++ pastGoalContainer.count = \(pastGoalContainer.count)\n")
+
+//            print("\n+++++ goalContainer.count = \(goalContainer.count)")
+//            print("+++++ pastGoalContainer.count = \(pastGoalContainer.count)\n")
         } else if goalContainer.count == 0 || compareDays(from: (goalContainer.first?.dateCreated)! ) == true { // if goalContainer isEmpty create a new GoalData entity
-            print("goalContainer.count == 0 && compareDays(from: ) == true \n")
+//            print("goalContainer.count == 0 && compareDays(from: ) == true \n")
             saveGoal(goal: Goal())
         }
     }
@@ -229,8 +235,172 @@ class GoalDataController: DataController {
     }
     */
     
-    // MARK: Date Caption
+    // New Fetch Goals method - May 27
+    func getGoals() {
+        printOne(#function + " --- start")
+        // Fetch goals
+        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
+        do {
+            goalContainer = try context.fetch(request)
+        } catch let error as NSError {
+            print("Could not fetch GoalData: \(error), \(error.userInfo)")
+        }
+        
+        // Parse goal container for current goal
+        switch goalContainer.count != 0 {
+        case true:
+            printOne(#function + " container.count != 0: TRUE")
+            // Goal Container has goals
+            // MARK: Delete goals go here ---------
+            parseGoals()
+        case false:
+            printOne(#function + "container.count != 0: FALSE")
+            // Goal Container is empty
+            // Check if currentGoal is in pastGoalContainer
+            compareCurrentGoalToPastGoals()
+        }
+        printOneOutcome()
+        printOne(#function + " --- end")
+    }
+    
+    // Seperate CurrentGoals VS PastGoals
+    func parseGoals() {
+        printOne(#function)
+        // Check if goalContainer is nil
+        switch goalContainer.count != 0 {
+        case true:
+            // Goal Container has goals
+            // clear
+            // clearDoubles()
+            sortThroughDates()
+        case false:
+            // is empty
+            createNewCurrentGoal()
+        }
+    }
+    
+    // Get all past goal UIDs - used for deletion
+    func pastGoalUIDs() -> [String]? {
+        var goalUIDs: [String]?
+        if pastGoalContainer.count != 0 {
+            goalUIDs = pastGoalContainer.map({ (goal) -> String in
+                return goal.goal_UID!
+            })
+        }
+        return goalUIDs
+    }
+    
+    // Delete Goals - use pastGoalUIDs to get array of past goals to delete 
+    func deleteGoalsWith(UIDs tags: [String]) {
+        for tag in tags {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        request.predicate = NSPredicate(format: "goal_UID", tag)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+            do {
+                try context.execute(deleteRequest)
+            } catch {
+            }
+            saveContext()
+        }
+    }
+    
+    // Print func for tests
+    func printOne(_ string: String) {
+        let message = "Test 101 "
+        let totalMessage = message + string
+        print(totalMessage)
+    }
+    
+    // print total count of containers
+    func printOneOutcome(_ string: String? = "") {
+        var totalMessage = ""
+        let tag = "Test 101 - TOTAL - "
+        let current = "currentGoal.UID: \(currentGoal.goal_UID!),"
+        let gContainer = " goalContainer.count: \(goalContainer.count),"
+        let pContainer = " pastGoalContainer.count: \(pastGoalContainer.count)"
+        let total = " - TOTAL GOALS = \(goalContainer.count + pastGoalContainer.count)"
+        if let input = string {
+            totalMessage = tag + current + gContainer + pContainer + total + input
+        } else {
+            totalMessage = tag + current + gContainer + pContainer + total
+        }
+        print(totalMessage)
+    }
+    
+    // check if currentGoal is in pastGoalContainer
+    func compareCurrentGoalToPastGoals() {
+        printOne(#function + " --- start")
+        var status: Bool = false
+        for goal in pastGoalContainer {
+            if currentGoal == goal {
+                printOne("currentGoalUID = \(currentGoal.goal_UID!), currentGoal.text = \(currentGoal.name!) ")
+                status = true
+            }
+        }
+        switch status {
+        case true:
+            printOne("status: true, goal is in pastGoals")
+        case false:
+            createNewCurrentGoal()
+        }
+        printOne(#function + " --- end")
+    }
     
     
+    // Delete goal if in goalContainer and pastGoalContainer and != currentGoal
+    func clearDoubles() {
+        printOne(#function + " --- start")
+        printOne("goalContainer.count = \(goalContainer.count) [ A ]")
+        printOne("pastGoalContainer.count = \(pastGoalContainer.count) [ A ]")
+        for goalC in goalContainer {
+            for goalP in pastGoalContainer {
+                if goalC == goalP  &&  currentGoal != goalC {
+                    deleteGoalsWith(UIDs: [goalC.goal_UID!])
+                }
+            }
+        }
+        printOne("goalContainer.count = \(goalContainer.count) [ A ]")
+        printOne("pastGoalContainer.count = \(pastGoalContainer.count) [ A ]")
+        printOne(#function + " --- end")
+    }
+    
+    // Sort goals by their dates into pastGoalContainer or if from today set as currentGoal
+    func sortThroughDates() {
+        printOne(#function + " --- start")
+        for goal in goalContainer {
+            // if goal is not from today
+            if isDateFromToday(goal.dateCreated) == false {
+                printOne("isDateFromToday(goal.dateCreated) == false { add to goal && remove }")
+                // move to past container
+                pastGoalContainer.append(goal)
+                printOne("pastGoalContainer.count = \(pastGoalContainer.count) [  B ]")
+                // remove goal from goal container
+                goalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID! })
+                printOne("goalUID == \(goal.goal_UID!)")
+                printOne("goalContainer.count = \(goalContainer.count) [  B ]")
+                if goalContainer.count == 0 {
+                    createNewCurrentGoal()
+                }
+            } else if isDateFromToday(goal.dateCreated) == true {
+                // if currentGoal is from today set as current goal
+                printOne("isDateFromToday(goal.dateCreated) == true { set as current goal }")
+                printOne("goalUID == \(goal.goal_UID!)")
+                currentGoal = goal
+            }
+            
+        }
+        printOne(#function + " --- end")
+    }
+    
+    // Create new goal and set it as current goal
+    func createNewCurrentGoal() {
+        printOne(#function + " --- start")
+        printOne("goalContainer.count = \(goalContainer.count) [   C ]")
+        saveGoal(goal: Goal())
+        currentGoal = goalContainer.first!
+        printOne("goalContainer.count = \(goalContainer.count) [    D ]")
+        // Maybe should remove goal after adding
+        printOne(#function + " --- end")
+    }
     
 }
