@@ -189,16 +189,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3j-b7-eWK" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="40" y="238" width="334" height="535"/>
+                                <rect key="frame" x="5" y="188" width="404" height="615"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.222243309" green="0.36011254790000002" blue="0.4187356532" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="a3j-b7-eWK" secondAttribute="trailing" constant="40" id="AYc-1e-Xv8"/>
-                            <constraint firstItem="a3j-b7-eWK" firstAttribute="top" secondItem="UvQ-oH-dTc" secondAttribute="top" constant="150" id="MYY-tB-Arf"/>
-                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="bottom" secondItem="a3j-b7-eWK" secondAttribute="bottom" constant="40" id="Z0a-Fv-qT9"/>
-                            <constraint firstItem="a3j-b7-eWK" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="40" id="jpD-Xy-iJD"/>
+                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="a3j-b7-eWK" secondAttribute="trailing" constant="5" id="AYc-1e-Xv8"/>
+                            <constraint firstItem="a3j-b7-eWK" firstAttribute="top" secondItem="UvQ-oH-dTc" secondAttribute="top" constant="100" id="MYY-tB-Arf"/>
+                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="bottom" secondItem="a3j-b7-eWK" secondAttribute="bottom" constant="10" id="Z0a-Fv-qT9"/>
+                            <constraint firstItem="a3j-b7-eWK" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="5" id="jpD-Xy-iJD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UvQ-oH-dTc"/>
                     </view>

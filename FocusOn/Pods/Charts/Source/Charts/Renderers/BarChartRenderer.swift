@@ -431,7 +431,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            // MARK: SET ROUNDED (CURVED) BARS FOR GRAPH - !!!
+            let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
+                        // Original Implementation - for square bars
+//                                    context.fill(barRect)
             
             if drawBorder
             {

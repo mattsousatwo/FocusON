@@ -14,6 +14,50 @@ import CoreGraphics
 
 open class ChartColorTemplates: NSObject
 {
+    // Display =
+        /// [ front = array.0, array.2,  back =  array.1, array.3 ]
+    // MARK: Custom Palettes
+    
+    @objc open class func paletteOne () -> [NSUIColor]
+    {
+        return [
+            // Cyan Process
+            NSUIColor(red: 48/255.0, green: 188/255.0, blue: 237/255.0, alpha: 1.0),
+            // Jet
+            NSUIColor(red: 48/255.0, green: 48/255.0, blue: 54/255.0, alpha: 1.0),
+            // Snow
+            NSUIColor(red: 255/255.0, green: 250/255.0, blue: 255/255.0, alpha: 1.0),
+            // Portland Orange
+            NSUIColor(red: 252/255.0, green: 81/255.0, blue: 48/255.0, alpha: 1.0)
+        ]
+    }
+    
+    @objc open class func paletteTwo () -> [NSUIColor]
+    {
+        return [
+            // Magic Mint
+            NSUIColor(red: 180/255.0, green: 237/255.0, blue: 210/255.0, alpha: 1.0),
+            // Jet
+            NSUIColor(red: 48/255.0, green: 48/255.0, blue: 54/255.0, alpha: 1.0),
+            // Feldgaru
+            NSUIColor(red: 63/255.0, green: 94/255.0, blue: 90/255.0, alpha: 1.0),
+            // Chinese Violet
+            NSUIColor(red: 119/255.0, green: 86/255.0, blue: 122/255.0, alpha: 1.0)
+        ]
+    }
+    
+    @objc open class func paletteThree () -> [NSUIColor]
+    {
+        return [
+            // Blue Sapphire
+            NSUIColor(red: 0/255.0, green: 105/255.0, blue: 137/255.0, alpha: 1.0),
+            // Light Gray
+            NSUIColor(red: 211/255.0, green: 213/255.0, blue: 217/255.0, alpha: 1.0)
+        ]
+    }
+    
+    
+    // MARK: Factory palettes
     @objc open class func liberty () -> [NSUIColor]
     {
         return [

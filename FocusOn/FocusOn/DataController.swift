@@ -107,7 +107,7 @@ class DataController {
     }
     
     
-    
+    // return "MMM/dd/YY" date
     func formatDate(from goal: GoalData? = nil, from task: TaskData? = nil) -> String? {
         
         let formatter = DateFormatter()
@@ -124,6 +124,14 @@ class DataController {
             return formatter.string(from: date!)
         }
         return nil
+    }
+    
+    // return short day of week / numerical day - "Tu/13"
+    func formatDate(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEEEE d"
+        return formatter.string(from: date)
+        
     }
 
 }
