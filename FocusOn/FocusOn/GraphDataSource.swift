@@ -11,6 +11,20 @@ import Charts
 
 class GraphDataSource {
     
+    
+    // DataControllers
+    let goalDC = GoalDataController()
+    let taskDC = TaskDataController()
+    // (All) Goals & Tasks
+    var goals: [GoalData] = []
+    var tasks: [TaskData] = []
+    // Current Month
+    var goalsFromCurrentMonth: [GoalData] = []
+    var tasksFromCurrentMonth: [TaskData] = []
+    // Current Week
+    var goalsFromCurrentWeek: [GoalData] = []
+    var tasksFromCurrentWeek: [TaskData] = []
+    
     var average: String = ""
     var checkedGoalsCount: Double = 0
     var totalGoalCount: Double = 0
@@ -83,11 +97,57 @@ class GraphDataSource {
     }
     
     
+    // return average depending on display mode 
+    func getAverageForDisplayMode() -> String {
+        var avg = ""
+        switch displayMode {
+        case .all:
+            avg = averageOfCompletion(goals: goals, tasks: tasks)
+        case .monthly:
+            avg = averageOfCompletion(goals: goalsFromCurrentMonth, tasks: tasksFromCurrentMonth)
+        case .weekly:
+            avg = averageOfCompletion(goals: goalsFromCurrentWeek, tasks: tasksFromCurrentWeek)
+        }
+        print("avg: \(avg)")
+        return avg
+    }
     
-    // sort goals for goals created in current Month - Display Goals in month
-//    func getCurrentMonthsGoals() {
-//
-//    }
+    
+    // Getting Goals by date - load all cells to tasks and goals first
+    
+    // Current Week
+    // Sort through goals depending on Date - Display last 7 days
+    func getPastWeeksGoals() {
+        for goal in goals {
+            if goalDC.isDateFromCurrentWeek(goal.dateCreated) == true {
+                goalsFromCurrentWeek.append(goal)
+            }
+            for task in tasks {
+                if task.goal_UID == goal.goal_UID {
+                    tasksFromCurrentWeek.append(task)
+                }
+            }
+        }
+        
+    }
+
+     // Current Month
+     // Sort through goals depending on Date - Display Months goals
+     func getCurrentMonthsGoals() {
+         for goal in goals {
+             if goalDC.isDateFromCurrentMonth(goal.dateCreated) == true {
+                 goalsFromCurrentMonth.append(goal)
+             }
+             for task in tasks {
+                 if task.goal_UID == goal.goal_UID {
+                     tasksFromCurrentMonth.append(task)
+                 }
+             }
+         }
+         
+     }
+
+    
     
 }
 

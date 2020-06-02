@@ -148,7 +148,6 @@ class DataController {
         } else {
             return false
         }
-        return nil
     }
 
     // Check if date is from Current Week
@@ -157,15 +156,14 @@ class DataController {
         let currentDate = Date()
         
         // Get dates
-        let currentMonth = Calendar.current.component(.weekOfMonth, from: currentDate)
-        let inputMonth = Calendar.current.component(.weekOfMonth, from: input)
+        let currentMonth = Calendar.current.component(.weekOfYear, from: currentDate)
+        let inputMonth = Calendar.current.component(.weekOfYear, from: input)
         
         if currentMonth == inputMonth {
             return true
         } else {
             return false
         }
-        return nil
     }
 }
 

@@ -11,11 +11,7 @@ import Charts
 
 class Graph: GraphDataSource  {
     
-    // DataControllers
-    let goalDC = GoalDataController()
-    let taskDC = TaskDataController()
-    var goals: [GoalData] = []
-    var tasks: [TaskData] = []
+
     // data will be used to store create graph
     var data = BarChartData()
     var dateLabels: [String] = []
@@ -45,7 +41,7 @@ class Graph: GraphDataSource  {
         // Assign dataSets to barGraphView
         assignData(to: view)
         // Set average for selected goals
-        average = averageOfCompletion(goals: goals, tasks: tasks)
+        average = getAverageForDisplayMode()
         // Animate Bars 
         view.animate(xAxisDuration: 0.8, yAxisDuration: 0.8, easingOption: .easeOutExpo)
     }
@@ -162,50 +158,5 @@ class Graph: GraphDataSource  {
         view.noDataText = "Need more data to display goals."
         view.animate(xAxisDuration: 2, easingOption: .easeOutBack)
     }
-    
-    
-    // Getting Goals by date - load all cells to tasks and goals first
-    
-    // Current Week
-    var goalsFromCurrentWeek: [GoalData] = []
-    var tasksFromCurrentWeek: [TaskData] = []
-    
-    // Sort through goals depending on Date - Display last 7 days
-    func getPastWeeksGoals() {
-        for goal in goals {
-            if goalDC.isDateFromCurrentWeek(goal.dateCreated) == true {
-                goalsFromCurrentWeek.append(goal)
-            }
-            for task in tasks {
-                if task.goal_UID == goal.goal_UID {
-                    tasksFromCurrentWeek.append(task)
-                }
-            }
-        }
-        
-    }
-    
-    
-    // Current Month
-    var goalsFromCurrentMonth: [GoalData] = []
-    var tasksFromCurrentMonth: [TaskData] = []
-    
-    // Sort through goals depending on Date - Display Months goals
-    func getCurrentMonthsGoals() {
-        for goal in goals {
-            if goalDC.isDateFromCurrentMonth(goal.dateCreated) == true {
-                goalsFromCurrentMonth.append(goal)
-            }
-            for task in tasks {
-                if task.goal_UID == goal.goal_UID {
-                    tasksFromCurrentMonth.append(task)
-                }
-            }
-        }
-        
-    }
-    
-    
-    
     
 }

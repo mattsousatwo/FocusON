@@ -24,17 +24,24 @@ class ProgressVC: UIViewController {
     @IBAction func timeSegControlWasChanged(_ sender: Any) {
         switch timeSegControl.selectedSegmentIndex {
         case 0:
-            graphs.displayMode = .weekly
-            print(graphs.displayMode.rawValue)
-            graphs.loadGraph(barChart)
+            
+            reload(graph: barChart, to: .weekly, update: averageLabel)
+//            graphs.displayMode = .weekly
+//            print(graphs.displayMode.rawValue)
+//            graphs.loadGraph(barChart)
+//            averageLabel.text = "\(graphs.average)"
         case 1:
-            graphs.displayMode = .monthly
-            print(graphs.displayMode.rawValue)
-            graphs.loadGraph(barChart)
+            reload(graph: barChart, to: .monthly, update: averageLabel)
+//            graphs.displayMode = .monthly
+//            print(graphs.displayMode.rawValue)
+//            graphs.loadGraph(barChart)
+//            averageLabel.text = "\(graphs.average)"
         case 2:
-            graphs.displayMode = .monthly
-            print(graphs.displayMode.rawValue)
-            graphs.loadGraph(barChart)
+            reload(graph: barChart, to: .all, update: averageLabel)
+//            graphs.displayMode = .all
+//            print(graphs.displayMode.rawValue)
+//            graphs.loadGraph(barChart)
+//            averageLabel.text = "\(graphs.average)"
         default:
             print("Out of index")
         }
@@ -54,6 +61,8 @@ class ProgressVC: UIViewController {
         super.viewDidAppear(animated)
         
         graphs.loadGraph(barChart)
+        
+        averageLabel.text = "\(graphs.average)"
     }
     
 
@@ -66,5 +75,12 @@ class ProgressVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func reload(graph: BarChartView, to mode: GraphDisplayMode, update label: UILabel) {
+        print(graphs.displayMode.rawValue)
+        graphs.displayMode = mode
+        graphs.loadGraph(graph)
+        label.text = "\(graphs.average)"
+    }
 
 }
