@@ -26,15 +26,15 @@ class ProgressVC: UIViewController {
         case 0:
             graphs.displayMode = .weekly
             print(graphs.displayMode.rawValue)
-            // Load graph
+            graphs.loadGraph(barChart)
         case 1:
             graphs.displayMode = .monthly
             print(graphs.displayMode.rawValue)
-            // Load graph
+            graphs.loadGraph(barChart)
         case 2:
             graphs.displayMode = .monthly
             print(graphs.displayMode.rawValue)
-            // Load graph
+            graphs.loadGraph(barChart)
         default:
             print("Out of index")
         }

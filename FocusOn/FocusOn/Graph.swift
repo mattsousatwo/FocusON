@@ -30,18 +30,24 @@ class Graph: GraphDataSource  {
     // MARK: View set up
     // assign attributes to graph
     func loadGraph(_ view: BarChartView) {
+        view.clear()
+        view.clearValues()
+        checkedEntries.removeAll()
+        totalEntries.removeAll()
         // Load Goals and Tasks
         fetchDataEntries()
         // Setup legend
         configureLegend(in: view)
         // Create goal and task entries - append to checked/totalCountSet
-        createGoalTaskEntries()
+        createEntriesForCurrentDisplayMode()
         // Set up barGraph attributes
         configureGraph(view)
         // Assign dataSets to barGraphView
         assignData(to: view)
         // Set average for selected goals
         average = averageOfCompletion(goals: goals, tasks: tasks)
+        // Animate Bars 
+        view.animate(xAxisDuration: 0.8, yAxisDuration: 0.8, easingOption: .easeOutExpo)
     }
     
     // load goals and tasks
@@ -63,9 +69,9 @@ class Graph: GraphDataSource  {
     }
     
     // Create data entries using goals/tasks
-    func createGoalTaskEntries() {
+    func createGoalTaskEntries(from goalsArray: [GoalData]) {
         // Iterate through goals
-        for goal in goals {
+        for goal in goalsArray {
             // set count variable
             var totalCheckedCount = Double(0)
             // get count to checked tasks
@@ -87,6 +93,20 @@ class Graph: GraphDataSource  {
             totalEntries.append(totalEntry)
         }
         
+    }
+    
+    // Set entries depending on mode
+    func createEntriesForCurrentDisplayMode() {
+        switch displayMode {
+        case .weekly:
+            getPastWeeksGoals()
+            createGoalTaskEntries(from: goalsFromCurrentWeek)
+        case .monthly:
+            getCurrentMonthsGoals()
+            createGoalTaskEntries(from: goalsFromCurrentMonth)
+        case .all:
+            createGoalTaskEntries(from: goals)
+        }
     }
 
     // Configure Graph
@@ -142,6 +162,50 @@ class Graph: GraphDataSource  {
         view.noDataText = "Need more data to display goals."
         view.animate(xAxisDuration: 2, easingOption: .easeOutBack)
     }
+    
+    
+    // Getting Goals by date - load all cells to tasks and goals first
+    
+    // Current Week
+    var goalsFromCurrentWeek: [GoalData] = []
+    var tasksFromCurrentWeek: [TaskData] = []
+    
+    // Sort through goals depending on Date - Display last 7 days
+    func getPastWeeksGoals() {
+        for goal in goals {
+            if goalDC.isDateFromCurrentWeek(goal.dateCreated) == true {
+                goalsFromCurrentWeek.append(goal)
+            }
+            for task in tasks {
+                if task.goal_UID == goal.goal_UID {
+                    tasksFromCurrentWeek.append(task)
+                }
+            }
+        }
+        
+    }
+    
+    
+    // Current Month
+    var goalsFromCurrentMonth: [GoalData] = []
+    var tasksFromCurrentMonth: [TaskData] = []
+    
+    // Sort through goals depending on Date - Display Months goals
+    func getCurrentMonthsGoals() {
+        for goal in goals {
+            if goalDC.isDateFromCurrentMonth(goal.dateCreated) == true {
+                goalsFromCurrentMonth.append(goal)
+            }
+            for task in tasks {
+                if task.goal_UID == goal.goal_UID {
+                    tasksFromCurrentMonth.append(task)
+                }
+            }
+        }
+        
+    }
+    
+    
     
     
 }

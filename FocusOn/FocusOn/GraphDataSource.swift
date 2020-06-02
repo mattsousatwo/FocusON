@@ -82,8 +82,16 @@ class GraphDataSource {
         return finalString
     }
     
+    
+    
+    // sort goals for goals created in current Month - Display Goals in month
+//    func getCurrentMonthsGoals() {
+//
+//    }
+    
 }
 
+// Display Modes for Graphs
 enum GraphDisplayMode: String {
     case weekly = "Weekly"
     case monthly = "Monthly"

@@ -133,7 +133,40 @@ class DataController {
         return formatter.string(from: date)
         
     }
+    
+    // Check if date is from Current Month
+    func isDateFromCurrentMonth(_ date: Date?) -> Bool? {
+        guard let input = date else { return nil }
+        let currentDate = Date()
+        
+        // Get dates
+        let currentMonth = Calendar.current.component(.month, from: currentDate)
+        let inputMonth = Calendar.current.component(.month, from: input)
+        
+        if currentMonth == inputMonth {
+            return true
+        } else {
+            return false
+        }
+        return nil
+    }
 
+    // Check if date is from Current Week
+    func isDateFromCurrentWeek(_ date: Date?) -> Bool? {
+        guard let input = date else { return nil }
+        let currentDate = Date()
+        
+        // Get dates
+        let currentMonth = Calendar.current.component(.weekOfMonth, from: currentDate)
+        let inputMonth = Calendar.current.component(.weekOfMonth, from: input)
+        
+        if currentMonth == inputMonth {
+            return true
+        } else {
+            return false
+        }
+        return nil
+    }
 }
 
 
