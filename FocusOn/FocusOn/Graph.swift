@@ -9,7 +9,7 @@
 import Foundation
 import Charts
 
-class Graph  {
+class Graph: GraphDataSource  {
     
     // DataControllers
     let goalDC = GoalDataController()
@@ -27,16 +27,28 @@ class Graph  {
     var checkedCellCountSet: BarChartDataSet = BarChartDataSet()
     var totalCellCountSet: BarChartDataSet = BarChartDataSet()
     
+    // MARK: View set up
     // assign attributes to graph
     func loadGraph(_ view: BarChartView) {
         // Load Goals and Tasks
         fetchDataEntries()
-        // setup legend
+        // Setup legend
         configureLegend(in: view)
-
-        setGoalTaskEntries()
+        // Create goal and task entries - append to checked/totalCountSet
+        createGoalTaskEntries()
+        // Set up barGraph attributes
         configureGraph(view)
+        // Assign dataSets to barGraphView
         assignData(to: view)
+        // Set average for selected goals
+        average = averageOfCompletion(goals: goals, tasks: tasks)
+    }
+    
+    // load goals and tasks
+    func fetchDataEntries() {
+        // Load Goals
+        goals = goalDC.fetchAllGoals()
+        tasks = taskDC.fetchAllTasks()
     }
     
     // Setup legend for bar graph - TEST
@@ -50,31 +62,17 @@ class Graph  {
         legend.neededHeight = 30
     }
     
-    // load goals and tasks
-    func fetchDataEntries() {
-        // Load Goals
-        goals = goalDC.fetchAllGoals()
-        tasks = taskDC.fetchAllTasks()
-    }
-    
     // Create data entries using goals/tasks
-    func setGoalTaskEntries() {
+    func createGoalTaskEntries() {
         // Iterate through goals
         for goal in goals {
             // set count variable
             var totalCheckedCount = Double(0)
-            // if goal is checked
-            if goal.isChecked == true {
-                // add onto variable
-                totalCheckedCount += 1
-            }
             // get count to checked tasks
-            let checkedTaskCount = countOfCheckedTasksForGoal(with: goal.goal_UID!)
+            totalCheckedCount = countOfCheckedTasksForGoal(with: goal, in: tasks)
             // get number of total tasks
-            let goalsTaskCount = numberOfTasksFor(goal: goal.goal_UID!)
+            let goalsTaskCount = numberOfTasksFor(goal: goal.goal_UID!, in: tasks)
             
-            // add checked task count onto total count
-            totalCheckedCount += checkedTaskCount
             // Set maxCheckedCount to configure x-axis
             if totalCheckedCount > maxCheckedCount {
                 maxCheckedCount = totalCheckedCount
@@ -89,31 +87,8 @@ class Graph  {
             totalEntries.append(totalEntry)
         }
         
+    }
 
-    }
-        
-    // Return count of checked tasks with matching goalUID
-    func countOfCheckedTasksForGoal(with goalUID: String) -> Double {
-        var matchingTaskCount: Double = 0
-        for task in tasks {
-            if task.goal_UID == goalUID && task.isChecked == true {
-                matchingTaskCount += 1
-            }
-        }
-        return matchingTaskCount
-    }
-    
-    // Return number of tasks for goal
-    func numberOfTasksFor(goal: String) -> Double {
-        var array: [TaskData] = []
-        for task in tasks {
-            if task.goal_UID == goal {
-                array.append(task)
-            }
-        }
-        return Double(array.count)
-    }
-    
     // Configure Graph
     func configureGraph(_ view: BarChartView) {
         // Assign Sets
@@ -143,12 +118,16 @@ class Graph  {
         view.rightAxis.valueFormatter = IndexAxisValueFormatter(values: [""])
         
         // Set colors for sets
-        checkedCellCountSet.colors = [NSUIColor(red: 62/255.0, green: 105/255.0, blue: 144/255.0, alpha: 1.0)]
-        totalCellCountSet.colors = [NSUIColor(red: 56/255.0, green: 29/255.0, blue: 42/255.0, alpha: 1.0),]
+        checkedCellCountSet.colors = [NSUIColor(red: 1/255.0, green: 111/255.0, blue: 185/255.0, alpha: 1.0)]
+        totalCellCountSet.colors = [NSUIColor(red: 102/255.0, green: 153/255.0, blue: 204/255.0, alpha: 1.0),]
         // Set grid line colors
-        view.xAxis.gridColor = UIColor.gray
+        view.xAxis.gridColor = UIColor.clear
         view.leftAxis.gridColor = UIColor.gray
         view.rightAxis.gridColor = UIColor.clear
+        
+        view.drawBordersEnabled = true
+        view.borderLineWidth = 1
+        view.borderColor = UIColor.black
         
     }
     
@@ -163,5 +142,6 @@ class Graph  {
         view.noDataText = "Need more data to display goals."
         view.animate(xAxisDuration: 2, easingOption: .easeOutBack)
     }
+    
     
 }

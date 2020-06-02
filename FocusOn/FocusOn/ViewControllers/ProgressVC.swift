@@ -13,45 +13,41 @@ class ProgressVC: UIViewController {
     
     let graphs = Graph()
 
+    @IBOutlet weak var timeSegControl: UISegmentedControl!
+    
+    @IBOutlet var completedTaskAverageLabel: UIView!
+
+    @IBOutlet weak var averageLabel: UILabel!
+    
     @IBOutlet weak var barChart: BarChartView!
     
-    
-    // Fetch() coreData entites if there is stored data display bar graph
-        // Not sure how graph is supposed to be used
-        // ? Each bar will show how many tasks are in a goal and how many tasks are completed by a goal
-        // The website shows a segmentController with two switches: Month, Week
-    
-    // Create a bar graph using charts
-        // create a data entry array
-        // create a data set from a data array
-        // load data set into barGraphFrame: UIView
-    
-    
+    @IBAction func timeSegControlWasChanged(_ sender: Any) {
+        switch timeSegControl.selectedSegmentIndex {
+        case 0:
+            graphs.displayMode = .weekly
+            print(graphs.displayMode.rawValue)
+            // Load graph
+        case 1:
+            graphs.displayMode = .monthly
+            print(graphs.displayMode.rawValue)
+            // Load graph
+        case 2:
+            graphs.displayMode = .monthly
+            print(graphs.displayMode.rawValue)
+            // Load graph
+        default:
+            print("Out of index")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Progress"
+        
         graphs.loadGraph(barChart)
         
-        let x = Goal(title: "Finish Set Up")
-        print("goal title: \(x.title)\ngoal date: \(x.date)\ngoal UID: \(x.UID)\n")
-        
-        // add task to goal
-        x.createNew(task: "create UI")
-     
-        x.createNew(task: "Push APP!")
-        
-        x.createNew(task: "last title")
-     
-        for n in x.tasks {
-            print("\ntaskTitle: \(n.taskTitle)")
-            print("taskDate: \(n.taskDate)")
-            print("goal_UID: \(n.goal_UID)")
-            print("task_UID: \(n.task_UID)\n")
-        }
-        
-  
-        // Do any additional setup after loading the view.
+        averageLabel.text = "\(graphs.average)"
     }
     
     override func viewDidAppear(_ animated: Bool) {

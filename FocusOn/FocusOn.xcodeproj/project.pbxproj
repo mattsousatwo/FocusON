@@ -19,6 +19,7 @@
 		616851F823B5BA720043F915 /* TaskDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616851F723B5BA720043F915 /* TaskDataController.swift */; };
 		6169EFE8240CD82400EF0D4D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169EFE7240CD82400EF0D4D /* DataController.swift */; };
 		61794C9024731C850070142D /* DetailExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61794C8F24731C850070142D /* DetailExtension.swift */; };
+		617BECA124850F01006F76AE /* GraphDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617BECA024850F01006F76AE /* GraphDataSource.swift */; };
 		6196A8ED247DCCE100F7D29D /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6196A8EC247DCCE100F7D29D /* Animations.swift */; };
 		6196A8EF247DDF3000F7D29D /* check.json in Resources */ = {isa = PBXBuildFile; fileRef = 6196A8EE247DDF3000F7D29D /* check.json */; };
 		619F55FE23997D6F00F0D0EF /* HistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619F55FD23997D6F00F0D0EF /* HistoryVC.swift */; };
@@ -55,6 +56,7 @@
 		616851F723B5BA720043F915 /* TaskDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataController.swift; sourceTree = "<group>"; };
 		6169EFE7240CD82400EF0D4D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		61794C8F24731C850070142D /* DetailExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailExtension.swift; sourceTree = "<group>"; };
+		617BECA024850F01006F76AE /* GraphDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDataSource.swift; sourceTree = "<group>"; };
 		6196A8EC247DCCE100F7D29D /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		6196A8EE247DDF3000F7D29D /* check.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = check.json; sourceTree = "<group>"; };
 		619F55FD23997D6F00F0D0EF /* HistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVC.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				610830BE2483B5EF0081AE37 /* Graph.swift */,
+				617BECA024850F01006F76AE /* GraphDataSource.swift */,
 			);
 			name = Graoh;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				61BC1605237B167500341701 /* Goal.swift in Sources */,
 				61EEF1AD23B3B581001CD295 /* GoalDataController.swift in Sources */,
 				616851F823B5BA720043F915 /* TaskDataController.swift in Sources */,
+				617BECA124850F01006F76AE /* GraphDataSource.swift in Sources */,
 				61BC15F1237B156600341701 /* AppDelegate.swift in Sources */,
 				610830BF2483B5EF0081AE37 /* Graph.swift in Sources */,
 				615245DD247B4057008C32B8 /* UIViewExtension.swift in Sources */,

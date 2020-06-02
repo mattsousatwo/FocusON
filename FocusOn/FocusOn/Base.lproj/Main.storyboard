@@ -189,27 +189,62 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3j-b7-eWK" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="188" width="404" height="615"/>
+                                <rect key="frame" x="5" y="175" width="404" height="628"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sOa-uB-Z69">
+                                <rect key="frame" x="20" y="98" width="374" height="32"/>
+                                <segments>
+                                    <segment title="Week"/>
+                                    <segment title="Month"/>
+                                    <segment title="All Time"/>
+                                </segments>
+                                <connections>
+                                    <action selector="timeSegControlWasChanged:" destination="KDA-WJ-UUc" eventType="valueChanged" id="Md2-Jk-yzt"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NkG-48-aXo">
+                                <rect key="frame" x="287" y="144" width="47" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completed Task Average:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDp-8F-1eu">
+                                <rect key="frame" x="40" y="144" width="195" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="sOa-uB-Z69" secondAttribute="trailing" constant="20" id="61X-9B-agd"/>
+                            <constraint firstItem="sOa-uB-Z69" firstAttribute="top" secondItem="UvQ-oH-dTc" secondAttribute="top" constant="10" id="AIR-MI-2Vp"/>
                             <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="a3j-b7-eWK" secondAttribute="trailing" constant="5" id="AYc-1e-Xv8"/>
-                            <constraint firstItem="a3j-b7-eWK" firstAttribute="top" secondItem="UvQ-oH-dTc" secondAttribute="top" constant="100" id="MYY-tB-Arf"/>
+                            <constraint firstItem="TDp-8F-1eu" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="40" id="Aj7-qW-tgl"/>
+                            <constraint firstItem="NkG-48-aXo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TDp-8F-1eu" secondAttribute="trailing" constant="20" id="CeU-8q-tt9"/>
+                            <constraint firstItem="TDp-8F-1eu" firstAttribute="top" secondItem="sOa-uB-Z69" secondAttribute="bottom" constant="15" id="L5L-HC-iDM"/>
                             <constraint firstItem="UvQ-oH-dTc" firstAttribute="bottom" secondItem="a3j-b7-eWK" secondAttribute="bottom" constant="10" id="Z0a-Fv-qT9"/>
+                            <constraint firstItem="a3j-b7-eWK" firstAttribute="top" secondItem="NkG-48-aXo" secondAttribute="bottom" constant="10" id="Z27-0m-qvo"/>
+                            <constraint firstItem="NkG-48-aXo" firstAttribute="leading" relation="lessThanOrEqual" secondItem="TDp-8F-1eu" secondAttribute="trailing" constant="80" id="hDw-az-add"/>
                             <constraint firstItem="a3j-b7-eWK" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="5" id="jpD-Xy-iJD"/>
+                            <constraint firstItem="sOa-uB-Z69" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="20" id="lEc-JN-qLT"/>
+                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="NkG-48-aXo" secondAttribute="trailing" constant="80" id="teZ-FT-Awd"/>
+                            <constraint firstItem="NkG-48-aXo" firstAttribute="top" secondItem="sOa-uB-Z69" secondAttribute="bottom" constant="15" id="tmL-TU-1oX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UvQ-oH-dTc"/>
                     </view>
                     <navigationItem key="navigationItem" id="h85-pI-YXx"/>
                     <connections>
+                        <outlet property="averageLabel" destination="NkG-48-aXo" id="6Ry-VI-REz"/>
                         <outlet property="barChart" destination="a3j-b7-eWK" id="ZId-Zw-elW"/>
+                        <outlet property="completedTaskAverageLabel" destination="mgt-Fg-6D4" id="2cQ-cA-thr"/>
+                        <outlet property="timeSegControl" destination="sOa-uB-Z69" id="lAW-Er-XAm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cg2-Dk-lNb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5838" y="-368"/>
+            <point key="canvasLocation" x="5837.68115942029" y="-368.30357142857139"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="txu-yG-IRE">
