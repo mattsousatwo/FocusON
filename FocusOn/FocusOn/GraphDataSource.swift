@@ -74,6 +74,7 @@ class GraphDataSource {
         }
         // Get average
         average = checkedGoalsCount / totalGoalCount
+        print("Average = CheckedGoalsCount: \(checkedGoalsCount) / totalGoalCount: \(totalGoalCount)")
         print("Average: \(average)")
         // Multiply by 100
         var multiple = average * 100
@@ -97,7 +98,7 @@ class GraphDataSource {
     }
     
     
-    // return average depending on display mode 
+    // return average depending on display mode
     func getAverageForDisplayMode() -> String {
         var avg = ""
         switch displayMode {
@@ -112,8 +113,14 @@ class GraphDataSource {
         return avg
     }
     
+    // load goals and tasks
+    func fetchDataEntries() {
+        // Load Goals
+        goals = goalDC.fetchAllGoals()
+        tasks = taskDC.fetchAllTasks()
+    }
     
-    // Getting Goals by date - load all cells to tasks and goals first
+    // Getting Goals by date - load all data to tasks and goals before calling
     
     // Current Week
     // Sort through goals depending on Date - Display last 7 days
@@ -143,11 +150,9 @@ class GraphDataSource {
                      tasksFromCurrentMonth.append(task)
                  }
              }
-         }
-         
-     }
 
-    
+         }
+     }
     
 }
 

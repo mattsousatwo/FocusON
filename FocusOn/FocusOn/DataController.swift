@@ -114,12 +114,10 @@ class DataController {
         formatter.dateFormat = "MMM/dd/YY"
         
         if goal != nil {
-            print("goal type")
             let date = goal?.dateCreated!
             return formatter.string(from: date!)
             
         } else if task != nil {
-            print("task type")
             let date = task?.dateCreated!
             return formatter.string(from: date!)
         }

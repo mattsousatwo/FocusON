@@ -14,6 +14,7 @@ extension HistoryVC {
     func configureHistoryVC() {
         historyTableView.delegate = self
         historyTableView.dataSource = self
+        
         goalDC.getGoals()
 //        goalDC.fetchGoals()
         backButtonIsHidden(true)
@@ -331,7 +332,6 @@ extension HistoryVC {
         // number of cells to complete goal
         let countToCheckOffGoal = totalCells.count - 1
         let lessThanCountToCheckOffGoal = countToCheckOffGoal - 1
-        
         
         switch displayMode {
         case .goalMode:

@@ -118,7 +118,6 @@ class TaskDataController: DataController {
         return container 
     }
     
-    
     // Fetch a single specified task
     func fetchTask(with goalUID: String) -> TaskData {
         var task: [TaskData] = []
@@ -249,6 +248,37 @@ class TaskDataController: DataController {
          saveContext()
     }
     
+    
+    // Update checked property
+    func updateTasks(with goalUID: String, isChecked: Bool ) {
+        print(#function)
+        var tasks: [TaskData] = []
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        request.predicate = NSPredicate(format: "goal_UID = %@", goalUID)
+        do {
+            tasks = try context.fetch(request)
+        } catch {
+        }
+        // Change checked status
+        for task in tasks {
+            task.isChecked = isChecked
+            print(task.task_UID! + " isChecked = \(isChecked)")
+            saveContext()
+        }
+        
+    }
+    
+    // Fetch tasks for specified goal - HistoryVC
+    func grabTasksAssociatedWith(goalUID: String) -> [TaskData] {
+        var tasks: [TaskData] = []
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        request.predicate = NSPredicate(format: "goal_UID = %@", goalUID)
+        do {
+            tasks = try context.fetch(request)
+        } catch {
+        }
+        return tasks
+    }
     
     
 }

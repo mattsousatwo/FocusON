@@ -71,7 +71,7 @@ extension UITableView {
 
 extension UIViewController {
     // Update marker color for cell
-      func changeMarker(for cell: TaskCell, to selector: taskColors, highlighted: Bool) {
+      func updateMarkerColor(for cell: TaskCell, to selector: taskColors, highlighted: Bool) {
           cell.taskMarker.changeImageSet(to: selector)
           switch highlighted {
           case true:

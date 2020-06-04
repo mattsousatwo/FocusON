@@ -63,10 +63,18 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             for index in visibleRows {
                 // save goal marker as checked
                 if cell == historyTableView.cellForRow(at: index) {
-                let goal = goalDC.pastGoalContainer[index.row]
-                goal.isChecked = marker
-                print(#function)
-                goalDC.saveContext()
+                    let goal = goalDC.pastGoalContainer[index.section]
+                    goal.isChecked = marker
+                    print(#function + " \(goal.goal_UID!) isChecked: \(goal.isChecked)")
+                    goalDC.saveContext()
+                    
+                    var tasks = taskDC.grabTasksAssociatedWith(goalUID: goal.goal_UID!)
+                    for task in taskDC.selectedTaskContainer {
+                        task.isChecked = marker
+                        taskDC.saveContext()
+                    }
+                    tasks.removeAll()
+                    
                 }
             }
         case .taskMode:
@@ -105,7 +113,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         checkMarkersInRowsForCompletion()
     }
     
-    // Loading task markers
+    // Loading task markers - color
     func updateTaskMarkers(_ cell: TaskCell) {
         updateMarker(for: cell)
     }
@@ -185,7 +193,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     cell.textField.text = goal.name
                     print("Test 101 - HISTORYVC > cellForRowAt() > row: \(row), title: \(goal.name ?? "isEmpty")")
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
-                    changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
+                    updateMarkerColor(for: cell, to: markerSelection, highlighted: goal.isChecked)
                     printMarkerSelection(for: goal)
                     
                 }
@@ -198,7 +206,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 if let goal = selectedGoal {
                     cell.textField.text = goal.name!
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
-                    changeMarker(for: cell, to: markerSelection, highlighted: goal.isChecked)
+                    updateMarkerColor(for: cell, to: markerSelection, highlighted: goal.isChecked)
                     printMarkerSelection(for: goal)
                 }
             case 1: // Task
@@ -211,7 +219,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     }
                    
                     guard let markerSelection = taskColors(rawValue: task.markerColor) else { return cell }
-                    changeMarker(for: cell, to: markerSelection, highlighted: task.isChecked)
+                    updateMarkerColor(for: cell, to: markerSelection, highlighted: task.isChecked)
                     printMarkerSelection(for: nil, for: task)
                 }
             default:
@@ -355,13 +363,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 guard let goal = deleteAllGoal else { return }
                 print("1")
 //                guard let goalIndex = deleteAllGoalIndex else { return }
-                print("2")
                 guard let goalPos = deleteAllGoalPosition else { return }
-                print("3")
                 guard let tasks = deleteAllTasks else { return }
-                print("4")
                 guard let tasksIndex = deleteAllTasksIndex else { return }
-                print("5")
                 print(goal.goal_UID ?? "")
                 print(selectedGoalID)
                 print(displayMode)

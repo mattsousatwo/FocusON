@@ -24,24 +24,15 @@ class ProgressVC: UIViewController {
     @IBAction func timeSegControlWasChanged(_ sender: Any) {
         switch timeSegControl.selectedSegmentIndex {
         case 0:
-            
-            reload(graph: barChart, to: .weekly, update: averageLabel)
-//            graphs.displayMode = .weekly
-//            print(graphs.displayMode.rawValue)
-//            graphs.loadGraph(barChart)
-//            averageLabel.text = "\(graphs.average)"
+            // Reload graph depending on graphDispalyMode
+            print("ONE")
+            graphs.reload(graph: barChart, to: .weekly, update: averageLabel)
         case 1:
-            reload(graph: barChart, to: .monthly, update: averageLabel)
-//            graphs.displayMode = .monthly
-//            print(graphs.displayMode.rawValue)
-//            graphs.loadGraph(barChart)
-//            averageLabel.text = "\(graphs.average)"
+            print("TWO")
+            graphs.reload(graph: barChart, to: .monthly, update: averageLabel)
         case 2:
-            reload(graph: barChart, to: .all, update: averageLabel)
-//            graphs.displayMode = .all
-//            print(graphs.displayMode.rawValue)
-//            graphs.loadGraph(barChart)
-//            averageLabel.text = "\(graphs.average)"
+            print("THREE")
+            graphs.reload(graph: barChart, to: .all, update: averageLabel)
         default:
             print("Out of index")
         }
@@ -75,12 +66,5 @@ class ProgressVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    func reload(graph: BarChartView, to mode: GraphDisplayMode, update label: UILabel) {
-        print(graphs.displayMode.rawValue)
-        graphs.displayMode = mode
-        graphs.loadGraph(graph)
-        label.text = "\(graphs.average)"
-    }
 
 }

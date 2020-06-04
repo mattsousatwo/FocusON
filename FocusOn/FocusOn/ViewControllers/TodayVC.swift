@@ -140,7 +140,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
             guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return cell }
             print("markerSelection = \(markerSelection.rawValue)")
             
-            changeMarker(for: cell, to: markerSelection, highlighted: todaysGoal.isChecked)
+            updateMarkerColor(for: cell, to: markerSelection, highlighted: todaysGoal.isChecked)
             
     
         case 1: // Task Section
@@ -149,7 +149,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
                 let task = taskDC.currentTaskContainer[indexPath.row]
                 cell.textField.text = task.name
                 guard let markerSelection = taskColors(rawValue: task.markerColor) else { return cell }
-                changeMarker(for: cell, to: markerSelection, highlighted: task.isChecked)
+                updateMarkerColor(for: cell, to: markerSelection, highlighted: task.isChecked)
             }
             
         default:
