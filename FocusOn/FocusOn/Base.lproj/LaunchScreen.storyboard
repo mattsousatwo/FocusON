@@ -16,17 +16,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FocusON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6L-FE-IAn">
-                                <rect key="frame" x="20" y="269" width="374" height="143"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="60"/>
+                                <rect key="frame" x="20" y="431" width="374" height="60"/>
+                                <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="60"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.57863237768127795" green="0.69292826325074319" blue="0.75281379019341821" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.28361475470000003" green="0.35044303539999999" blue="0.47913235430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t6L-FE-IAn" secondAttribute="bottom" constant="450" id="WKm-E7-Ubt"/>
+                            <constraint firstItem="t6L-FE-IAn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TpS-ay-BPx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="t6L-FE-IAn" secondAttribute="trailing" constant="20" id="USY-e4-GOG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t6L-FE-IAn" secondAttribute="bottom" constant="371" id="bMO-3G-DtC"/>
                             <constraint firstItem="t6L-FE-IAn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="eCe-Wm-vUH"/>
-                            <constraint firstItem="t6L-FE-IAn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="225" id="m2N-1S-HIt"/>
+                            <constraint firstItem="t6L-FE-IAn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="387" id="qxM-Ji-v4P"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="t6L-FE-IAn" secondAttribute="trailing" constant="20" id="u4d-lv-0M7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -34,7 +36,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
 </document>

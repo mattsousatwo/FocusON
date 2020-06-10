@@ -26,20 +26,8 @@ class Graph: GraphDataSource  {
     // MARK: View set up
     // assign attributes to graph
     func loadGraph(_ view: BarChartView) {
-        view.clear()
-        view.clearValues()
-        checkedEntries.removeAll()
-        totalEntries.removeAll()
-        goalsFromCurrentMonth.removeAll()
-        tasksFromCurrentMonth.removeAll()
-        goalsFromCurrentWeek.removeAll()
-        tasksFromCurrentWeek.removeAll()
-        goals.removeAll()
-        tasks.removeAll()
-        checkedCellCountSet.removeAll()
-        totalCellCountSet.removeAll()
-        dateLabels.removeAll()
-        
+        // Clear all values
+        clearGraphValues(view)
         // Load Goals and Tasks
         fetchDataEntries()
         // Setup legend
@@ -86,7 +74,7 @@ class Graph: GraphDataSource  {
             let goalXAxis = Double(goals.lastIndex(of: goal)!)
             // create data set using figures
             let checkedEntry = BarChartDataEntry(x: goalXAxis, y: totalCheckedCount)
-            let totalEntry = BarChartDataEntry(x: goalXAxis, y: goalsTaskCount + 1)
+            let totalEntry = BarChartDataEntry(x: goalXAxis, y: goalsTaskCount)
             // add onto array
             checkedEntries.append(checkedEntry)
             totalEntries.append(totalEntry)
@@ -150,6 +138,8 @@ class Graph: GraphDataSource  {
         view.leftAxis.axisMaximum = maxCheckedCount + 4
         view.leftAxis.granularityEnabled = true
         view.leftAxis.granularity = 1
+        view.leftAxis.axisMinimum = 0
+        view.rightAxis.axisMinimum = 0 
         // remove bottom space in grid - bars start at bottom of grid
         view.leftAxis.spaceBottom = 0
 
@@ -195,4 +185,21 @@ class Graph: GraphDataSource  {
         label.text = "\(average)"
     }
     
+    // Clear data for graph
+    func clearGraphValues(_ view: BarChartView) {
+        view.clear()
+        view.clearValues()
+        checkedEntries.removeAll()
+        totalEntries.removeAll()
+        goalsFromCurrentMonth.removeAll()
+        tasksFromCurrentMonth.removeAll()
+        goalsFromCurrentWeek.removeAll()
+        tasksFromCurrentWeek.removeAll()
+        goals.removeAll()
+        tasks.removeAll()
+        checkedCellCountSet.removeAll()
+        totalCellCountSet.removeAll()
+        dateLabels.removeAll()
+
+    }
 }

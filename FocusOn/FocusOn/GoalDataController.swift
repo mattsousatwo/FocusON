@@ -30,14 +30,17 @@ class GoalDataController: DataController {
     }
     
     // MARK: Save
-    func saveGoal(goal: Goal, title: String = "" ) {
+    func saveGoal(goal: Goal, title: String = "", date: Date? = nil) {
         print(#function)
          
         // maybe some logic to update goal
         
         let xGoal = GoalData(context: context)
-        
+        if let date = date {
+            xGoal.dateCreated = date
+        } else {
         xGoal.dateCreated = Date()
+        }
         xGoal.goal_UID = goal.UID
         if title == "" {
             xGoal.name = goal.title
@@ -67,8 +70,10 @@ class GoalDataController: DataController {
     }
     
     func createTestGoals() {
+        
         for x in 1...5 {
-            saveGoal(goal: Goal(), title: "Test\(x)") 
+            let date = createDate(month: 1, day: x, year: 2020)
+            saveGoal(goal: Goal(), title: "Goal \(x)", date: date)
         }
     }
     
@@ -266,6 +271,8 @@ class GoalDataController: DataController {
             // Goal Container has goals
             // MARK: Delete goals go here ---------
             parseGoals()
+//             removeDuplicates()
+            refactorGoal()
         case false:
             printOne(#function + "container.count != 0: FALSE")
             // Goal Container is empty
@@ -275,6 +282,45 @@ class GoalDataController: DataController {
         printOneOutcome()
         printOne(#function + " --- end")
     }
+    
+    func removeDuplicates() {
+        // Count of deleted Goals (duplicates)
+        var deletedCount = 0
+        // Count of specific goal in Container
+        var countPerGoal = 0
+        
+        
+        // remove doubles from pastGoals
+        for goal in pastGoalContainer {
+            for xGoal in pastGoalContainer {
+                
+                if goal.goal_UID == xGoal.goal_UID {
+                    countPerGoal += 1
+                    if countPerGoal >= 2 {
+                        xGoal.goal_UID = "00000000"
+                        saveContext()
+                        deleteGoalsWith(UIDs: ["00000000"])
+                        deletedCount += 1
+                    }
+                }
+            }
+            countPerGoal = 0
+        }
+        
+        for goal in goalContainer {
+            for yGoal in goalContainer {
+                if goal.goal_UID == yGoal.goal_UID {
+                    yGoal.goal_UID = "00000000"
+                    saveContext()
+                    deleteGoalsWith(UIDs: ["00000000"])
+                    deletedCount += 1
+                }
+            }
+        }
+        
+        print("Test 105 - deletedCount = \(deletedCount)")
+    }
+    
     
     // Seperate CurrentGoals VS PastGoals
     func parseGoals() {
@@ -375,6 +421,30 @@ class GoalDataController: DataController {
         printOne("goalContainer.count = \(goalContainer.count) [ A ]")
         printOne("pastGoalContainer.count = \(pastGoalContainer.count) [ A ]")
         printOne(#function + " --- end")
+    }
+    
+    // If day passes and current goal is not complete refactor goal for new day
+    func refactorGoal() {
+        // look for goal after date has changed
+            // will be in past goals
+        // change goals date
+        // save as current goal
+            // ?remove from pastGoals
+        if pastGoalContainer.count != 0 {
+            
+            for goal in pastGoalContainer {
+                if Calendar.current.isDateInYesterday(goal.dateCreated!) == true {
+                    print("Test 103 - Goal is from Yesterday")
+                    
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        
     }
     
     // Sort goals by their dates into pastGoalContainer or if from today set as currentGoal

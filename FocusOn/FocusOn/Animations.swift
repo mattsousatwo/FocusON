@@ -12,8 +12,11 @@ import Lottie
 
 class Animations {
     
+    let goalDC = GoalDataController()
+    
+    
     // Start confetti and check animation
-    func playCompletionAnimationIn(view: UIView, of parent: UIViewController, withType type: Views) {
+    func playCompletionAnimationIn(view: UIView, of parent: UIViewController, withType type: Views, for goal: GoalData, in taskCell: TaskCell) {
         // CreateViews
         var checkView = AnimationView()
         var confettiView = AnimationView()
@@ -31,7 +34,7 @@ class Animations {
         confettiView.play(fromFrame: CheckAnimationFrames.start.rawValue, toFrame: CheckAnimationFrames.finished.rawValue, loopMode: .none) { (_) in
             print("complete")
             // Activate Alert Controller
-            self.presentCongragulationsAlert(inParent: parent, child: view, in: type, completion: {
+            self.presentCongragulationsAlert(inParent: parent, child: view, in: type, for: goal, in: taskCell, completion: {
                 // Dismiss views upon completion
                 checkView.removeFromSuperview()
                 confettiView.removeFromSuperview()
@@ -62,6 +65,7 @@ class Animations {
             checkView.removeFromSuperview()
             view.isUserInteractionEnabled = true 
             if type == .history {
+                // Enable History navigation buttons
                 guard let history = parent as? HistoryVC else { return }
                 history.backBarButton.isEnabled = true
                 history.backBarButton.tintColor = UIColor.blue
@@ -71,25 +75,31 @@ class Animations {
     }
     
     // Pause Animation and Present Alert Controller
-    func presentCongragulationsAlert(inParent view: UIViewController, child: UIView, in viewType: Views, completion: @escaping () -> Void) {
+    func presentCongragulationsAlert(inParent view: UIViewController, child: UIView, in viewType: Views, for goal: GoalData, in taskCell: TaskCell, completion: @escaping () -> Void) {
         
-        var message = ""
-        switch viewType {
-        case .today:
-            message = AlertMessage.todayMessage.rawValue
-        case .history:
-            message = AlertMessage.historyMessage.rawValue
-        }
+        let x = UIAlertController(title: "Congragulations!", message: AlertMessage.completionMessage.rawValue, preferredStyle: .alert)
         
-        let x = UIAlertController(title: "Congragulations!", message: message, preferredStyle: .alert)
-        
-        let actionButton = UIAlertAction(title: "Got It!", style: .cancel) { (_) in
+        // Check off goal
+        let checkGoalButton = UIAlertAction(title: "Check", style: .default, handler: { (_) in
             completion()
             self.resumeAnimations(in: child, parent: view, ofType: viewType)
+            goal.isChecked = true
+            taskCell.taskMarker.isHighlighted = true
+            self.goalDC.saveContext()
+        })
+        
+        // Leave goal unchecked
+        let uncheckGoalButton = UIAlertAction(title: "Uncheck", style: .cancel) { (_) in
+            completion()
+            self.resumeAnimations(in: child, parent: view, ofType: viewType)
+            goal.isChecked = false
+            taskCell.taskMarker.isHighlighted = false
+            self.goalDC.saveContext()
         }
         
-    
-        x.addAction(actionButton)
+        // Add buttons & dismiss
+        x.addAction(checkGoalButton)
+        x.addAction(uncheckGoalButton)
         view.present(x, animated: true)
     }
 
@@ -114,6 +124,5 @@ enum ConfettiAnimationFrames: CGFloat {
 }
 
 enum AlertMessage: String {
-    case historyMessage = "You completed your goal! Way to go!"
-    case todayMessage = "You accomplished your goal! Rest up or get a head start on tomorrows goal."
+    case completionMessage = "You've checked off all your tasks! Should we mark this goal as completed or is there still more to do?"
 }

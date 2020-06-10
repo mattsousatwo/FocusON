@@ -11,7 +11,6 @@ import Charts
 
 class GraphDataSource {
     
-    
     // DataControllers
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
@@ -30,9 +29,6 @@ class GraphDataSource {
     var totalGoalCount: Double = 0
     var displayMode: GraphDisplayMode = .weekly
     
-    // MARK: Multiple Entries are created at index if task is checked causeing there to be multiple labels for the count
-    /// maybe multiple entries are created when a goal is checked off??
-    /// is this just a feature of Charts?
     // Return count of checked tasks with matching goalUID
     func countOfCheckedTasksForGoal(with goal: GoalData, in taskContainer: [TaskData]) -> Double {
         var checkedTasks: [TaskData] = []
@@ -59,22 +55,23 @@ class GraphDataSource {
                 array.append(task)
             }
         }
-        return Double(array.count)
+        // Number of task count + 1 (goal)
+        return Double(array.count + 1)
     }
     
     // Get average of completed tasks
     func averageOfCompletion(goals: [GoalData], tasks: [TaskData]) -> String {
         var average: Double = 0
-        var checkedGoalsCount: Double = 0
-        var totalGoalCount: Double = 0
+        var checkedCountForGoal: Double = 0
+        var sumOfGoalsTasks: Double = 0
         // iterate through goals & tasks to get count
         for goal in goals {
-            checkedGoalsCount += countOfCheckedTasksForGoal(with: goal, in: tasks)
-            totalGoalCount += numberOfTasksFor(goal: goal.goal_UID!, in: tasks)
+            checkedCountForGoal += countOfCheckedTasksForGoal(with: goal, in: tasks)
+            sumOfGoalsTasks += numberOfTasksFor(goal: goal.goal_UID!, in: tasks)
         }
         // Get average
-        average = checkedGoalsCount / totalGoalCount
-        print("Average = CheckedGoalsCount: \(checkedGoalsCount) / totalGoalCount: \(totalGoalCount)")
+        average = checkedCountForGoal / sumOfGoalsTasks
+        print("Average = CheckedGoalsCount: \(checkedCountForGoal) / totalGoalCount: \(sumOfGoalsTasks)")
         print("Average: \(average)")
         // Multiply by 100
         var multiple = average * 100

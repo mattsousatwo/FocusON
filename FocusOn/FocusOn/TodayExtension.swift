@@ -181,7 +181,8 @@ extension TodayVC {
             firstCell.taskMarker.isHighlighted = true
             todaysGoal.isChecked = true
             goalDC.saveContext()
-            animation.playCompletionAnimationIn(view: view, of: self, withType: .today)
+            // use todays goal to access GoalData
+            animation.playCompletionAnimationIn(view: view, of: self, withType: .today, for: todaysGoal, in: firstCell)
             // If checkedCells are less than count needed to complete goal
         } else if checkedCells.count == lessThanCompletion &&
         firstCell.taskMarker.isHighlighted == true {

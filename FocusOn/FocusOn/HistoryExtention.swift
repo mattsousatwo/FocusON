@@ -357,7 +357,7 @@ extension HistoryVC {
                 firstCell.taskMarker.isHighlighted = true
                 selectedGoal?.isChecked = true
                 goalDC.saveContext()
-                playAnimations()
+                playAnimationsForGoalIn(cell: firstCell)
                 
                 // Else if checkedCells are less than count needed to complete goal
                 // && firstCell is checked off
@@ -374,10 +374,11 @@ extension HistoryVC {
         }
     }
     
-    func playAnimations() {
+    func playAnimationsForGoalIn(cell: TaskCell) {
         backBarButton.isEnabled = false
         backBarButton.tintColor = UIColor.clear
-        animation.playCompletionAnimationIn(view: view, of: self, withType: .history)
+        guard let goal = selectedGoal else { return }
+        animation.playCompletionAnimationIn(view: view, of: self, withType: .history, for: goal, in: cell)
     }
     
     

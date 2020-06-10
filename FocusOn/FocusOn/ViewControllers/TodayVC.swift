@@ -39,6 +39,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 //         taskDC.deleteAllTasks()
         
 //        goalDC.getGoals()
+//        goalDC.createTestGoals()
         configureTodayVC()
     
         

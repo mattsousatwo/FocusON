@@ -163,6 +163,14 @@ class DataController {
             return false
         }
     }
+    
+    // Create a date using figures
+    func createDate(month: Int, day: Int, year: Int) -> Date {
+        let calendar = Calendar.current
+        let components = DateComponents(year: year, month: month, day: day)
+        
+        return calendar.date(from: components)!
+    }
 }
 
 
