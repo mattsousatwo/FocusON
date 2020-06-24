@@ -50,6 +50,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     
     override func viewWillAppear(_ animated: Bool) {
         configureViewDidAppear()
+
     }
     
     // MARK: TaskCell Delegate
@@ -111,6 +112,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         }
         // Check if all task markers are complete 
         checkMarkersInRowsForCompletion()
+        // Update Label Count
+        updateCompletedTasksLabelCount()
     }
     
     // Loading task markers - color
@@ -163,7 +166,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             }
             return title
         case .taskMode:
-            navigationItem.title = "\( goalDC.formatDate(from: selectedGoal) ?? "History" )"
+            updateCompletedTasksLabelCount()
             switch section {
             case 0:
                 return "Goal"
@@ -247,7 +250,14 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 let section = indexPath.section
                     if indexPath == [section, 0] {
                         selectedGoalID = goalDC.pastGoalContainer[section].goal_UID!
-                        print("selectedGoalID = \(selectedGoalID)")
+                        let x = goalDC.pastGoalContainer.filter( { $0.goal_UID == selectedGoalID })
+                        var y = ""
+                        if x.count == 0 {
+                            y = "Is not in pastGoals"
+                        } else {
+                            y = "Is in pastGoals"
+                        }
+                        print("selectedGoalID = \(selectedGoalID) \(y)")
                     }
                 }
         case .taskMode:
@@ -321,6 +331,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     let task = self.taskDC.selectedTaskContainer[indexPath.row]
                     self.delete(task, at: indexPath)
                     self.historyTableView.reloadData()
+                    self.updateCompletedTasksLabelCount()
                 default:
                     return
                 }
@@ -338,6 +349,14 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     
     // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//        let x = isUndoDeletionModeCorrect()
+        let x = isUndoDeletionModeCorrect()
+        if x == false {
+            print("undoMode == False")
+            return
+        }
+        print("undoMode == True")
+        
         if motion == .motionShake {
             print(#function)
             // check if goal or task is used
@@ -347,15 +366,18 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 // insert task back into table and array
                 historyTableView.beginUpdates()
                 taskDC.selectedTaskContainer.insert(deletedTask, at: deletedTaskIndex.row)
+                taskDC.saveContext()
                 historyTableView.insertRows(at: [deletedTaskIndex], with: .automatic)
                 historyTableView.endUpdates()
+                
+                
             case .goal: // lastGoalDeleted is != nil
-                guard let deletedGoal = lastDeletedGoal, let deletedGoalIndex = lastDeletedGoalIndex else { return }
+                guard let deletedGoal = lastDeletedGoal else { return }
                 // Insert goal back into table and array
-                historyTableView.beginUpdates()
-                goalDC.pastGoalContainer.insert(deletedGoal, at: deletedGoalIndex.row)
-                historyTableView.insertRows(at: [deletedGoalIndex], with: .automatic)
-                historyTableView.endUpdates()
+                goalDC.pastGoalContainer.append(deletedGoal)
+                goalDC.sortPastGoalsByDate()
+                goalDC.saveContext()
+                historyTableView.reloadData()
             case .deleteAll:
                 print("DeleteAll")
                 
@@ -363,21 +385,21 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 guard let goal = deleteAllGoal else { return }
                 print("1")
 //                guard let goalIndex = deleteAllGoalIndex else { return }
-                guard let goalPos = deleteAllGoalPosition else { return }
                 guard let tasks = deleteAllTasks else { return }
                 guard let tasksIndex = deleteAllTasksIndex else { return }
                 print(goal.goal_UID ?? "")
                 print(selectedGoalID)
                 print(displayMode)
                 // Insert rows
-                goalDC.pastGoalContainer.insert(goal, at: goalPos)
-                
+                goalDC.pastGoalContainer.append(goal)
+                goalDC.sortPastGoalsByDate()
+                // append tasks from goal
                 for index in tasksIndex {
                     for task in tasks {
                         taskDC.pastTaskContainer.insert(task, at: index.row)
                     }
                 }
-                
+                // insert selected goals rows
                 if goal.goal_UID! == selectedGoalID {
                     print("should insert rows")
                     selectedGoal = goal
@@ -388,6 +410,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     }
 
                 }
+                goalDC.saveContext()
+                taskDC.saveContext()
+                updateCompletedTasksLabelCount()
                 historyTableView.reloadData()
             default:
                 return
@@ -399,10 +424,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 guard let view = view as? TaskCell else { return }
                 view.menuButton.isHidden = true
             }
-            navigationItem.title = "History"
-            historyTableView.reloadData()
-            
+//            historyTableView.reloadData()
         }
+        updateCompletedTasksLabelCount()
     }
     
     
@@ -483,6 +507,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     @IBAction func backBarButtonWasPressed(_ sender: Any) {
         backButtonIsHidden(true)
         newTaskButtonIsHidden(true)
+        navigationItem.title = "History"
     }
     
     @IBAction func newTaskButtonWasPressed(_ sender: Any) {

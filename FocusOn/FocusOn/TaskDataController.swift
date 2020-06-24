@@ -223,9 +223,12 @@ class TaskDataController: DataController {
     
     func deleteTaskFromHistory(at indexPath: IndexPath?, in table: UITableView) {
          guard let indexPath = indexPath else { return }
-         
+        let task = selectedTaskContainer[indexPath.row]
+        
          table.beginUpdates()
-         
+        
+         delete(task: task.task_UID!)
+        
          selectedTaskContainer.remove(at: indexPath.row)
          
          table.deleteRows(at: [indexPath], with: .automatic)
@@ -233,6 +236,18 @@ class TaskDataController: DataController {
          table.endUpdates()
         
          saveContext()
+    }
+    
+    // Delete all goals with a goalID
+    func deleteAllTasks(with goalID: String) {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: taskData)
+        request.predicate = NSPredicate(format: "goal_UID = %@", goalID)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        do {
+            try context.execute(deleteRequest)
+        } catch {
+        }
+        saveContext()
     }
     
     

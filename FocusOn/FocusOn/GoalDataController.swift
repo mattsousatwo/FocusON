@@ -60,13 +60,14 @@ class GoalDataController: DataController {
     
     // MARK: Create
     // Creating goals for testing
-    func createTestGoals(int: Int = 5) {
+    func createTestGoals(int: Int = 5, month: Int = 1) {
         // if goal does not equal default value or 0
-        if int != 5 && int != 0 {
+        if int != 5 && int != 0 && month != 1 {
             // create defined amount of test goals
             for x in 1...int {
-                let date = createDate(month: 1, day: x, year: 2020)
+                let date = createDate(month: month, day: x, year: 2020)
                 saveGoal(goal: Goal(), title: "Goal \(x)", date: date)
+                
             }
         } else {
             // create Five test goals
@@ -189,7 +190,7 @@ class GoalDataController: DataController {
     // Used in HistoryVC to delete a goal 
     func delete(goal: GoalData, at indexPath: IndexPath, in table: UITableView) {
         
-        print("Test 102 " + "goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
+        print("Test 102 " + "delete goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
         table.beginUpdates()
             
         pastGoalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID!})
@@ -271,6 +272,8 @@ class GoalDataController: DataController {
             // MARK: Delete goals go here ---------
             parseGoals()
 //             removeDuplicates()
+            //// sorting past goals by date
+            sortPastGoalsByDate()
         case false:
             printOne(#function + "container.count != 0: FALSE")
             // Goal Container is empty
@@ -503,6 +506,13 @@ class GoalDataController: DataController {
             
         }
         printOne(#function + " --- end")
+    }
+    
+    // Make sure pastGoalContainers goals are in order by date
+    func sortPastGoalsByDate() {
+        pastGoalContainer.sort { (goalA, goalB) -> Bool in
+            goalA.dateCreated! > goalB.dateCreated!
+        }
     }
     
     // Create new goal and set it as current goal

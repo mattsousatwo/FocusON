@@ -106,6 +106,7 @@ extension HistoryVC {
             self.taskDC.fetchTasksFor(goalUID: self.selectedGoalID)
             self.historyTableView.reloadData()
             self.checkMarkersInRowsForCompletion()
+            self.updateCompletedTasksLabelCount()
             print("BEFORE \n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
             
             
@@ -143,6 +144,7 @@ extension HistoryVC {
             historyTableView.reloadData()
             selectedRow.menuButton.isHidden = true
             historyTableView.deselectRow(at: selectedIndex, animated: false)
+            updateCompletedTasksLabelCount()
         case .taskMode:
             // setup Segue
             print(".taskMode went through")
@@ -170,6 +172,8 @@ extension HistoryVC {
         lastDeletedGoalIndex = index
         goalDC.delete(goal: goal, at: index, in: historyTableView)
         taskDC.selectedTaskContainer.removeAll()
+        // Delete tasks with goalID
+        taskDC.deleteAllTasks(with: goal.goal_UID!)
         taskDC.saveContext()
         clearDeletedCache(.goal)
         historyTableView.reloadData()
@@ -194,6 +198,63 @@ extension HistoryVC {
             return .deleteAll
         }
         return nil
+    }
+    
+    // if delete mode is not equal to the type of deleted task we are bringing back the app will crash, so we need to ensure that when a task is being brought back, it is in task display mode
+    func isUndoDeletionModeCorrect() -> Bool {
+        
+        func undoPrintStatement(_ input: String) {
+            print("undoCheck :: " + input)
+        }
+        guard let lastDeletedType = checkDeleteMode() else { return false }
+        
+        undoPrintStatement(" INITAL - last deleted type = \(lastDeletedType), displayMode = \(displayMode)")
+        
+        switch lastDeletedType {
+        case .deleteAll:
+            // can only undo if goalMode
+            if displayMode == .taskMode {
+                undoPrintStatement("DeleteAll: displayMode = .taskMode -> FALSE")
+                return false
+            } else if displayMode == .goalMode {
+                undoPrintStatement("DeleteAll: displayMode = .goalMode -> TRUE")
+                return true
+            }
+            undoPrintStatement("DeleteAll: FAIL THROUGH")
+            return false
+        case .goal:
+            // can only undo if in goalMode
+            if displayMode == .taskMode {
+                undoPrintStatement("goal: displayMode = .taskMode -> FALSE")
+                return false
+            } else if displayMode == .goalMode {
+                undoPrintStatement("goal: displayMode = .goalMode -> TRUE")
+                return true
+            }
+            undoPrintStatement("goal: FAIL THROUGH")
+            return false
+        case .task:
+            guard let lastDeletedID = lastDeletedTask?.goal_UID else { return false }
+            // can only undo if in taskMode and goalID matches
+            if displayMode == .goalMode {
+                undoPrintStatement("task: displayMode = .taskMode -> FALSE")
+                return false
+            } else if displayMode == .taskMode {
+                if selectedGoalID == lastDeletedID {
+                    undoPrintStatement("task: displayMode = .taskMode, sgID - \(selectedGoalID) : ldID - \(lastDeletedID) -> TRUE")
+                    return true
+                }
+                undoPrintStatement("task: displayMode = .taskMode -> FALSE")
+                return false
+            }
+            undoPrintStatement("task: FAIL THROUGH")
+            return false
+        }
+        
+        
+        undoPrintStatement("general true")
+        
+        return true
     }
     
     // Func to remove saved deleted tasks - Maybe can remove excluding clause
@@ -274,6 +335,7 @@ extension HistoryVC {
         deleteAllGoalPosition = goalPosition
         deleteAllTasks = taskDC.selectedTaskContainer
         deleteAllTasksIndex = historyTableView.indexPathsForVisibleRows!
+        // Remove goals index
         deleteAllTasksIndex?.removeFirst()
         
         // remove files
@@ -379,6 +441,23 @@ extension HistoryVC {
         backBarButton.tintColor = UIColor.clear
         guard let goal = selectedGoal else { return }
         animation.playCompletionAnimationIn(view: view, of: self, withType: .history, for: goal, in: cell)
+    }
+    
+    
+    func updateCompletedTasksLabelCount() {
+        print(#function)
+        // Get all of the cells
+        guard let visibileCells = historyTableView.visibleCells as? [TaskCell] else { return }
+        // Filter for all of the checked cells
+        let checkedCells = visibileCells.filter({ $0.taskMarker.isHighlighted == true })
+        // Set filtered count as selectedGoal.completedGoalsCount
+        selectedGoal?.completedCellCount = Int16(checkedCells.count)
+        goalDC.saveContext()
+        // Update label
+        if displayMode == .taskMode {
+            navigationItem.title = "\(selectedGoal!.completedCellCount)\\\(visibileCells.count)"
+        }
+        
     }
     
     

@@ -32,19 +32,28 @@ class FocusOnTests: XCTestCase {
                 XCTAssert(false)
             }
         }
+        var counter = 0
+        for goal in goals.goalContainer {
+            if goal.goal_UID! == goalUID {
+                counter += 1
+            }
+        }
+        if counter >= 2 {
+            XCTAssert(false)
+        }
         XCTAssert(true)
     }
     
     // Check for any missing goals
     func testAllGoalsAccountedFor() {
-        let goalDC = GoalDataController()
+//        let goalDC = GoalDataController()
         
-        let taskDC = TaskDataController()
-        var tasks: [TaskData] = []
-        
-        
-        goalDC.fetchAllGoals()
-        tasks = taskDC.fetchAllTasks()
+//        let taskDC = TaskDataController()
+//        var tasks: [TaskData] = []
+//
+//
+//        goalDC.fetchAllGoals()
+//        tasks = taskDC.fetchAllTasks()
     }
     
     // Checking to see if multiple fetch calls will cause doubles to appear in goals array
@@ -65,7 +74,58 @@ class FocusOnTests: XCTestCase {
             XCTAssert(false)
         }
     }
+    
+    
+    func testFetchForSpecificGoal() {
+        let goalDC = GoalDataController()
+        var counter = 0
+        goalDC.fetchGoals()
+        if goalDC.goalContainer.count != 0 {
+            for goal in goalDC.goalContainer {
+                let x = goalDC.fetchGoal(withUID: goal.goal_UID!)
+                print("test 203: goal \(x.goal_UID!) has been fetched : CURRENT")
+                counter += 1
+            }
+        }
+        
+        if goalDC.pastGoalContainer.count != 0 {
+            for goal in goalDC.pastGoalContainer {
+                let x = goalDC.fetchGoal(withUID: goal.goal_UID!)
+                print("test 203: goal \(x.goal_UID!) has been fetched : PAST")
+                counter += 1
+            }
+        }
+        
+        
+        print("test 203: number of goals fetched: \(counter)")
+        if counter > 0 {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
+        
+            
+    }
 
+    func testIfGoalsAreSortedByDate() {
+        let goalDC = GoalDataController()
+        goalDC.getGoals()
+        goalDC.sortPastGoalsByDate()
+        for goal in goalDC.pastGoalContainer {
+            print("sorting - \(goalDC.pastGoalContainer.firstIndex(of: goal)!) : \(goal.dateCreated!)")
+        }
+        
+        guard let firstGoal = goalDC.pastGoalContainer.first else { return }
+        guard let lastGoal = goalDC.pastGoalContainer.last else { return }
+        
+        if firstGoal.dateCreated! > lastGoal.dateCreated! {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
+        
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         measure {

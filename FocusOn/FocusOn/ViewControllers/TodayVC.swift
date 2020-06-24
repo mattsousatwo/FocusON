@@ -39,7 +39,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 //         taskDC.deleteAllTasks()
         
 //        goalDC.getGoals()
-//        goalDC.createTestGoals()
+//        goalDC.createTestGoals(int: 7, month: 1)
         configureTodayVC()
     
         
@@ -343,6 +343,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     @objc func menuButtonPressed() {
         print(#function)
         performSegue(withIdentifier: "TodayToDetail", sender: nil)
+        
     }
      
   

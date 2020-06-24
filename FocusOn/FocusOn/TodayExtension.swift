@@ -80,7 +80,6 @@ extension TodayVC {
             let highlightedTaskCells = totalTasks.filter( { $0.taskMarker.isHighlighted == true })
             todaysGoal.completedCellCount = Int16(highlightedTaskCells.count)
             goalDC.saveContext()
-           // navigationItem.title = "Task Count: \(todaysGoal.completedCellCount)\\\(taskDC.currentTaskContainer.count + 1)"
             navigationItem.title = "Task Count: \(highlightedTaskCells.count)\\\(taskDC.currentTaskContainer.count + 1)"
             print("task count = \(totalTasks.count)")
         }

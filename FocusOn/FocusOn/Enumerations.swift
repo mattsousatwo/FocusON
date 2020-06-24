@@ -12,8 +12,8 @@ enum DisplayMode: String {
     case goalMode = "Display: GoalMode\n", taskMode = "Display: TaskMode\n"
 }
 
-enum DeletedTaskMode {
-    case goal, task, deleteAll
+enum DeletedTaskMode: String {
+    case goal = "lastDeletedType = Goal", task = "lastDeletedType = Task", deleteAll = "lastDeletedType = DeleteAll"
 }
 
 enum Views {
