@@ -237,10 +237,20 @@ extension TodayVC {
             goalDC.saveContext()
             taskDC.saveContext()
         default:
-            guard let x = todayTable.indexPath(for: cell) else { return }
-            let task = taskDC.currentTaskContainer[x.row]
-            task.isChecked = marker
-            taskDC.saveContext()
+//            guard let x = todayTable.indexPath(for: cell) else { return }
+//            let task = taskDC.currentTaskContainer[x.row]
+//            task.isChecked = marker
+//            taskDC.saveContext()
+            guard let index = todayTable.indexPath(for: cell) else { return }
+            let task = taskDC.currentTaskContainer[index.row]
+            
+            switch marker {
+            case true:
+                animation.playTaskAnimation(in: view, of: self, withType: .today, for: task, in: cell, ofStyle: .checkedTaskMessage)
+            case false:
+                animation.playTaskAnimation(in: view, of: self, withType: .today, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
+            }
+            
         }
         
         
