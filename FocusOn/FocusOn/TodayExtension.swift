@@ -70,7 +70,7 @@ extension TodayVC {
         updateCompletedTasksLabel()
         manageLocalNotifications()
     }
-    
+      
     // Display / update task count label
     func updateCompletedTasksLabel() {
         navigationItem.title = "Task Count: 0/4"

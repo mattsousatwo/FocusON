@@ -87,7 +87,7 @@ extension UITableView {
         }
 
     }
-    
+        
     
     // Update Label Count - not working properly 
     func updateCompletedCountLabel(for view: Views) -> String {

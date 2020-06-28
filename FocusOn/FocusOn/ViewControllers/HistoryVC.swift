@@ -136,7 +136,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
 //                                    }
 //                            }
                     
-                        
+        
                         }
                         task.isChecked = marker
                         taskDC.saveContext()

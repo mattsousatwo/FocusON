@@ -5,7 +5,7 @@
 //  Created by Matthew Sousa on 5/24/20.
 //  Copyright © 2020 Matthew Sousa. All rights reserved.
 //
-
+  
 import Foundation
 
 enum DisplayMode: String {

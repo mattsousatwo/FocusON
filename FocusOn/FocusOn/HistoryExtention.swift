@@ -5,7 +5,7 @@
 //  Created by Matthew Sousa on 5/11/20.
 //  Copyright © 2020 Matthew Sousa. All rights reserved.
 //
-
+  
 import UIKit
 
 extension HistoryVC {
