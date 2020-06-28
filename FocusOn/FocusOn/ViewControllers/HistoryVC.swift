@@ -81,13 +81,12 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         case .taskMode:
             for index in visibleRows {
                 switch index {
-                case [0,0]:
-                    // goal
+                case [0,0]: // goal
                     // save goal marker as checked
                     if cell == historyTableView.cellForRow(at: index) {
-                    guard let goal = selectedGoal else { return }
-                    goal.isChecked = marker
-                    goalDC.saveContext()
+                        guard let goal = selectedGoal else { return }
+                        goal.isChecked = marker
+                        goalDC.saveContext()
                         // Check off all cells
                         for visibleRowIndex in visibleRows {
                             guard let visibleCell = historyTableView.cellForRow(at: visibleRowIndex) as? TaskCell else { return }
@@ -99,21 +98,57 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                             }
                         }
                     }
-                default:
-                    // task
+                default: // task
                     // save task marker as checked
-                    if cell == historyTableView.cellForRow(at: index) {
+                    // Current Task Cell
+                    if cell == historyTableView.cellForRow(at: index) as! TaskCell {
+                        // Current Task
                         let task = taskDC.selectedTaskContainer[index.row]
+                        // Check if goal is complete
+                        if let completion = historyTableView.isGoalComplete() {
+                            // If goal is not complete
+                            if completion == false  {
+                                // Switch - Marker Checked / Unchecked
+                                switch marker {
+                                case true:
+                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .checkedTaskMessage)
+                                case false:
+                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
+                                }
+
+                            } else if completion == true {
+                                if marker == false {
+                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
+                                }
+                            }
+                            
+//                            switch completion {
+//                            case true:
+//                                switch marker {
+//                                case true: // MARK: TASK ANIMATION WONT PLAY WITH THIS CONFIGURATIION
+//                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .checkedTaskMessage)
+//                                case false:
+//                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
+//                                }
+//                            case false:
+//                                if marker == false {
+//                                    animation.playTaskAnimation(in: view, of: self, withType: .history, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
+//                                    }
+//                            }
+                    
+                        
+                        }
                         task.isChecked = marker
                         taskDC.saveContext()
                     }
                 }
             }
         }
-        // Check if all task markers are complete 
+        // Check if all task markers are complete
         checkMarkersInRowsForCompletion()
         // Update Label Count
         updateCompletedTasksLabelCount()
+//        navigationItem.title = historyTableView.updateCompletedCountLabel(for: .history)
     }
     
     // Loading task markers - color

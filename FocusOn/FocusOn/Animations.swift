@@ -19,9 +19,14 @@ class Animations {
     
     // Start confetti and check animation
     func playCompletionAnimationIn(view: UIView, of parent: UIViewController, withType type: Views, for goal: GoalData, in taskCell: TaskCell) {
-        if currentAnimation != .check {
+        guard currentAnimation == nil else {
+            animationPrint("currentAnimation == \(currentAnimation!.rawValue)")
+            animationPrint("RETURN")
             return
         }
+
+        animationPrint(AnimationNames.check.rawValue)
+        
         // Set Current Animation
         currentAnimation = .check
         // CreateViews
@@ -54,9 +59,10 @@ class Animations {
     
     // Resume Check & Confetti Animation
     func resumeGoalAnimations(in view: UIView, parent: UIViewController, ofType type: Views) {
-        if currentAnimation != .check {
+        if currentAnimation != nil {
             return
         }
+        animationPrint(#function)
         // Set Current Animation
         currentAnimation = .check
         // Create Views
@@ -71,6 +77,7 @@ class Animations {
         // Add to view
         view.addSubview(checkView)
         view.addSubview(confettiView)
+        self.animationPrint("View Type = " + type.rawValue)
         // Resume animation
         confettiView.play(fromFrame: ConfettiAnimationFrames.midPoint.rawValue, toFrame: ConfettiAnimationFrames.end.rawValue, loopMode: .none) { (_) in
             confettiView.removeFromSuperview()
@@ -78,10 +85,12 @@ class Animations {
         }
         checkView.play(fromFrame: CheckAnimationFrames.finished.rawValue, toFrame: CheckAnimationFrames.start.rawValue, loopMode: .none) { (_) in
             checkView.removeFromSuperview()
-            view.isUserInteractionEnabled = true 
+            view.isUserInteractionEnabled = true
+            
             if type == .history {
                 // Enable History navigation buttons
                 guard let history = parent as? HistoryVC else { return }
+                print("Animation - resume - Enable Back Button ")
                 history.backBarButton.isEnabled = true
                 history.backBarButton.tintColor = UIColor.blue
                 self.currentAnimation = nil
@@ -92,6 +101,7 @@ class Animations {
     
     // Pause Animation and Present Alert Controller
     func presentCongragulationsAlert(inParent view: UIViewController, child: UIView, in viewType: Views, update: Any, in taskCell: TaskCell, message: AlertMessage, completion: @escaping () -> Void) {
+        let goalIndex: IndexPath = [0,0]
         // Type Cast Correct entity
         var goal: GoalData?
         var task: TaskData?
@@ -139,6 +149,7 @@ class Animations {
             completion()
             taskEntityIsChecked(true)
             taskCell.taskMarker.isHighlighted = true
+            child.isUserInteractionEnabled = true
         })
         
         // Leave goal unchecked
@@ -146,6 +157,13 @@ class Animations {
             completion()
             taskEntityIsChecked(false)
             taskCell.taskMarker.isHighlighted = false
+            // Update completed task count
+            if let history = view as? HistoryVC {
+                history.updateCompletedTasksLabelCount()
+            } else if let today = view as? TodayVC {
+                today.updateTaskCountAndNotifications()
+            }
+            child.isUserInteractionEnabled = true
         }
         
         // Add buttons & dismiss
@@ -174,6 +192,8 @@ class Animations {
             finish = CheckTaskAnimationFrames.midPoint.rawValue
             // Set Current Animation
             currentAnimation = .taskCheck
+            animationPrint(AnimationNames.taskCheck.rawValue)
+            
         } else if style == .unCheckedTaskMessage {
             print(#function + " \(AnimationNames.uncheckTask)")
             checkView = .init(name: AnimationNames.uncheckTask.rawValue)
@@ -181,6 +201,8 @@ class Animations {
             finish = UncheckTaskAnimationFrames.midPoint.rawValue
             // Set Current Animation
             currentAnimation = .uncheckTask
+            animationPrint(AnimationNames.uncheckTask.rawValue)
+            
         }
         // set frame
         checkView.frame = view.bounds
@@ -240,6 +262,13 @@ class Animations {
     }
     
     
+    
+    
+    // Debugger output
+    func animationPrint(_ input: String) {
+        let prefix = "Animation: "
+        print(prefix + input)
+    }
     
 }
 

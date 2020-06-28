@@ -16,8 +16,8 @@ enum DeletedTaskMode: String {
     case goal = "lastDeletedType = Goal", task = "lastDeletedType = Task", deleteAll = "lastDeletedType = DeleteAll"
 }
 
-enum Views {
-    case today, history
+enum Views: String {
+    case today = "Today View" , history = "History View"  
 }
 
 enum progress {

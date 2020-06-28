@@ -189,7 +189,9 @@ extension TodayVC {
             
             todaysGoal.isChecked = false
             firstCell.taskMarker.isHighlighted = false
+                                
         }
+        
     }
     
     // Editing Cell Did Finish - save task or goal
@@ -215,6 +217,7 @@ extension TodayVC {
     
     // TaskCell Delegate
     func taskMarkerWasPressed(_ marker: Bool, _ cell: TaskCell) {
+        print("Animation - Marker was pressed")
         guard let visibleRows = todayTable.indexPathsForVisibleRows else { return }
         guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
         // Save marker selection
@@ -246,7 +249,10 @@ extension TodayVC {
             
             switch marker {
             case true:
-                animation.playTaskAnimation(in: view, of: self, withType: .today, for: task, in: cell, ofStyle: .checkedTaskMessage)
+                // If goal is not complete, play check task animation
+                if todayTable.isGoalComplete() == false {
+                    animation.playTaskAnimation(in: view, of: self, withType: .today, for: task, in: cell, ofStyle: .checkedTaskMessage)
+                } // else checkMarkersInRowForCompletion will display animation
             case false:
                 animation.playTaskAnimation(in: view, of: self, withType: .today, for: task, in: cell, ofStyle: .unCheckedTaskMessage)
             }
@@ -256,6 +262,7 @@ extension TodayVC {
         
         // Check if all task markers are complete
         checkMarkersInRowsForCompletion()
+
         // Update completed task count
         updateTaskCountAndNotifications()
         
