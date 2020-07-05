@@ -108,6 +108,7 @@ class TaskDataController: DataController {
         }
     }
     
+    // Used in graph data source to get all tasks
     func fetchAllTasks() -> [TaskData] {
         var container: [TaskData] = []
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
@@ -145,20 +146,6 @@ class TaskDataController: DataController {
         }
         saveBonusTask(name: "Test Bonus Cell", withGoalID: goalID)
         return goalDC.goalContainer.first(where: { $0.goal_UID! == goalID } )!
-    }
-    
-        // not sure if i still need this func
-    func fetchAllTasks() {
-        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
-            
-            do {
-                currentTaskContainer = try context.fetch(request)
-            }
-            catch {
-                
-        }
-        // load bonus tasks into bonusContainer
-   //     parseBonusTasks()
     }
     
     // to seperate tasks - if task.count >3 append tasks into bonus container
@@ -278,6 +265,67 @@ class TaskDataController: DataController {
         } catch {
         }
         return tasks
+    }
+    
+    
+    func updateExistingTasks(in view: Views) {
+        var temporaryContainer : [TaskData] = []
+        print(#function)
+        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
+        do {
+            temporaryContainer = try context.fetch(request)
+        } catch let error as NSError {
+            print("Could not fetch TaskData: \(error), \(error.userInfo)")
+        }
+        
+        switch view {
+        case .history:
+            // seletcted
+            if selectedTaskContainer.count != 0 {
+                for task in selectedTaskContainer {
+                    for taskT in temporaryContainer {
+                        if task.task_UID == taskT.task_UID {
+                            if task != taskT {
+                                guard let selectedIndex = selectedTaskContainer.firstIndex(of: task) else { return }
+                                task.task_UID = "123456789"
+                                saveContext()
+                                selectedTaskContainer.removeAll { (task) -> Bool in
+                                    task.task_UID == "123456789"
+                                }
+                                delete(task: "123456789")
+                                saveContext()
+                                selectedTaskContainer.insert(taskT, at: selectedIndex)
+                            }
+                        }
+                    }
+                }
+            }
+            
+        case .today:
+            // current
+            
+            if currentTaskContainer.count != 0 {
+                for task in currentTaskContainer {
+                    for taskT in temporaryContainer {
+                        if task.task_UID == taskT.task_UID {
+                            if task != taskT {
+                                guard let selectedIndex = currentTaskContainer.firstIndex(of: task) else { return }
+                                task.task_UID = "123456789"
+                                saveContext()
+                                currentTaskContainer.removeAll { (task) -> Bool in
+                                    task.task_UID == "123456789"
+                                }
+                                delete(task: "123456789")
+                                saveContext()
+                                currentTaskContainer.insert(taskT, at: selectedIndex)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
     }
     
     
