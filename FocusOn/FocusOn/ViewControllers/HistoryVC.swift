@@ -384,7 +384,6 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     
     // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-//        let x = isUndoDeletionModeCorrect()
         let x = isUndoDeletionModeCorrect()
         if x == false {
             print("undoMode == False")
@@ -412,6 +411,21 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 goalDC.pastGoalContainer.append(deletedGoal)
                 goalDC.sortPastGoalsByDate()
                 goalDC.saveContext()
+                print("pastTaskContainer - goalID = \(deletedGoal.goal_UID!)")
+                // reappend goals tasks - maybe need to save tasks when goal is deleted
+                if let deletedTasks = deleteAllTasks {
+                    for task in deletedTasks {
+                        print("pastTaskContainer - taskID = \(task.goal_UID!)")
+                        // MARK: WHEN CHANGED TO SELECTEDTASKCONTAINER DATA PERSISTS! WHY??
+                        taskDC.selectedTaskContainer.append(task)
+                        if task.goal_UID == deletedGoal.goal_UID {
+                            print("pastTaskContainer = task.goalID == deletedGoal.goalID")
+                        }
+                    }
+                    taskDC.saveContext()
+                }
+                print("pastTaskContainer count = \(taskDC.selectedTaskContainer.count) :: motionEnded")
+                
                 historyTableView.reloadData()
             case .deleteAll:
                 print("DeleteAll")

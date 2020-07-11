@@ -75,7 +75,7 @@ class FocusOnTests: XCTestCase {
         }
     }
     
-    
+    // test to see if fetchGoal(withUID: ) is working properly
     func testFetchForSpecificGoal() {
         let goalDC = GoalDataController()
         var counter = 0
@@ -107,6 +107,7 @@ class FocusOnTests: XCTestCase {
             
     }
 
+    // test to see if all goals are sorted by date
     func testIfGoalsAreSortedByDate() {
         let goalDC = GoalDataController()
         goalDC.getGoals()

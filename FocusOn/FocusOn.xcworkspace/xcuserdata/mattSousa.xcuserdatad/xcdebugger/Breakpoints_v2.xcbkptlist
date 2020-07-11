@@ -46,8 +46,8 @@
             filePath = "FocusOn/HistoryExtention.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "delete(_:at:displayMode:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,9 +62,9 @@
             filePath = "FocusOn/HistoryExtention.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
-            landmarkName = "updateCompletedTasksLabelCount()"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
+            landmarkName = "playCompletionAnimationForGoalIn(cell:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

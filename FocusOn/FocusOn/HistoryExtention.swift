@@ -141,6 +141,8 @@ extension HistoryVC {
             newTaskButtonIsHidden(false)
             selectedGoal = goalDC.fetchGoal(withUID: selectedGoalID)
             taskDC.fetchTasksFor(goalUID: selectedGoalID)
+            print("pastTaskContainer ---- selectedGoalID = \(selectedGoalID)")
+            print("pastTaskContainer ---- taskDC.selectedTaskContainer.count = \(taskDC.selectedTaskContainer.count)")
             historyTableView.reloadData()
             selectedRow.menuButton.isHidden = true
             historyTableView.deselectRow(at: selectedIndex, animated: false)
@@ -168,12 +170,32 @@ extension HistoryVC {
     
     // Delete specific goal - from pastGoalContainer
     func delete(_ goal: GoalData, at index: IndexPath, displayMode: DisplayMode) {
+        let newGoalID = goalDC.genID()
+        // fetch goals for task
+        taskDC.fetchTasksFor(goalUID: goal.goal_UID!)
+
+        goal.goal_UID = newGoalID
+        goalDC.saveContext()
+        
         lastDeletedGoal = goal
         lastDeletedGoalIndex = index
         goalDC.delete(goal: goal, at: index, in: historyTableView)
+        
+        // add tasks to container
+        deleteAllTasks = taskDC.selectedTaskContainer
+
+        
+        // Change to be deleted tasks IDs to allow the undo tasks to avoid deletion
+        for task in taskDC.selectedTaskContainer {
+            task.goal_UID = newGoalID
+        }
+        taskDC.saveContext()
+        
+        // delete tasks
         taskDC.selectedTaskContainer.removeAll()
-        // Delete tasks with goalID
-        taskDC.deleteAllTasks(with: goal.goal_UID!)
+//        taskDC.deleteAllTasks(with: goal.goal_UID!)
+        taskDC.deleteAllTasks(with: newGoalID)
+        
         taskDC.saveContext()
         clearDeletedCache(.goal)
         historyTableView.reloadData()
@@ -251,9 +273,6 @@ extension HistoryVC {
             return false
         }
         
-        
-        undoPrintStatement("general true")
-        
         return true
     }
     
@@ -283,8 +302,6 @@ extension HistoryVC {
             lastDeletedTaskIndex = nil
             deleteAllGoal = nil
             deleteAllGoalIndex = nil
-            deleteAllTasks = nil
-            deleteAllTasksIndex = nil
         case .task:
             lastDeletedGoal = nil
             lastDeletedGoalIndex = nil
@@ -322,7 +339,7 @@ extension HistoryVC {
             
         // Present View Controller
         present(alertController, animated: true)
-        
+
     }
     
     // Delete Selected Goal and all saved tasks with the goals UID
@@ -369,9 +386,7 @@ extension HistoryVC {
                 print(#function + " Task Row")
             }
         }
-        
-        // Check if all task markers are complete
-        checkMarkersInRowsForCompletion()
+
     }
   
     
