@@ -355,7 +355,8 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             switch self.displayMode {
             case .goalMode:
                 let goal = self.goalDC.pastGoalContainer[indexPath.section]
-                self.delete(goal, at: indexPath, displayMode: .goalMode)
+//                self.delete(goal, at: indexPath, displayMode: .goalMode)
+                self.remove(goal: goal)
             case .taskMode:
                 switch indexPath.section {
                 case 0: // Goal
@@ -364,9 +365,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 case 1: // Task
                     // MARK: Delete single task
                     let task = self.taskDC.selectedTaskContainer[indexPath.row]
-                    self.delete(task, at: indexPath)
-                    self.historyTableView.reloadData()
-                    self.updateCompletedTasksLabelCount()
+                    self.remove(task: task)
+//                    self.delete(task, at: indexPath)
+//                    self.historyTableView.reloadData()
+//                    self.updateCompletedTasksLabelCount()
                 default:
                     return
                 }
@@ -384,6 +386,12 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     
     // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//        undoDeleteGoal()
+//        historyTableView.reloadData()
+        
+        filterUndoRequest()
+        
+        
         let x = isUndoDeletionModeCorrect()
         if x == false {
             print("undoMode == False")
@@ -391,90 +399,91 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
         }
         print("undoMode == True")
         
-        if motion == .motionShake {
-            print(#function)
-            // check if goal or task is used
-            switch checkDeleteMode() {
-            case .task: // lastTaskDeleted is != nil
-                guard let deletedTask = lastDeletedTask, let deletedTaskIndex = lastDeletedTaskIndex else { return }
-                // insert task back into table and array
-                historyTableView.beginUpdates()
-                taskDC.selectedTaskContainer.insert(deletedTask, at: deletedTaskIndex.row)
-                taskDC.saveContext()
-                historyTableView.insertRows(at: [deletedTaskIndex], with: .automatic)
-                historyTableView.endUpdates()
-                
-                
-            case .goal: // lastGoalDeleted is != nil
-                guard let deletedGoal = lastDeletedGoal else { return }
-                // Insert goal back into table and array
-                goalDC.pastGoalContainer.append(deletedGoal)
-                goalDC.sortPastGoalsByDate()
-                goalDC.saveContext()
-                print("pastTaskContainer - goalID = \(deletedGoal.goal_UID!)")
-                // reappend goals tasks - maybe need to save tasks when goal is deleted
-                if let deletedTasks = deleteAllTasks {
-                    for task in deletedTasks {
-                        print("pastTaskContainer - taskID = \(task.goal_UID!)")
-                        // MARK: WHEN CHANGED TO SELECTEDTASKCONTAINER DATA PERSISTS! WHY??
-                        taskDC.selectedTaskContainer.append(task)
-                        if task.goal_UID == deletedGoal.goal_UID {
-                            print("pastTaskContainer = task.goalID == deletedGoal.goalID")
-                        }
-                    }
-                    taskDC.saveContext()
-                }
-                print("pastTaskContainer count = \(taskDC.selectedTaskContainer.count) :: motionEnded")
-                
-                historyTableView.reloadData()
-            case .deleteAll:
-                print("DeleteAll")
-                
-                // Get goal and tasks
-                guard let goal = deleteAllGoal else { return }
-                print("1")
-//                guard let goalIndex = deleteAllGoalIndex else { return }
-                guard let tasks = deleteAllTasks else { return }
-                guard let tasksIndex = deleteAllTasksIndex else { return }
-                print(goal.goal_UID ?? "")
-                print(selectedGoalID)
-                print(displayMode)
-                // Insert rows
-                goalDC.pastGoalContainer.append(goal)
-                goalDC.sortPastGoalsByDate()
-                // append tasks from goal
-                for index in tasksIndex {
-                    for task in tasks {
-                        taskDC.pastTaskContainer.insert(task, at: index.row)
-                    }
-                }
-                // insert selected goals rows
-                if goal.goal_UID! == selectedGoalID {
-                    print("should insert rows")
-                    selectedGoal = goal
-                    for index in tasksIndex {
-                        for task in tasks {
-                            taskDC.selectedTaskContainer.insert(task, at: index.row)
-                        }
-                    }
-
-                }
-                goalDC.saveContext()
-                taskDC.saveContext()
-                updateCompletedTasksLabelCount()
-                historyTableView.reloadData()
-            default:
-                return
-            }
-            
-            // reset deleted store
-            clearDeletedCache()
-            for view in historyTableView.visibleCells {
-                guard let view = view as? TaskCell else { return }
-                view.menuButton.isHidden = true
-            }
-//            historyTableView.reloadData()
-        }
+        
+//        if motion == .motionShake {
+//            print(#function)
+//            // check if goal or task is used
+//            switch checkDeleteMode() {
+//            case .task: // lastTaskDeleted is != nil
+//                guard let deletedTask = lastDeletedTask, let deletedTaskIndex = lastDeletedTaskIndex else { return }
+//                // insert task back into table and array
+//                historyTableView.beginUpdates()
+//                taskDC.selectedTaskContainer.insert(deletedTask, at: deletedTaskIndex.row)
+//                taskDC.saveContext()
+//                historyTableView.insertRows(at: [deletedTaskIndex], with: .automatic)
+//                historyTableView.endUpdates()
+//
+//
+//            case .goal: // lastGoalDeleted is != nil
+//                guard let deletedGoal = lastDeletedGoal else { return }
+//                // Insert goal back into table and array
+//                goalDC.pastGoalContainer.append(deletedGoal)
+//                goalDC.sortPastGoalsByDate()
+//                goalDC.saveContext()
+//                print("pastTaskContainer - goalID = \(deletedGoal.goal_UID!)")
+//                // reappend goals tasks - maybe need to save tasks when goal is deleted
+//                if let deletedTasks = deleteAllTasks {
+//                    for task in deletedTasks {
+//                        print("pastTaskContainer - taskID = \(task.goal_UID!)")
+//                        // MARK: WHEN CHANGED TO SELECTEDTASKCONTAINER DATA PERSISTS! WHY??
+//                        taskDC.selectedTaskContainer.append(task)
+//                        if task.goal_UID == deletedGoal.goal_UID {
+//                            print("pastTaskContainer = task.goalID == deletedGoal.goalID")
+//                        }
+//                    }
+//                    taskDC.saveContext()
+//                }
+//                print("pastTaskContainer count = \(taskDC.selectedTaskContainer.count) :: motionEnded")
+//
+//                historyTableView.reloadData()
+//            case .deleteAll:
+//                print("DeleteAll")
+//
+//                // Get goal and tasks
+//                guard let goal = deleteAllGoal else { return }
+//                print("1")
+////                guard let goalIndex = deleteAllGoalIndex else { return }
+//                guard let tasks = deleteAllTasks else { return }
+//                guard let tasksIndex = deleteAllTasksIndex else { return }
+//                print(goal.goal_UID ?? "")
+//                print(selectedGoalID)
+//                print(displayMode)
+//                // Insert rows
+//                goalDC.pastGoalContainer.append(goal)
+//                goalDC.sortPastGoalsByDate()
+//                // append tasks from goal
+//                for index in tasksIndex {
+//                    for task in tasks {
+//                        taskDC.pastTaskContainer.insert(task, at: index.row)
+//                    }
+//                }
+//                // insert selected goals rows
+//                if goal.goal_UID! == selectedGoalID {
+//                    print("should insert rows")
+//                    selectedGoal = goal
+//                    for index in tasksIndex {
+//                        for task in tasks {
+//                            taskDC.selectedTaskContainer.insert(task, at: index.row)
+//                        }
+//                    }
+//
+//                }
+//                goalDC.saveContext()
+//                taskDC.saveContext()
+//                updateCompletedTasksLabelCount()
+//                historyTableView.reloadData()
+//            default:
+//                return
+//            }
+//
+//            // reset deleted store
+//            clearDeletedCache()
+//            for view in historyTableView.visibleCells {
+//                guard let view = view as? TaskCell else { return }
+//                view.menuButton.isHidden = true
+//            }
+////            historyTableView.reloadData()
+//        }
         updateCompletedTasksLabelCount()
     }
     

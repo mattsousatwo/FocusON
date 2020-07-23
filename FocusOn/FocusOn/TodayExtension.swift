@@ -11,6 +11,41 @@ import Foundation
 
 extension TodayVC {
     
+    func testIfLastThreeMonthsGraphWorks() {
+        let d = DataController()
+        
+        let january = d.createDate(month: 1, day: 1, year: 2020)
+        let feburary = d.createDate(month: 2, day: 1, year: 2020)
+        let march = d.createDate(month: 3, day: 1, year: 2020)
+        let april = d.createDate(month: 4, day: 1, year: 2020)
+        let may = d.createDate(month: 5, day: 1, year: 2020)
+        let june = d.createDate(month: 6, day: 1, year: 2020)
+        let july = d.createDate(month: 7, day: 1, year: 2020)
+        
+        let goals = [january, feburary, march, april, may, june, july]
+        var threeLastMonths: [Date] = []
+        var notWithinLastThreeMonths: [Date] = []
+        
+        for goal in goals {
+            if d.isDateFromLastThreeMonths(goal) == true {
+                threeLastMonths.append(goal)
+            } else {
+                notWithinLastThreeMonths.append(goal)
+            }
+        }
+        
+        if threeLastMonths.count == 3 {
+            print("lastThreeMonths - threeLastMonths.count = \(threeLastMonths.count)")
+            print("lastThreeMonths - notWithinLastThreeMonths.count = \(notWithinLastThreeMonths.count)")
+            
+        } else {
+            print("lastThreeMonths - threeLastMonths.count = \(threeLastMonths.count)")
+            print("lastThreeMonths - notWithinLastThreeMonths.count = \(notWithinLastThreeMonths.count)")
+            
+        }
+        
+    }
+    
     func deleteGoalsAndTasks(_ bool: Bool = true) {
         switch bool {
         case true:
@@ -25,16 +60,19 @@ extension TodayVC {
     // Configure TodayVC
     func configureTodayVC() {
 
-        deleteGoalsAndTasks(false )
-                
-        
+        deleteGoalsAndTasks(false)
+                    
         // Assign Delegates
         todayTable.dataSource = self
         todayTable.delegate = self
         // fetch CoreData Elements
         goalDC.getGoals()
+        
+        
 //         goalDC.fetchGoals()
+        
         todaysGoal = goalDC.currentGoal
+        
 //        todaysGoal = goalDC.goalContainer.first!
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
         // Set up view
@@ -50,7 +88,12 @@ extension TodayVC {
     // configureView After View Appears
     func configureViewDidAppear() {
         // if current goal changed (if new day) - load new task
-        goalDC.getGoals()
+        for goal in goalDC.goalContainer {
+            if goal.hasChanges == true {
+                goalDC.getGoals()
+            }
+        }
+        print("retrieve - goalContainer.count = \(goalDC.goalContainer.count)")
          if todaysGoal.goal_UID! != goalDC.currentGoal.goal_UID! {
             todaysGoal = goalDC.currentGoal
         }

@@ -37,11 +37,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
 //        goalDC.deleteAll()
 //         taskDC.deleteAllTasks()
-        
+         
 //        goalDC.getGoals()
 //        goalDC.createTestGoals(int: 7, month: 1)
         configureTodayVC()
-    
+        testIfLastThreeMonthsGraphWorks()
         
         
     //        goalDC.createTestGoals()
@@ -52,6 +52,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     override func viewDidAppear(_ animated: Bool) {
         
         configureViewDidAppear()
+        goalDC.retrieveGoals()
     }
 
     // Add a new task at bottom of table view if three cells are filled

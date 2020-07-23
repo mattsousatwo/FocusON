@@ -147,6 +147,37 @@ class DataController {
             return false
         }
     }
+    
+    // check if date is within the last three months
+    func isDateFromLastThreeMonths(_ date: Date?) -> Bool? {
+        guard let input = date else { return nil }
+        let currentDate = Date()
+        
+        // get dates
+        let currentMonth = Calendar.current.component(.month, from: currentDate)
+        let inputMonth = Calendar.current.component(.month, from: input)
+        
+        let threeMonthsPrior = currentMonth - 3
+//        for month in threeMonthsPrior...currentMonth {
+        for month in threeMonthsPrior...currentMonth {
+            print("lastThreeMonths - TEST - \(month) ----------------")
+            if inputMonth == month {
+                print("lastThreeMonths - TEST - RETURN TRUE - inputMonth: \(inputMonth) == month: \(month)")
+//                return true
+            }
+        }
+        
+        for month in threeMonthsPrior...currentMonth {
+            if inputMonth == month {
+                print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): TRUE - month: \(month)")
+                return true
+            } else if inputMonth != month {
+                print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): FALSE - month: \(month)")
+                return false
+            }
+        }
+        return nil
+    }
 
     // Check if date is from Current Week
     func isDateFromCurrentWeek(_ date: Date?) -> Bool? {

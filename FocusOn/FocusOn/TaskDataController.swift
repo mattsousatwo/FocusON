@@ -19,6 +19,7 @@ class TaskDataController: DataController {
     var bonusTasksContainter: [TaskData] = []
     var pastTaskContainer: [TaskData] = []
     var selectedTaskContainer: [TaskData] = []
+    var removedTasks : [TaskData] = []
     
      override init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -105,6 +106,12 @@ class TaskDataController: DataController {
         do {
             selectedTaskContainer = try context.fetch(request)
         } catch {
+        }
+        for task in selectedTaskContainer {
+            if task.isRemoved == true {
+                removedTasks.append(task)
+                selectedTaskContainer.removeAll(where: { $0.task_UID == task.task_UID })
+            }
         }
     }
     

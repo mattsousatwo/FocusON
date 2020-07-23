@@ -17,6 +17,8 @@ extension TaskData {
         return NSFetchRequest<TaskData>(entityName: "TaskData")
     }
 
+    @NSManaged public var isRemoved: Bool
+    @NSManaged public var timeRemoved: Date?
     @NSManaged public var cellPosition: Int16
     @NSManaged public var dateCreated: Date?
     @NSManaged public var goal_UID: String?

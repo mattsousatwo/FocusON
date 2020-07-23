@@ -201,6 +201,125 @@ extension HistoryVC {
         historyTableView.reloadData()
     }
     
+    // Remove Goal and store in removed goals container
+    func remove(goal: GoalData) {
+        print("removeGoal")
+        // Set goal properties for removal - save
+        goal.isRemoved = true
+        goal.timeRemoved = Date()
+        goalDC.saveContext()
+        
+        // Remove goal from container and add to removedGoals
+        goalDC.removedGoals.append(goal)
+        goalDC.pastGoalContainer.removeAll(where: {$0.goal_UID == goal.goal_UID! })
+        
+        // Get all tasks associated with goal - taskDC.selectedTaskContainer
+        taskDC.fetchTasksFor(goalUID: goal.goal_UID!)
+        // Set task properties
+        if taskDC.selectedTaskContainer.count != 0 {
+            for task in taskDC.selectedTaskContainer {
+                task.isRemoved = true
+                task.timeRemoved = Date()
+            }
+            taskDC.saveContext()
+        }
+        historyTableView.reloadData()
+    }
+    
+    // Undo Goal Delete
+    func undoDeleteGoal() {
+        print("undoGoalDelete")
+        guard displayMode == .goalMode else { return }
+        print("undoGoalDelete - displayMode.goalMode")
+        if goalDC.removedGoals.count != 0 {
+            // sorting removed goals for most recent
+            if goalDC.removedGoals.count >= 2 {
+                goalDC.sortRemovedGoalsByTimeRemoved()
+            }
+            guard let mostRecentGoal = goalDC.removedGoals.first else { return }
+            // update goal properties
+            mostRecentGoal.isRemoved = false
+            mostRecentGoal.timeRemoved = nil
+            // update tasks for goal properties
+            taskDC.fetchTasksFor(goalUID: mostRecentGoal.goal_UID!)
+            for task in taskDC.selectedTaskContainer {
+                task.timeRemoved = nil
+                task.isRemoved = false
+            }
+            // add to past goal array and sort
+            goalDC.pastGoalContainer.append(mostRecentGoal)
+            goalDC.removedGoals.removeAll { (goal) -> Bool in
+                goal.goal_UID! == mostRecentGoal.goal_UID!
+            }
+            goalDC.sortPastGoalsByDate()
+            // Save
+            goalDC.saveContext()
+            taskDC.saveContext()
+            print("undoGoalDelete - success")
+        }
+        
+    }
+    
+    // Remove Task
+    func remove(task: TaskData) {
+        print("remove(task: \(task.task_UID!)")
+        // Set properties
+        task.isRemoved = true
+        task.timeRemoved = Date()
+        taskDC.saveContext()
+        
+        // remove from selectedContainer & add to removedTasks
+        taskDC.removedTasks.append(task)
+        taskDC.selectedTaskContainer.removeAll(where: { $0.task_UID == task.task_UID } )
+        
+        // refresh table
+        historyTableView.reloadData()
+    }
+    
+    
+    // undo Deleted task
+    func undoDeleteTask() {
+        print("undoDeleteTask")
+        guard displayMode == .taskMode else { return }
+        
+        if taskDC.removedTasks.count != 0 {
+            // sort most recently deleted task by time
+            if taskDC.removedTasks.count >= 2 {
+//                taskDC.sortRemovedGoalsByTimeRemoved()
+            }
+            guard let mostRecentTask = taskDC.removedTasks.first else { return }
+            // update properties
+            mostRecentTask.isRemoved = false
+            mostRecentTask.timeRemoved = nil
+            // save
+            taskDC.saveContext()
+            
+            if mostRecentTask.goal_UID == selectedGoal?.goal_UID {
+                // append & reload if parent goal is selected
+                taskDC.selectedTaskContainer.append(mostRecentTask)
+                historyTableView.reloadData()
+            }
+            // remove from removed tasks
+            taskDC.removedTasks.removeAll(where: { $0.task_UID == mostRecentTask.task_UID })
+            
+        }
+        
+    }
+    
+    
+    // Create Hub to filter which undoDelete method to trigger (time, displayMode)
+    func filterUndoRequest() {
+        switch displayMode {
+        case .goalMode:
+            undoDeleteGoal()
+        case .taskMode:
+            undoDeleteTask()
+        }
+        historyTableView.reloadData()
+    }
+    
+    
+    
     // Delete specific task
     func delete(_ task: TaskData, at index: IndexPath) {
         lastDeletedTask = task
@@ -322,7 +441,9 @@ extension HistoryVC {
             
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in print("Launch Custom Action")
             
-            self.removeGoalAndTasks()
+//            self.removeGoalAndTasks()
+            guard let goal = self.selectedGoal else { return }
+            self.remove(goal: goal)
             self.displayMode = .goalMode
             self.backButtonIsHidden(true)
             self.navigationItem.title = "History"
@@ -348,7 +469,7 @@ extension HistoryVC {
         guard let selectedGoal = selectedGoal else { return }
         guard let goalPosition = goalDC.pastGoalContainer.firstIndex(where: {$0.goal_UID == selectedGoal.goal_UID!} ) else { return }
         // store to be deleted files
-        deleteAllGoal = goalDC.pastGoalContainer.first(where: {$0.goal_UID == selectedGoal.goal_UID} )
+        deleteAllGoal = goalDC.pastGoalContainer.first(where: {$0.goal_UID == selectedGoal.goal_UID})
         deleteAllGoalPosition = goalPosition
         deleteAllTasks = taskDC.selectedTaskContainer
         deleteAllTasksIndex = historyTableView.indexPathsForVisibleRows!

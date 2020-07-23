@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Find SQL Database
+        let URLS = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(URLS[URLS.count-1] as URL)
+        
         // Override point for customization after application launch.
         // Setting up Authorization for Notifications
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in

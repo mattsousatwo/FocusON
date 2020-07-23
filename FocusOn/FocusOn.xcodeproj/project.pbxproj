@@ -137,13 +137,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		610830BD2483B5AB0081AE37 /* Graoh */ = {
+		610830BD2483B5AB0081AE37 /* Graph */ = {
 			isa = PBXGroup;
 			children = (
 				610830BE2483B5EF0081AE37 /* Graph.swift */,
 				617BECA024850F01006F76AE /* GraphDataSource.swift */,
 			);
-			name = Graoh;
+			name = Graph;
 			sourceTree = "<group>";
 		};
 		61179AA2237B415C0044B8BA /* ViewControllers */ = {
@@ -209,7 +209,7 @@
 		61BC1608237B169800341701 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				610830BD2483B5AB0081AE37 /* Graoh */,
+				610830BD2483B5AB0081AE37 /* Graph */,
 				6196A8EB247DCC5E00F7D29D /* Animations */,
 				613E1C182469F5BE007429CC /* TodayExtension.swift */,
 				613E1C162469EED1007429CC /* HistoryExtention.swift */,
