@@ -12,7 +12,6 @@ import CoreData
 
 class DetailTableView: UITableViewController {
 
-    var newTask = Tasks(title: "", date: Date(), goal_UID: "", task_UID: "")
     let dataControl = DataController()
     let goalDC = GoalDataController()
     let taskDC = TaskDataController()
@@ -201,9 +200,6 @@ class DetailTableView: UITableViewController {
         
         switch segue.identifier {
         case "unwindToTodayVC":
-            let input = titleInput.text
-            
-            newTask.taskTitle = input ?? "input didnt work"
             
             guard let todayVC = segue.destination as? TodayVC else { return }
             let selectedRow = todayVC.todayTable.indexPathForSelectedRow
@@ -224,8 +220,6 @@ class DetailTableView: UITableViewController {
             print("unwindToHistoryVC Segue ")
             
             print("DetailTableView > HistoryToDetail.Segue")
-            let input = titleInput.text
-            newTask.taskTitle = input ?? "input did not work"
             
             guard let historyVC = segue.destination as? HistoryVC else { return }
             let selectedRow = historyVC.historyTableView.indexPathForSelectedRow

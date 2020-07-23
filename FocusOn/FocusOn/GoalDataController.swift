@@ -20,9 +20,6 @@ class GoalDataController: DataController {
     var pastGoalContainer: [GoalData] = []
     let taskDC = TaskDataController()
     var removedGoals: [GoalData] = []
-    // Sets to hold all goals and to compare updated goals
-    var allGoals: Set<GoalData> = []
-    var comparisonSet: Set<GoalData> = []
 
     override init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -31,30 +28,8 @@ class GoalDataController: DataController {
     }
     
     // MARK: Save
-    func saveGoal(goal: Goal, title: String = "", date: Date? = nil) {
-        print(#function)
-         
-        // maybe some logic to update goal
-        
-        let xGoal = GoalData(context: context)
-        if let date = date {
-            xGoal.dateCreated = date
-        } else {
-        xGoal.dateCreated = Date()
-        }
-        xGoal.goal_UID = goal.UID
-        if title == "" {
-            xGoal.name = goal.title
-        } else {
-            xGoal.name = title
-        }
-        
-        xGoal.isRemoved = false
-        
-        goalContainer.append(xGoal)
-        saveContext()
-    }
-    
+
+    // Save Managed Context
     func saveContext() {
         print(#function + "\n")
         do {
@@ -62,6 +37,32 @@ class GoalDataController: DataController {
         }
         catch {
         }
+    }
+    
+    // Create a new goal
+    func createNewGoal(title: String = "", date: Date? = nil) {
+        // create goal
+        let goal = GoalData(context: context)
+        
+        // assign UID
+        goal.goal_UID = genID()
+        
+        // assign date
+        if let date = date {
+            goal.dateCreated = date
+        } else {
+            goal.dateCreated = Date()
+        }
+        
+        // Set title
+        goal.name = title
+        
+        // Show goal
+        goal.isRemoved = false
+        
+        // append to goal container
+        goalContainer.append(goal)
+        saveContext()
     }
     
     // MARK: Create
@@ -72,22 +73,21 @@ class GoalDataController: DataController {
             // create defined amount of test goals
             for x in 1...int {
                 let date = createDate(month: month, day: x, year: 2020)
-                let goal = Goal()
-                saveGoal(goal: goal, title: "Goal \(x) - \(goal.UID)", date: date)
+                createNewGoal(title: "HELLO WORLD \(x)", date: date)
                 
             }
         } else {
             // create Five test goals
             for x in 1...5 {
                 let date = createDate(month: 1, day: x, year: 2020)
-                let goal = Goal()
-                saveGoal(goal: goal, title: "Goal \(x) - \(goal.UID)", date: date)
+                createNewGoal(title: "HELLO WORLD \(x)", date: date)
             }
         }
     }
     
 
     
+    // MARK: Fetch
     // get and return the title for an entity by the UID
     func fetchGoal(withUID UID: String ) -> GoalData {
         var xGoal = GoalData()
@@ -105,69 +105,19 @@ class GoalDataController: DataController {
         
     }
     
-    // MARK: Fetch Data
-    // Fetch all goals, if goal is in the past append goal into pastGoalContainer
-    func fetchGoals() {
-        print(#function)
+    // return an array of all the goals for ProgressVC
+    func fetchAllGoals() -> [GoalData] {
+        var array: [GoalData] = []
         let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
         do {
-            goalContainer = try context.fetch(request) // request all goals
+            array = try context.fetch(request)
         } catch let error as NSError {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
-//        print("goalContainer.count: \(goalContainer.count)")
-        
-        // if there is a goal in goalContainer & first goal is from today
-        if goalContainer.count != 0 &&
-            compareDays(from: (goalContainer.first?.dateCreated)! ) == false {
-//            print("goalContainer.count != 0 && compareDays(from: ) == false \n")
-            if pastGoalContainer.count != 0 {
-                pastGoalContainer.removeAll()
-            }
-            for data in goalContainer {
-                if compareDays(from: (data.dateCreated)!) == false  {
-                    // if data.dateCreated != today, add & remove goal
-                    // MARK: compareDays == true && uncomment removeAll() - for createTestData()
-//                    print("Test 100 - count BEFORE : \(goalContainer.count)")
-                    pastGoalContainer.append(data)
-                    goalContainer.removeAll(where: { $0.goal_UID! == data.goal_UID! })
-                    saveGoal(goal: Goal() )
-//                    print("Test 100 - count AFTER : \(goalContainer.count)")
-                }
-            }
-
-//            print("\n+++++ goalContainer.count = \(goalContainer.count)")
-//            print("+++++ pastGoalContainer.count = \(pastGoalContainer.count)\n")
-        } else if goalContainer.count == 0 || compareDays(from: (goalContainer.first?.dateCreated)! ) == true { // if goalContainer isEmpty create a new GoalData entity
-//            print("goalContainer.count == 0 && compareDays(from: ) == true \n")
-            saveGoal(goal: Goal())
-        }
+        return array
     }
        
     // MARK: Delete
-    // Used in HistoryVC to delete a goal 
-    func delete(goal: GoalData, at indexPath: IndexPath, in table: UITableView) {
-        
-        print("Test 102 " + "delete goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
-        table.beginUpdates()
-            
-        pastGoalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID!})
-            
-        deleteGoalsWith(UIDs: [goal.goal_UID!] )
-            
-        table.deleteRows(at: [indexPath], with: .automatic)
-            
-        table.deleteSections([indexPath.section], with: .automatic)
-            
-        table.endUpdates()
-            
-        saveContext()
-        
-        print("Test 102 " + "goal: \(goal.goal_UID!), at: [\(indexPath)], count: \(pastGoalContainer.count)")
-        
-        
-    }
-    
     func deleteAll() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
                
@@ -182,31 +132,6 @@ class GoalDataController: DataController {
     }
     
     
-    
-    /*
-    func getTodaysGoal() -> GoalData {
-        
-        if goalContainer.count >= 1 {
-            if compareDays(from: goalContainer.first!.dateCreated!) == true {
-                return goalContainer.last!
-            }
-        }
-        let x: GoalData
-      
-    }
-    */
-    
-    // return an array of all the goals for progressVC
-    func fetchAllGoals() -> [GoalData] {
-        var array: [GoalData] = []
-        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
-        do {
-            array = try context.fetch(request)
-        } catch let error as NSError {
-            print("Could not fetch GoalData: \(error), \(error.userInfo)")
-        }
-        return array
-    }
     
     // MARK: getGoals() -
     // New Fetch Goals method - May 27
@@ -230,9 +155,6 @@ class GoalDataController: DataController {
             printOne(#function + " container.count != 0: TRUE")
             // Goal Container has goals
             parseGoals()
-//             removeDuplicates()
-            //// sorting past goals by date
-            sortPastGoalsByDate()
         case false:
             printOne(#function + "container.count != 0: FALSE")
             // Goal Container is empty
@@ -243,53 +165,16 @@ class GoalDataController: DataController {
         printOne(#function + " --- end")
     }
     
-    func removeDuplicates() {
-        // Count of deleted Goals (duplicates)
-        var deletedCount = 0
-        // Count of specific goal in Container
-        var countPerGoal = 0
-        
-        // remove doubles from pastGoals
-        for goal in pastGoalContainer {
-            for xGoal in pastGoalContainer {
-                
-                if goal.goal_UID == xGoal.goal_UID {
-                    countPerGoal += 1
-                    if countPerGoal >= 2 {
-                        xGoal.goal_UID = "00000000"
-                        saveContext()
-                        deleteGoalsWith(UIDs: ["00000000"])
-                        deletedCount += 1
-                    }
-                }
-            }
-            countPerGoal = 0
-        }
-        
-        for goal in goalContainer {
-            for yGoal in goalContainer {
-                if goal.goal_UID == yGoal.goal_UID {
-                    yGoal.goal_UID = "00000000"
-                    saveContext()
-                    deleteGoalsWith(UIDs: ["00000000"])
-                    deletedCount += 1
-                }
-            }
-        }
-        
-        print("Test 105 - deletedCount = \(deletedCount)")
-    }
-    
     
     // Seperate CurrentGoals VS PastGoals
     func parseGoals() {
         printOne(#function)
-           // hideRemovedGoals()
-            // Goal Container has goals
-            // clear
-            // clearDoubles()
+        // seperate current and past goals
         sortThroughDates()
+        // hide all goals that are marked as removed and store in Removed Goals
         hideRemovedGoals()
+        // sorting past goals by date
+        sortPastGoalsByDate()
     }
     
     // Sift through goal Container for any goals that are removed and store them in removedGoals
@@ -305,17 +190,6 @@ class GoalDataController: DataController {
                 }
             }
         }
-    }
-    
-    // Get all past goal UIDs - used for deletion
-    func pastGoalUIDs() -> [String]? {
-        var goalUIDs: [String]?
-        if pastGoalContainer.count != 0 {
-            goalUIDs = pastGoalContainer.map({ (goal) -> String in
-                return goal.goal_UID!
-            })
-        }
-        return goalUIDs
     }
     
     // Delete Goals - use pastGoalUIDs to get array of past goals to delete 
@@ -371,24 +245,6 @@ class GoalDataController: DataController {
         case false:
             createNewCurrentGoal()
         }
-        printOne(#function + " --- end")
-    }
-    
-    
-    // Delete goal if in goalContainer and pastGoalContainer and != currentGoal
-    func clearDoubles() {
-        printOne(#function + " --- start")
-        printOne("goalContainer.count = \(goalContainer.count) [ A ]")
-        printOne("pastGoalContainer.count = \(pastGoalContainer.count) [ A ]")
-        for goalC in goalContainer {
-            for goalP in pastGoalContainer {
-                if goalC == goalP  &&  currentGoal != goalC {
-                    deleteGoalsWith(UIDs: [goalC.goal_UID!])
-                }
-            }
-        }
-        printOne("goalContainer.count = \(goalContainer.count) [ A ]")
-        printOne("pastGoalContainer.count = \(pastGoalContainer.count) [ A ]")
         printOne(#function + " --- end")
     }
     
@@ -488,86 +344,12 @@ class GoalDataController: DataController {
     func createNewCurrentGoal() {
         printOne(#function + " --- start")
         printOne("goalContainer.count = \(goalContainer.count) [   C ]")
-        saveGoal(goal: Goal())
+        createNewGoal()
+//        saveGoal(goal: Goal())
         currentGoal = goalContainer.first!
         printOne("goalContainer.count = \(goalContainer.count) [    D ]")
         // Maybe should remove goal after adding
         printOne(#function + " --- end")
-    }
-    
-    
-
-    
-    func updateExistingGoals() {
-        var temporaryContainer : [GoalData] = []
-        print(#function)
-        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
-        do {
-            temporaryContainer = try context.fetch(request) // request all goals
-        } catch let error as NSError {
-            print("Could not fetch GoalData: \(error), \(error.userInfo)")
-        }
-        var updatedCount = 0
-        if goalContainer.count != 0 {
-            for goalC in goalContainer {
-                for goalT in temporaryContainer {
-                    if goalC.goal_UID == goalT.goal_UID {
-                        if goalC != goalT {
-                            goalC.goal_UID = "123456789"
-                            saveContext()
-                            deleteGoalsWith(UIDs: ["123456789"])
-                            goalContainer.append(goalT)
-                            updatedCount += 1
-                        }
-                        
-                    }
-                }
-            }
-        }
-        
-        
-        for goal in temporaryContainer {
-            goal.goal_UID = "123456789"
-        }
-        deleteGoalsWith(UIDs: ["123456789"])
-        saveContext()
-        print("Count of Updated Goals \(updatedCount)")
-    }
-    
-    // Get all goals and put them into a set for comparison
-    func retrieveGoals() {
-        var goals: [GoalData] = []
-        
-        let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
-        do {
-            goals = try context.fetch(request)
-        } catch let error as NSError {
-            print("Could not fetch GoalData: \(error), \(error.userInfo)")
-        }
-        
-        for goal in goals {
-            comparisonSet.insert(goal)
-            print("retrieveGoals.comparisonSet - \(goal.goal_UID!): \(goal.name ?? "no title listed")")
-        }
-        
-        // find the difference (new/updated goals) then append into main set
-        allGoals.formSymmetricDifference(comparisonSet)
-        for goal in allGoals {
-            print("retrieveGoals: allGoals.formSymmetricDifference(comparisonSet) - \(goal.goal_UID!): \(goal.name ?? "no title listed")")
-            let dict = goal.changedValues()
-            for (key, value) in dict {
-                print("retriveGoals.changedValues() - \(key), \(value)")
-            }
-        }
-        
-        
-        for goal in goals {
-            if goal.hasChanges {
-                allGoals.insert(goal)
-                print("retrieveGoals.allGoals - \(goal.goal_UID!): \(goal.name ?? "no title listed")")
-            }
-        }
-                
     }
     
     
@@ -617,22 +399,3 @@ class GoalDataController: DataController {
     
 }
 
-extension Set {
-    
-    // Find Goal in Set
-    func find(goal goalID: String) -> GoalData? {
-        if self.isEmpty {
-            return nil
-        } else {
-            for element in self {
-                guard let element = element as? GoalData else { return nil }
-                if element.goal_UID == goalID {
-                    return element
-                }
-            }
-        }
-        return nil
-    }
-    
-    
-}

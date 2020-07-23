@@ -46,6 +46,7 @@ extension TodayVC {
         
     }
     
+    // Delete all Goals Tasks
     func deleteGoalsAndTasks(_ bool: Bool = true) {
         switch bool {
         case true:
@@ -68,19 +69,19 @@ extension TodayVC {
         // fetch CoreData Elements
         goalDC.getGoals()
         
-        
-//         goalDC.fetchGoals()
-        
+        // Set main goal for the day
         todaysGoal = goalDC.currentGoal
         
-//        todaysGoal = goalDC.goalContainer.first!
+        // get all tasks for goal
         taskDC.fetchTasks(with: todaysGoal.goal_UID!)
+        
         // Set up view
         registerForKeyboardNotifications()
         updateTaskCountAndNotifications()
+        
         // hide add button
         addButtonIsHidden(true)
-        // if all cells have text in thier textfield - enable add new task button 
+        // if all cells have text in thier textfield - enable add new task button
         checkIfCellsAreFull()
         // Prompt user to create tasks 
         if todaysGoal.name == "" {
@@ -90,20 +91,31 @@ extension TodayVC {
     
     // configureView After View Appears
     func configureViewDidAppear() {
-        // if current goal changed (if new day) - load new task
+        // Reload tasks if changes
         for goal in goalDC.goalContainer {
             if goal.hasChanges == true {
                 goalDC.getGoals()
             }
         }
         print("retrieve - goalContainer.count = \(goalDC.goalContainer.count)")
+        // if current goal changed (if new day) - load new task
          if todaysGoal.goal_UID! != goalDC.currentGoal.goal_UID! {
             todaysGoal = goalDC.currentGoal
         }
-        taskDC.fetchTasks(with: todaysGoal.goal_UID!)
+        
+        // get tasks if changes
+        for task in taskDC.currentTaskContainer {
+            if task.hasChanges == true {
+                taskDC.fetchTasks(with: todaysGoal.goal_UID!)
+            }
+        }
+        
         todayTable.reloadData()
         updateTaskCountAndNotifications()
+        
+            // Not sure what it does - sets all task markers depending on goal marker
         todayTable.checkGoalToUpdateTaskCells()
+        
         print(#function)
         
         print("\n taskDC.selected Count = \(self.taskDC.selectedTaskContainer.count) " + "taskDC.current Count = \(self.taskDC.currentTaskContainer.count) ")
@@ -144,12 +156,16 @@ extension TodayVC {
         let addTask = UIAlertAction(title: "Add Task", style: .default) { (action) in
             guard let alertText = alertController.textFields?.first?.text else { return }
             // MARK: Save Bonus Task
-            self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
-            print(alertText)
-            self.updateTaskCountAndNotifications()
-            self.todayTable.reloadData()
-            // uncheck goal if checked off and goal was added kl
-            self.checkMarkersInRowsForCompletion()
+            
+            // test if string has characters
+            if alertText != "" {
+                self.taskDC.saveTask(name: alertText, withGoalID: self.todaysGoal.goal_UID!)
+                print(alertText)
+                self.updateTaskCountAndNotifications()
+                self.todayTable.reloadData()
+                // uncheck goal if checked off and goal was added kl
+                self.checkMarkersInRowsForCompletion()
+            }
           }
           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in print("Cancel Action") }
               
@@ -250,7 +266,7 @@ extension TodayVC {
             todaysGoal.name = textField.text!
             goalDC.saveContext()
             print(#function + " Goal Row")
-        default: // Default
+        default: // Default -- couldt remove saving tasks text as it is not used
             if taskDC.currentTaskContainer.count != 0 {
                 taskDC.currentTaskContainer[index.row].name = textField.text
                 taskDC.saveContext()
@@ -286,10 +302,6 @@ extension TodayVC {
             goalDC.saveContext()
             taskDC.saveContext()
         default:
-//            guard let x = todayTable.indexPath(for: cell) else { return }
-//            let task = taskDC.currentTaskContainer[x.row]
-//            task.isChecked = marker
-//            taskDC.saveContext()
             guard let index = todayTable.indexPath(for: cell) else { return }
             let task = taskDC.currentTaskContainer[index.row]
             

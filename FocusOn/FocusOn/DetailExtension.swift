@@ -82,7 +82,7 @@ extension DetailTableView {
         }
     }
     
-    
+    // Interperate marker selection
     func handleMarkerSelection() {
         switch markerColor {
         case .blue:

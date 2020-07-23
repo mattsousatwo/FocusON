@@ -16,7 +16,7 @@ extension HistoryVC {
         historyTableView.dataSource = self
         
         goalDC.getGoals()
-//        goalDC.fetchGoals()
+
         backButtonIsHidden(true)
         newTaskButtonIsHidden(true)
     }
@@ -168,41 +168,8 @@ extension HistoryVC {
         }
     }
     
-    // Delete specific goal - from pastGoalContainer
-    func delete(_ goal: GoalData, at index: IndexPath, displayMode: DisplayMode) {
-        let newGoalID = goalDC.genID()
-        // fetch goals for task
-        taskDC.fetchTasksFor(goalUID: goal.goal_UID!)
-
-        goal.goal_UID = newGoalID
-        goalDC.saveContext()
-        
-        lastDeletedGoal = goal
-        lastDeletedGoalIndex = index
-        goalDC.delete(goal: goal, at: index, in: historyTableView)
-        
-        // add tasks to container
-        deleteAllTasks = taskDC.selectedTaskContainer
-
-        
-        // Change to be deleted tasks IDs to allow the undo tasks to avoid deletion
-        for task in taskDC.selectedTaskContainer {
-            task.goal_UID = newGoalID
-        }
-        taskDC.saveContext()
-        
-        // delete tasks
-        taskDC.selectedTaskContainer.removeAll()
-//        taskDC.deleteAllTasks(with: goal.goal_UID!)
-        taskDC.deleteAllTasks(with: newGoalID)
-        
-        taskDC.saveContext()
-        clearDeletedCache(.goal)
-        historyTableView.reloadData()
-    }
     
-    
-    // Create Hub to filter which undoDelete method to trigger (time, displayMode)
+    // Create filter to sort which undoDelete method to trigger (time, displayMode)
     func filterUndoRequest() {
         switch displayMode {
         case .goalMode:
@@ -214,120 +181,8 @@ extension HistoryVC {
         }
         historyTableView.reloadData()
     }
-    
-    
-    
-    // Delete specific task
-    func delete(_ task: TaskData, at index: IndexPath) {
-        lastDeletedTask = task
-        lastDeletedTaskIndex = index
-        taskDC.deleteTaskFromHistory(at: index, in: historyTableView)
-        clearDeletedCache(.task)
-        historyTableView.reloadData()
-    }
-    
-    // Check to see if any tasks are being stored for Undo func
-    func checkDeleteMode() -> DeletedTaskMode? {
-        if lastDeletedTask != nil { // Undo Task
-            return .task
-        } else if lastDeletedGoal != nil { // Undo Goal
-            return .goal
-        } else if deleteAllGoal != nil { // Undo All
-            return .deleteAll
-        }
-        return nil
-    }
-    
-    // if delete mode is not equal to the type of deleted task we are bringing back the app will crash, so we need to ensure that when a task is being brought back, it is in task display mode
-    func isUndoDeletionModeCorrect() -> Bool {
-        
-        func undoPrintStatement(_ input: String) {
-            print("undoCheck :: " + input)
-        }
-        guard let lastDeletedType = checkDeleteMode() else { return false }
-        
-        undoPrintStatement(" INITAL - last deleted type = \(lastDeletedType), displayMode = \(displayMode)")
-        
-        switch lastDeletedType {
-        case .deleteAll:
-            // can only undo if goalMode
-            if displayMode == .taskMode {
-                undoPrintStatement("DeleteAll: displayMode = .taskMode -> FALSE")
-                return false
-            } else if displayMode == .goalMode {
-                undoPrintStatement("DeleteAll: displayMode = .goalMode -> TRUE")
-                return true
-            }
-            undoPrintStatement("DeleteAll: FAIL THROUGH")
-            return false
-        case .goal:
-            // can only undo if in goalMode
-            if displayMode == .taskMode {
-                undoPrintStatement("goal: displayMode = .taskMode -> FALSE")
-                return false
-            } else if displayMode == .goalMode {
-                undoPrintStatement("goal: displayMode = .goalMode -> TRUE")
-                return true
-            }
-            undoPrintStatement("goal: FAIL THROUGH")
-            return false
-        case .task:
-            guard let lastDeletedID = lastDeletedTask?.goal_UID else { return false }
-            // can only undo if in taskMode and goalID matches
-            if displayMode == .goalMode {
-                undoPrintStatement("task: displayMode = .taskMode -> FALSE")
-                return false
-            } else if displayMode == .taskMode {
-                if selectedGoalID == lastDeletedID {
-                    undoPrintStatement("task: displayMode = .taskMode, sgID - \(selectedGoalID) : ldID - \(lastDeletedID) -> TRUE")
-                    return true
-                }
-                undoPrintStatement("task: displayMode = .taskMode -> FALSE")
-                return false
-            }
-            undoPrintStatement("task: FAIL THROUGH")
-            return false
-        }
-        
-        return true
-    }
-    
-    // Func to remove saved deleted tasks - Maybe can remove excluding clause
-    func clearDeletedCache(_ excluding: DeletedTaskMode? = nil) {
-        guard let excluding = excluding else {
-            lastDeletedGoal = nil
-            lastDeletedGoalIndex = nil
-            lastDeletedTask = nil
-            lastDeletedTaskIndex = nil
-            deleteAllGoal = nil
-            deleteAllGoalIndex = nil
-            deleteAllGoalPosition = nil
-            deleteAllTasks = nil
-            deleteAllTasksIndex = nil
-            return
-        }
-        
-        switch excluding {
-        case .deleteAll:
-            lastDeletedGoal = nil
-            lastDeletedGoalIndex = nil
-            lastDeletedTask = nil
-            lastDeletedTaskIndex = nil
-        case .goal:
-            lastDeletedTask = nil
-            lastDeletedTaskIndex = nil
-            deleteAllGoal = nil
-            deleteAllGoalIndex = nil
-        case .task:
-            lastDeletedGoal = nil
-            lastDeletedGoalIndex = nil
-            deleteAllGoal = nil
-            deleteAllGoalIndex = nil
-            deleteAllTasks = nil
-            deleteAllTasksIndex = nil
-        }
-    }
-    
+
+  
     
     // Delete All Warning
     func presentDeleteAllWarrning() {
@@ -360,31 +215,7 @@ extension HistoryVC {
 
     }
     
-    // Delete Selected Goal and all saved tasks with the goals UID
-    func removeGoalAndTasks() {
-        clearDeletedCache()
-        guard let selectedGoal = selectedGoal else { return }
-        guard let goalPosition = goalDC.pastGoalContainer.firstIndex(where: {$0.goal_UID == selectedGoal.goal_UID!} ) else { return }
-        // store to be deleted files
-        deleteAllGoal = goalDC.pastGoalContainer.first(where: {$0.goal_UID == selectedGoal.goal_UID})
-        deleteAllGoalPosition = goalPosition
-        deleteAllTasks = taskDC.selectedTaskContainer
-        deleteAllTasksIndex = historyTableView.indexPathsForVisibleRows!
-        // Remove goals index
-        deleteAllTasksIndex?.removeFirst()
-        
-        // remove files
-        goalDC.pastGoalContainer.removeAll(where: {$0.goal_UID == selectedGoal.goal_UID!} )
-        taskDC.selectedTaskContainer.removeAll()
-        goalDC.saveContext()
-        taskDC.saveContext()
-        
-        // Go back to goalMode
-        backButtonIsHidden(true)
-        newTaskButtonIsHidden(true)
-        selectedGoalID = ""
-    }
-    
+   
     // Editing cell ended - save task or goal - will only be run in .taskMode
     func saveTextFrom(sender: UITextField?) {
         guard let textField = sender else { return }
@@ -408,16 +239,7 @@ extension HistoryVC {
     }
   
     
-    // Func to print test statments 
-    func printMarkerSelection(for goal: GoalData? = nil, for task: TaskData? = nil) {
-        if let goal = goal {
-            print("printMarkerSelection: goal: \(goal.isChecked)")
-        } else if let task = task {
-            print("printMarkerSelection: task: \(task.isChecked)")
-        }
-    print("printMarkerSelection: --------" + "\n")
-    }
-    
+
     
     // Check row markers and check off goal if tasks are complete
     func checkMarkersInRowsForCompletion() {
@@ -452,7 +274,7 @@ extension HistoryVC {
                 firstCell.taskMarker.isHighlighted = true
                 selectedGoal?.isChecked = true
                 goalDC.saveContext()
-            playCompletionAnimationForGoalIn(cell: firstCell)
+                playCompletionAnimationForGoalIn(cell: firstCell)
                 
                 // Else if checkedCells are less than count needed to complete goal
                 // && firstCell is checked off
@@ -463,12 +285,11 @@ extension HistoryVC {
                 firstCell.taskMarker.isHighlighted = false
                 
             }
-            
-            
-            
+
         }
     }
     
+    // Play animation for goal
     func playCompletionAnimationForGoalIn(cell: TaskCell) {
         backBarButton.isEnabled = false
         backBarButton.tintColor = UIColor.clear
@@ -476,7 +297,7 @@ extension HistoryVC {
         animation.playCompletionAnimationIn(view: view, of: self, withType: .history, for: goal, in: cell)
     }
     
-    
+    // Update completed tasks count
     func updateCompletedTasksLabelCount() {
         print(#function)
         // Get all of the cells

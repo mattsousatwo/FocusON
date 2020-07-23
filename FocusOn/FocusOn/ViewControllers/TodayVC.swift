@@ -16,11 +16,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     let goalDC = GoalDataController()
     var todaysGoal = GoalData()
     var bonusCellCount = 1
-    var currentGoal = GoalData()
     var searchUID = String()
     var searchDataType = DataType.goal
-    var lastDeletedTask: TaskData?
-    var lastDeletedTaskIndex: IndexPath?
     let animation = Animations()
    
     // Label to display task count
@@ -33,26 +30,17 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        
-//        goalDC.deleteAll()
-//         taskDC.deleteAllTasks()
-         
-//        goalDC.getGoals()
-//        goalDC.createTestGoals(int: 7, month: 1)
+
+//        goalDC.createTestGoals(int: 7, month: 2)
         configureTodayVC()
         testIfLastThreeMonthsGraphWorks()
-        
-        
-    //        goalDC.createTestGoals()
-    //    taskDC.createGoalWithTasks()
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         configureViewDidAppear()
-        goalDC.retrieveGoals()
+        
     }
 
     // Add a new task at bottom of table view if three cells are filled
@@ -63,8 +51,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // MARK: - TaskCellDelegate
     // When a task marker is pressed in a cell
     func didTaskCell(_ cell: TaskCell, change marker: Bool) {
-       
-
 
         taskMarkerWasPressed(marker, cell)
         

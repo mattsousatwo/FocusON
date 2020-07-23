@@ -87,37 +87,7 @@ extension UITableView {
         }
 
     }
-        
-    
-    // Update Label Count - not working properly 
-    func updateCompletedCountLabel(for view: Views) -> String {
-        print(#function)
-        
-        guard let visibleCells = self.visibleCells as? [TaskCell] else { return "" }
-        let checkedCells = visibleCells.filter { $0.taskMarker.isHighlighted == true }
-        let goalDC = GoalDataController()
-        
-        switch view {
-        case .today:
-            let today = TodayVC()
-            today.todaysGoal.completedCellCount = Int16(checkedCells.count)
-            goalDC.saveContext()
-            return "Task Count: \(checkedCells.count)\\\(visibleCells.count)"
-            
-        case .history:
-            let history = HistoryVC()
-            history.selectedGoal?.completedCellCount = Int16(checkedCells.count)
-            goalDC.saveContext()
-            if history.displayMode == .taskMode {
-                print("\(history.selectedGoal!.completedCellCount)\\\(visibleCells.count)")
-                return "\(history.selectedGoal!.completedCellCount)\\\(visibleCells.count)"
-            }
-        }
-        
-        return ""
-    } 
-    
-    
+         
 }
 
 extension UIViewController {

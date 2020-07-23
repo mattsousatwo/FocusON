@@ -7,38 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB3C3A47-1EF8-4B58-B23D-8679EA397D33"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FocusOn/GoalDataController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
-            landmarkName = "sortThroughDates()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7535DDC6-0479-4DA7-AF75-64C7A8A12904"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FocusOn/HistoryExtention.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "delete(_:at:displayMode:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "4E06A6AD-398F-44DB-8621-F8DAD0697652"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,10 +14,8 @@
             filePath = "FocusOn/HistoryExtention.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
-            landmarkName = "checkMarkersInRowsForCompletion()"
-            landmarkType = "7">
+            startingLineNumber = "323"
+            endingLineNumber = "323">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -128,8 +94,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "294"
             endingLineNumber = "294"
-            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,8 +110,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "337"
             endingLineNumber = "337"
-            landmarkName = "motionEnded(_:with:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -158,10 +124,8 @@
             filePath = "FocusOn/TaskDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
-            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
-            landmarkType = "7">
+            startingLineNumber = "237"
+            endingLineNumber = "237">
             <Locations>
                <Location
                   uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307 - e08b665626598ea0"
@@ -174,8 +138,8 @@
                   urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "365"
-                  endingLineNumber = "365"
+                  startingLineNumber = "364"
+                  endingLineNumber = "364"
                   offsetFromSymbolStart = "2178">
                </Location>
                <Location
@@ -189,8 +153,8 @@
                   urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "365"
-                  endingLineNumber = "365"
+                  startingLineNumber = "364"
+                  endingLineNumber = "364"
                   offsetFromSymbolStart = "85">
                </Location>
             </Locations>
@@ -206,10 +170,8 @@
             filePath = "FocusOn/TaskDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
-            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
-            landmarkType = "7">
+            startingLineNumber = "237"
+            endingLineNumber = "237">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -222,10 +184,8 @@
             filePath = "FocusOn/TaskDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
-            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
-            landmarkType = "7">
+            startingLineNumber = "237"
+            endingLineNumber = "237">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -238,10 +198,8 @@
             filePath = "FocusOn/TaskDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
-            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
-            landmarkType = "7">
+            startingLineNumber = "237"
+            endingLineNumber = "237">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -254,10 +212,8 @@
             filePath = "FocusOn/TaskDataController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
-            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
-            landmarkType = "7">
+            startingLineNumber = "237"
+            endingLineNumber = "237">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
