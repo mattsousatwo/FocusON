@@ -46,9 +46,9 @@
             filePath = "FocusOn/HistoryExtention.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "519"
-            endingLineNumber = "519"
-            landmarkName = "printMarkerSelection(for:for:)"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
+            landmarkName = "checkMarkersInRowsForCompletion()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -119,16 +119,144 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E946703D-3CCE-424B-86DC-FC7634B10668"
+            uuid = "16EFA72B-7DD2-4605-B16D-EB1D55FBFF10"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FocusOn/HistoryExtention.swift"
+            filePath = "FocusOn/ViewControllers/TodayVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "remove(goal:)"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E017D13D-2E4C-4727-872F-5F3FDCB17A8E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/ViewControllers/TodayVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
+            landmarkName = "motionEnded(_:with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/TaskDataController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307 - e08b665626598ea0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FocusOn.TaskDataController.undoLastDeletedTask(inView: FocusOn.Views, parentGoal: FocusOn.GoalData) -&gt; ()"
+                  moduleName = "FocusOn"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "365"
+                  endingLineNumber = "365"
+                  offsetFromSymbolStart = "2178">
+               </Location>
+               <Location
+                  uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307 - 3e8c2a7ed5c27fa6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (FocusOn.TaskData) -&gt; Swift.Bool in FocusOn.TaskDataController.undoLastDeletedTask(inView: FocusOn.Views, parentGoal: FocusOn.GoalData) -&gt; ()"
+                  moduleName = "FocusOn"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "365"
+                  endingLineNumber = "365"
+                  offsetFromSymbolStart = "85">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52A46DE4-442B-44F2-A62E-36E4BE9D21CD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/TaskDataController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA4B4D74-C7FC-42E8-9346-E8DA339C203F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/TaskDataController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B1CF63EF-DBDD-4438-B1BB-891AED86FC50"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/TaskDataController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
+            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E2ADDC5-31A4-4068-8564-D120A9BC36FC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FocusOn/TaskDataController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
+            landmarkName = "undoLastDeletedTask(inView:parentGoal:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -285,11 +285,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         let deleteButton = UIContextualAction(style: .destructive, title: "Delete") { (action, view, actionPreformed) in
             print("Delete Button Active")
             
-            self.lastDeletedTask = task
-            self.lastDeletedTaskIndex = indexPath
-            // MARK: DELETE TASK FUNC GOES HERE
-            // self.taskDC.delete(task: task.task_UID!)
-            self.taskDC.deleteCurrentTask(at: indexPath, in: self.todayTable)
+//            self.lastDeletedTask = task
+//            self.lastDeletedTaskIndex = indexPath
+//            // MARK: DELETE TASK FUNC GOES HERE
+//            // self.taskDC.delete(task: task.task_UID!)
+//            self.taskDC.deleteCurrentTask(at: indexPath, in: self.todayTable)
+            
+            self.taskDC.remove(task: task)
             self.updateTaskCountAndNotifications()
             self.todayTable.reloadData()
         }
@@ -323,18 +325,22 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            guard let lastDeletedTask = lastDeletedTask, let lastDeletedIndexPath = lastDeletedTaskIndex else { return }
-            todayTable.beginUpdates()
+//            guard let lastDeletedTask = lastDeletedTask, let lastDeletedIndexPath = lastDeletedTaskIndex else { return }
+//            todayTable.beginUpdates()
+//
+//            taskDC.currentTaskContainer.insert(lastDeletedTask, at: lastDeletedIndexPath.row)
+//
+//            todayTable.insertRows(at: [lastDeletedIndexPath], with: .automatic)
+//
+//            todayTable.endUpdates()
             
-            taskDC.currentTaskContainer.insert(lastDeletedTask, at: lastDeletedIndexPath.row)
+            taskDC.undoLastDeletedTask(inView: .today, parentGoal: todaysGoal)
+            todayTable.reloadData()
             
-            todayTable.insertRows(at: [lastDeletedIndexPath], with: .automatic)
-            
-            todayTable.endUpdates()
         }
-        lastDeletedTask = nil
-        lastDeletedTaskIndex = nil
-        
+//        lastDeletedTask = nil
+//        lastDeletedTaskIndex = nil
+//
         updateTaskCountAndNotifications()
     }
 

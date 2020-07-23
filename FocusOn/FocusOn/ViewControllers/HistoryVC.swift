@@ -356,7 +356,9 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             case .goalMode:
                 let goal = self.goalDC.pastGoalContainer[indexPath.section]
 //                self.delete(goal, at: indexPath, displayMode: .goalMode)
-                self.remove(goal: goal)
+                self.goalDC.remove(goal: goal)
+//                self.remove(goal: goal)
+                self.historyTableView.reloadData()
             case .taskMode:
                 switch indexPath.section {
                 case 0: // Goal
@@ -365,7 +367,11 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 case 1: // Task
                     // MARK: Delete single task
                     let task = self.taskDC.selectedTaskContainer[indexPath.row]
-                    self.remove(task: task)
+                    
+                    self.taskDC.remove(task: task)
+                    self.historyTableView.reloadData()
+//                    self.remove(task: task)
+                    
 //                    self.delete(task, at: indexPath)
 //                    self.historyTableView.reloadData()
 //                    self.updateCompletedTasksLabelCount()

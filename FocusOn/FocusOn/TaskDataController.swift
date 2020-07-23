@@ -77,7 +77,7 @@ class TaskDataController: DataController {
     }
     
     // MARK: Fetch Tasks
-    // Fetch all tasks for goal
+    // Fetch all tasks for todaysGoal - TodayVC()
     func fetchTasks(with goalUID: String = "") {  
         let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
         if goalUID != "" {
@@ -87,6 +87,17 @@ class TaskDataController: DataController {
             currentTaskContainer = try context.fetch(request)
         }
         catch {
+        }
+        // Hide removed tasks
+        for task in currentTaskContainer {
+            if task.isRemoved == true {
+                // add to removed tasks if not already there
+                if removedTasks.contains(task) == false {
+                    removedTasks.append(task)
+                }
+                // remove from current container
+                currentTaskContainer.removeAll(where: { $0.task_UID == task.task_UID })
+            }
         }
         // If taskContainer is empty { create three tasks } 
         if currentTaskContainer.count == 0 {
@@ -289,66 +300,75 @@ class TaskDataController: DataController {
         return tasks
     }
     
+  
     
-    func updateExistingTasks(in view: Views) {
-        var temporaryContainer : [TaskData] = []
-        print(#function)
-        let request: NSFetchRequest<TaskData> = TaskData.fetchRequest()
-        do {
-            temporaryContainer = try context.fetch(request)
-        } catch let error as NSError {
-            print("Could not fetch TaskData: \(error), \(error.userInfo)")
-        }
+    
+    // Hide and store task - call reload table after use
+    func remove(task: TaskData) {
+        task.isRemoved = true
+        task.timeRemoved = Date()
+        saveContext()
         
-        switch view {
-        case .history:
-            // seletcted
-            if selectedTaskContainer.count != 0 {
-                for task in selectedTaskContainer {
-                    for taskT in temporaryContainer {
-                        if task.task_UID == taskT.task_UID {
-                            if task != taskT {
-                                guard let selectedIndex = selectedTaskContainer.firstIndex(of: task) else { return }
-                                task.task_UID = "123456789"
-                                saveContext()
-                                selectedTaskContainer.removeAll { (task) -> Bool in
-                                    task.task_UID == "123456789"
-                                }
-                                delete(task: "123456789")
-                                saveContext()
-                                selectedTaskContainer.insert(taskT, at: selectedIndex)
-                            }
-                        }
-                    }
-                }
-            }
-            
-        case .today:
-            // current
-            
-            if currentTaskContainer.count != 0 {
-                for task in currentTaskContainer {
-                    for taskT in temporaryContainer {
-                        if task.task_UID == taskT.task_UID {
-                            if task != taskT {
-                                guard let selectedIndex = currentTaskContainer.firstIndex(of: task) else { return }
-                                task.task_UID = "123456789"
-                                saveContext()
-                                currentTaskContainer.removeAll { (task) -> Bool in
-                                    task.task_UID == "123456789"
-                                }
-                                delete(task: "123456789")
-                                saveContext()
-                                currentTaskContainer.insert(taskT, at: selectedIndex)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // add to removed tasks
+        removedTasks.append(task)
         
+        // remove from array
+        if currentTaskContainer.contains(task) {
+            print("removeTaskFrom: currentTaskContainer: \(task.task_UID!)")
+            currentTaskContainer.removeAll(where: { $0.task_UID == task.task_UID })
+        } else if selectedTaskContainer.contains(task) {
+            print("removeTaskFrom: selectedTaskContainer: \(task.task_UID!)")
+            selectedTaskContainer.removeAll(where: { $0.task_UID == task.task_UID })
+        } else if pastTaskContainer.contains(task) {
+            print("removeTaskFrom: pastTaskContainer: \(task.task_UID!)")
+            pastTaskContainer.removeAll(where: { $0.task_UID == task.task_UID })
+        }
         
     }
     
+    // undo remove - use in .taskMode or in TodayVC - use currentGoal for today, use selectedGoal for HistoryVC
+    func undoLastDeletedTask(inView view: Views, parentGoal: GoalData) {
+        
+        guard removedTasks.count != 0 else { return }
+        
+        if removedTasks.count >= 2 {
+            sortRemovedTasksByTimeRemoved()
+        }
+        
+        guard let mostRecentTask = removedTasks.first else { return }
+        
+        mostRecentTask.isRemoved = false
+        mostRecentTask.timeRemoved = nil
+        saveContext()
+        
+        // TodayVC gets tasks using - currentTaskContainer
+        // HistoryVC gets selected goals tasks using - selectedTaskContainer
+            // needs to also check if goal is selected
+        
+        switch view {
+        case .today:
+            
+            if parentGoal.goal_UID == mostRecentTask.goal_UID {
+                currentTaskContainer.append(mostRecentTask)
+            }
+        
+        case .history:
+            
+            if parentGoal.goal_UID == mostRecentTask.goal_UID {
+                selectedTaskContainer.append(mostRecentTask)
+            }
+            
+            
+        }
+        
+        removedTasks.removeAll(where: { $0.task_UID == mostRecentTask.task_UID })
+        
+    }
+    
+    func sortRemovedTasksByTimeRemoved() {
+        removedTasks.sort { (taskA, taskB) -> Bool in
+            taskA.timeRemoved! > taskB.timeRemoved!
+        }
+    }
     
 }

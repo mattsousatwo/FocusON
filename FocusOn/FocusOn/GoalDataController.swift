@@ -571,8 +571,48 @@ class GoalDataController: DataController {
     }
     
     
+    // Hide Goal and store in removed goals - refresh table after call
+    func remove(goal: GoalData) {
+        print("removeGoal")
+        // Set goal properties for removal - save
+        goal.isRemoved = true
+        goal.timeRemoved = Date()
+        saveContext()
+        
+        // Remove goal from container and add to removedGoals
+        removedGoals.append(goal)
+        pastGoalContainer.removeAll(where: {$0.goal_UID == goal.goal_UID! })
+    }
     
-    
+    // Undo delete goal - only use in .goalMode
+    func undoDeleteGoal() {
+        print("undoGoalDelete")
+        
+        if removedGoals.count != 0 {
+            // sorting removed goals for most recent
+            if removedGoals.count >= 2 {
+//                goalDC.sortRemovedGoalsByTimeRemoved()
+            }
+            guard let mostRecentGoal = removedGoals.first else { return }
+            // update goal properties
+            mostRecentGoal.isRemoved = false
+            mostRecentGoal.timeRemoved = nil
+            // update tasks for goal properties
+            
+            taskDC.fetchTasksFor(goalUID: mostRecentGoal.goal_UID!)
+            
+            // add to past goal array and sort
+            pastGoalContainer.append(mostRecentGoal)
+            removedGoals.removeAll { (goal) -> Bool in
+                goal.goal_UID! == mostRecentGoal.goal_UID!
+            }
+            sortPastGoalsByDate()
+            // Save
+            saveContext()
+            taskDC.saveContext()
+        }
+        
+    }
     
     
 }

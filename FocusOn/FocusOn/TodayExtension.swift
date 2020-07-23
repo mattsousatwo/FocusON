@@ -78,7 +78,10 @@ extension TodayVC {
         // Set up view
         registerForKeyboardNotifications()
         updateTaskCountAndNotifications()
+        // hide add button
         addButtonIsHidden(true)
+        // if all cells have text in thier textfield - enable add new task button 
+        checkIfCellsAreFull()
         // Prompt user to create tasks 
         if todaysGoal.name == "" {
             presentNewDayActionSheet()
