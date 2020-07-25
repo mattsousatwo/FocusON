@@ -33,7 +33,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
 
 //        goalDC.createTestGoals(int: 7, month: 2)
         configureTodayVC()
-        testIfLastThreeMonthsGraphWorks()
+//         testIfLastThreeMonthsGraphWorks()
 
     }
     
@@ -117,22 +117,18 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         
         switch indexPath.section {
         case 0: // Goal Section
-            print("Goal was created")
             if todaysGoal.name! == "" {
                 cell.textField.placeholder = "New Goal"
             } else {
             cell.textField.text = todaysGoal.name!
             }
-//            cell.taskMarker.isHighlighted = todaysGoal.isChecked
             // Change Markers to selected Color
             guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return cell }
-            print("markerSelection = \(markerSelection.rawValue)")
             
             updateMarkerColor(for: cell, to: markerSelection, highlighted: todaysGoal.isChecked)
             
     
         case 1: // Task Section
-            print("Task was created \(indexPath.row)")
             if taskDC.currentTaskContainer.count != 0 {
                 let task = taskDC.currentTaskContainer[indexPath.row]
                 cell.textField.text = task.name
@@ -214,18 +210,13 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
               case 0:
                   // Goal
                   guard let goalID = todaysGoal.goal_UID else { return }
-                  print("TESTING - " + goalID)
                   searchUID = goalID
                   searchDataType = .goal
               case 1:
                   // Tasks
                   ///// If Task is saved out of row order, this will cause errors with selecting the correct task
-                  print("task selected")
-            //      x.menuButton.isHidden = true // hidden
                   if taskDC.currentTaskContainer.count != 0 {
                       guard let taskID = taskDC.currentTaskContainer[indexPath.row].task_UID else { return }
-                  
-                      print("TESTING - " + taskID)
                       searchUID = taskID
                       searchDataType = .task
                   }
@@ -233,8 +224,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
               default:
                   print("No Search Tag Found")
               }
-        } else {
-            print("Textfield at index \(indexPath) is empty") 
         }
         
         let cell = todayTable.cellForRow(at: todayTable.indexPathForSelectedRow!)
@@ -269,34 +258,27 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         guard let task = taskDC.currentTaskContainer[indexPath.row] as TaskData? else { return nil }
         
         let deleteButton = UIContextualAction(style: .destructive, title: "Delete") { (action, view, actionPreformed) in
-            print("Delete Button Active")
-            
-//            self.lastDeletedTask = task
-//            self.lastDeletedTaskIndex = indexPath
-//            // MARK: DELETE TASK FUNC GOES HERE
-//            // self.taskDC.delete(task: task.task_UID!)
-//            self.taskDC.deleteCurrentTask(at: indexPath, in: self.todayTable)
-            
+            print("Delete Button Pressed")
             self.taskDC.remove(task: task)
             self.updateTaskCountAndNotifications()
             self.todayTable.reloadData()
         }
         let completeButton = UIContextualAction(style: .normal, title: "Complete") { (action, view, actionPreformed) in
-            print("Complete Button Active")
+            print("Complete Button Pressed")
             task.progress = 2
             self.taskDC.saveContext()
             actionPreformed(true)
         }
         completeButton.backgroundColor = #colorLiteral(red: 0.003390797181, green: 0.4353298545, blue: 0.7253979445, alpha: 1)
         let inProgressButton = UIContextualAction(style: .normal, title: "In-Progress") { (action, view, actionPreformed) in
-            print("In-Progress Button Active")
+            print("In-Progress Button Pressed")
             task.progress = 1
             self.taskDC.saveContext()
             actionPreformed(true)
         }
         inProgressButton.backgroundColor = #colorLiteral(red: 0.3998935819, green: 0.6000403762, blue: 0.7998998761, alpha: 1)
         let beginningButton = UIContextualAction(style: .normal, title: "Beginning") { (action, view, actionPreformed) in
-            print("Beginning Button Active")
+            print("Beginning Button Pressed")
             task.progress = 0
             self.taskDC.saveContext()
             actionPreformed(true)
@@ -311,22 +293,11 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     // User shook phone (Undo)
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-//            guard let lastDeletedTask = lastDeletedTask, let lastDeletedIndexPath = lastDeletedTaskIndex else { return }
-//            todayTable.beginUpdates()
-//
-//            taskDC.currentTaskContainer.insert(lastDeletedTask, at: lastDeletedIndexPath.row)
-//
-//            todayTable.insertRows(at: [lastDeletedIndexPath], with: .automatic)
-//
-//            todayTable.endUpdates()
-            
+
             taskDC.undoLastDeletedTask(inView: .today, parentGoal: todaysGoal)
             todayTable.reloadData()
             
         }
-//        lastDeletedTask = nil
-//        lastDeletedTaskIndex = nil
-//
         updateTaskCountAndNotifications()
     }
 
@@ -347,9 +318,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
         if segue.identifier == "TodayToDetail" {
             let nav = segue.destination as! UINavigationController
             let detailVC = nav.topViewController as! DetailTableView
-
-            print("-----------successful segue")
-            
+  
             //MARK: - trying to set cell input to detail view if there is one set
             if let selectedIndex = todayTable.indexPathForSelectedRow {
                 let x = todayTable.cellForRow(at: selectedIndex) as! TaskCell

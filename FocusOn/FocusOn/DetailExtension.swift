@@ -18,7 +18,6 @@ extension DetailTableView {
         // hide update button
         updateButton.isEnabled = false
         // Set TitleInput && progress
-            // MARK: WARNING! - interpretSearchTag will return a non fetchable string if no data is passed
         interpretSearchTag(withType: searchDataType)
         // set hightlighted state for marker buttons
         setHighlightedImages()
@@ -74,7 +73,7 @@ extension DetailTableView {
         case .goal:
             markerColor = tag
             standInGoal.markerColor = tag.rawValue
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
         default:
             markerColor = tag
             standInTask.markerColor = tag.rawValue

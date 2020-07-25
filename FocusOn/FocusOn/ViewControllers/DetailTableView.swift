@@ -33,7 +33,6 @@ class DetailTableView: UITableViewController {
     
     @IBAction func progressControlPressed(_ sender: Any) {
         // If pressed enable update button
-       print("Active!")
         updateButton.isEnabled = true
     }
     
@@ -46,49 +45,40 @@ class DetailTableView: UITableViewController {
     @IBOutlet weak var yellowButton: UIButton! // 5
     
     
-    // text field for any notes user has stored
+    // Text field for any notes user has stored
     @IBOutlet weak var notesField: UITextView!
   
-    
+    // Handle marker selection
     @IBAction func markerButtonPressed(_ sender: Any) {
         updateButton.isEnabled = true
-        
         guard let selectedButton = sender as? UIButton else { return }
         let buttonCollection = [blueButton, greenButton, greyButton, pinkButton, redButton, yellowButton]
         for x in buttonCollection {
             if x!.isSelected == false && x! == selectedButton {
                 x!.isSelected = true
-               
             } else {
                 x!.isSelected = false
                 selectedButton.isSelected = true
             }
         }
-        
         switch (sender as! UIButton).tag {
         case 0:
             print("blue")
-            
             saveMarkerColor(as: .blue)
         case 1:
             print("green")
-            
             saveMarkerColor(as: .green)
         case 2:
             print("grey")
-            
             saveMarkerColor(as: .grey)
         case 3:
             print("pink")
-            
             saveMarkerColor(as: .pink)
         case 4:
             print("red")
-            
             saveMarkerColor(as: .red)
         case 5:
             print("yellow")
-            
             saveMarkerColor(as: .yellow)
         default:
             saveMarkerColor(as: .blue)
@@ -96,28 +86,10 @@ class DetailTableView: UITableViewController {
         }
     }
     
-    
-    
-   
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print(#function)
-        configure()
-        
-    }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("@DetailTableViewController" + " searchUID: \(searchUID)" )
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+        configure()
     }
     
     // MARK: - BUTTONS
@@ -132,7 +104,7 @@ class DetailTableView: UITableViewController {
             standInGoal.name = titleInput.text
             standInGoal.progress = selectedProgressNum
             standInGoal.notes = notesField.text
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
         default:
             standInTask.name = titleInput.text
             standInTask.progress = selectedProgressNum

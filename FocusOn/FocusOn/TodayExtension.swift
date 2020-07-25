@@ -137,7 +137,7 @@ extension TodayVC {
             
             let highlightedTaskCells = totalTasks.filter( { $0.taskMarker.isHighlighted == true })
             todaysGoal.completedCellCount = Int16(highlightedTaskCells.count)
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
             navigationItem.title = "Task Count: \(highlightedTaskCells.count)\\\(taskDC.currentTaskContainer.count + 1)"
             print("task count = \(totalTasks.count)")
         }
@@ -241,7 +241,7 @@ extension TodayVC {
             
             firstCell.taskMarker.isHighlighted = true
             todaysGoal.isChecked = true
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
             // use todays goal to access GoalData
             animation.playCompletionAnimationIn(view: view, of: self, withType: .today, for: todaysGoal, in: firstCell)
             // If checkedCells are less than count needed to complete goal
@@ -264,7 +264,7 @@ extension TodayVC {
         switch index.section {
         case 0: // Goal
             todaysGoal.name = textField.text!
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
             print(#function + " Goal Row")
         default: // Default -- couldt remove saving tasks text as it is not used
             if taskDC.currentTaskContainer.count != 0 {
@@ -299,7 +299,7 @@ extension TodayVC {
                 }
             }
             
-            goalDC.saveContext()
+            goalDC.save(context: goalDC.context)
             taskDC.saveContext()
         default:
             guard let index = todayTable.indexPath(for: cell) else { return }

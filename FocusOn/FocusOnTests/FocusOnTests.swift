@@ -26,7 +26,6 @@ class FocusOnTests: XCTestCase {
         let goals = GoalDataController()
         goals.getGoals()
         let goalUID = goals.goalContainer.first?.goal_UID!
-        print("Test 109 + pastGoalsContainerCount = \(goals.pastGoalContainer.count)")
         for goal in goals.pastGoalContainer {
             if goal.goal_UID! == goalUID {
                 XCTAssert(false)
@@ -47,22 +46,17 @@ class FocusOnTests: XCTestCase {
     // Checking to see if multiple fetch calls will cause doubles to appear in goals array
     func testForDoublesWhenFetching() {
         let goalDC = GoalDataController()
-        print("test 201: inital count = \(goalDC.goalContainer.count + goalDC.pastGoalContainer.count)")
         goalDC.getGoals()
         let firstCount = goalDC.goalContainer.count + goalDC.pastGoalContainer.count
-        print("test 201: firstCall count = \(goalDC.goalContainer.count + goalDC.pastGoalContainer.count)")
         for goal in goalDC.goalContainer {
             if goal.hasChanges == true {
                 goalDC.getGoals()
             }
         }
         let secondCount = goalDC.goalContainer.count + goalDC.pastGoalContainer.count
-        print("test 201: secondCallCount count = \(goalDC.goalContainer.count + goalDC.pastGoalContainer.count)")
         if secondCount == firstCount {
-            print("test 201: outcome = \(secondCount) == \(firstCount)")
             XCTAssert(true)
         } else if secondCount != firstCount {
-            print("test 201: outcome = \(secondCount) != \(firstCount)")
             XCTAssert(false)
         }
     }
@@ -73,23 +67,17 @@ class FocusOnTests: XCTestCase {
         var counter = 0
         goalDC.getGoals()
         if goalDC.goalContainer.count != 0 {
-            for goal in goalDC.goalContainer {
-                let x = goalDC.fetchGoal(withUID: goal.goal_UID!)
-                print("test 203: goal \(x.goal_UID!) has been fetched : CURRENT")
+            for _ in goalDC.goalContainer {
                 counter += 1
             }
         }
         
         if goalDC.pastGoalContainer.count != 0 {
-            for goal in goalDC.pastGoalContainer {
-                let x = goalDC.fetchGoal(withUID: goal.goal_UID!)
-                print("test 203: goal \(x.goal_UID!) has been fetched : PAST")
+            for _ in goalDC.pastGoalContainer {
                 counter += 1
             }
         }
         
-        
-        print("test 203: number of goals fetched: \(counter)")
         if counter > 0 {
             XCTAssert(true)
         } else {
@@ -104,9 +92,6 @@ class FocusOnTests: XCTestCase {
         let goalDC = GoalDataController()
         goalDC.getGoals()
         goalDC.sortPastGoalsByDate()
-        for goal in goalDC.pastGoalContainer {
-            print("sorting - \(goalDC.pastGoalContainer.firstIndex(of: goal)!) : \(goal.dateCreated!)")
-        }
         
         guard let firstGoal = goalDC.pastGoalContainer.first else { return }
         guard let lastGoal = goalDC.pastGoalContainer.last else { return }
@@ -127,25 +112,18 @@ class FocusOnTests: XCTestCase {
         var removedGoals: [GoalData] = []
         
         for goal in goalDC.goalContainer {
-            print("testForRemovedGoals - goalContainer - \(goal.name!), isRemoved: \(goal.isRemoved)")
             if goal.isRemoved == true {
                 removedGoals.append(goal)
             }
         }
         
         for goal in goalDC.pastGoalContainer {
-            print("testForRemovedGoals - pastGoalContainer - \(goal.name!), isRemoved: \(goal.isRemoved)")
             if goal.isRemoved == true {
                 removedGoals.append(goal)
             }
         }
-        
-        for goal in goalDC.removedGoals {
-            print("testForRemovedGoals - removedGoals - \(goal.name!), isRemoved: \(goal.isRemoved)")
-        }
-        
+
         if removedGoals.count != 0 {
-            print("testForRemovedGoals - removedGoals.count = \(removedGoals.count)")
             XCTAssert(false)
         } else {
             XCTAssert(true)
@@ -165,21 +143,18 @@ class FocusOnTests: XCTestCase {
         // remove goal
         if goalDC.pastGoalContainer.count != 0 {
             x = goalDC.pastGoalContainer.last!
-            print("testIfRemoveGoalsWorks:: INITAL - \(x!.goal_UID!), isRemoved: \(x!.isRemoved)")
+            
             
             goalDC.remove(goal: x!)
-            print("testIfRemoveGoalsWorks:: removeGoal - \(x!.goal_UID!), isRemoved: \(x!.isRemoved)")
             // undo remove
             
             goalDC.undoDeleteGoal()
-            print("testIfRemoveGoalsWorks:: undoDelete - \(x!.goal_UID!), isRemoved: \(x!.isRemoved)")
             
             
         }
         
         guard let goal = x else { return }
         let fetchedGoal = goalDC.fetchGoal(withUID: goal.goal_UID!)
-        print("testIfRemoveGoalsWorks:: 2nd Fetch - \(fetchedGoal.goal_UID!), isRemoved: \(fetchedGoal.isRemoved)")
         
         
     }
@@ -195,10 +170,8 @@ class FocusOnTests: XCTestCase {
         x.isRemoved = true
         goalDC.saveContext()
         
-        print("remove 1 - \(tag): isRemoved: \(x.isRemoved) ")
+        
         goalDC.getGoals()
-        print("remove 2 - \(tag): isRemoved: \(x.isRemoved) ")
-        print("RemovedGoalsCount: \(goalDC.removedGoals.count)")
         
         if goalDC.removedGoals.count != 0 {
             XCTAssert(true)
@@ -234,15 +207,28 @@ class FocusOnTests: XCTestCase {
         }
         
         if threeLastMonths.count == 3 {
-            print("lastThreeMonths - threeLastMonths.count = \(threeLastMonths.count)")
-            print("lastThreeMonths - notWithinLastThreeMonths.count = \(notWithinLastThreeMonths.count)")
             XCTAssert(true)
         } else {
-            print("lastThreeMonths - threeLastMonths.count = \(threeLastMonths.count)")
-            print("lastThreeMonths - notWithinLastThreeMonths.count = \(notWithinLastThreeMonths.count)")
             XCTAssert(false)
         }
         
+    }
+    
+    // Test if universial save method works - 7/24/20
+    func testIfSaveContextWorks() {
+        let uid = "12345"
+        let goalDC = GoalDataController()
+        let date = goalDC.createDate(month: 2, day: 18, year: 2020)
+        goalDC.createNewGoal(title: "my goal", date: date, UID: uid)
+        
+        goalDC.getGoals()
+        if goalDC.pastGoalContainer.contains(where: { $0.goal_UID == uid }) == true {
+            goalDC.deleteGoalsWith(UIDs: [uid])
+            XCTAssert(true)
+        } else {
+            goalDC.deleteGoalsWith(UIDs: [uid])
+            XCTAssert(false)
+        }
     }
     
     

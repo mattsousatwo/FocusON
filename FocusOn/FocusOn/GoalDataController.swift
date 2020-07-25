@@ -26,26 +26,18 @@ class GoalDataController: DataController {
         context = appDelegate.persistentContainer.viewContext
         entity = NSEntityDescription.entity(forEntityName: entityName, in: context)!
     }
-    
-    // MARK: Save
-
-    // Save Managed Context
-    func saveContext() {
-        print(#function + "\n")
-        do {
-            try context.save()
-        }
-        catch {
-        }
-    }
-    
+        
     // Create a new goal
-    func createNewGoal(title: String = "", date: Date? = nil) {
+    func createNewGoal(title: String = "", date: Date? = nil, UID: String? = "") {
         // create goal
         let goal = GoalData(context: context)
         
-        // assign UID
-        goal.goal_UID = genID()
+        if UID == nil || UID == "" {
+            // assign UID
+            goal.goal_UID = genID()
+        } else {
+            goal.goal_UID = UID
+        }
         
         // assign date
         if let date = date {
@@ -62,7 +54,7 @@ class GoalDataController: DataController {
         
         // append to goal container
         goalContainer.append(goal)
-        saveContext()
+        save(context: context)
     }
     
     // MARK: Create
@@ -128,7 +120,7 @@ class GoalDataController: DataController {
             }
         catch {
             }
-    saveContext()
+    save(context: context)
     }
     
     
@@ -136,39 +128,31 @@ class GoalDataController: DataController {
     // MARK: getGoals() -
     // New Fetch Goals method - May 27
     func getGoals() {
-        
+        if goalContainer.count != 0 {
             goalContainer.removeAll()
-        
-        printOne(#function + " --- start")
+        }
         // Fetch goals
         let request: NSFetchRequest<GoalData> = GoalData.fetchRequest()
         do {
             goalContainer = try context.fetch(request)
-            
         } catch let error as NSError {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
-        
         // Parse goal container for current goal
         switch goalContainer.count != 0 {
         case true:
-            printOne(#function + " container.count != 0: TRUE")
             // Goal Container has goals
             parseGoals()
         case false:
-            printOne(#function + "container.count != 0: FALSE")
             // Goal Container is empty
             // Check if currentGoal is in pastGoalContainer
             compareCurrentGoalToPastGoals() // maybe just need to create a new goal and not compare - if goalContainer is empty so is pastGoals
         }
-        printOneOutcome()
-        printOne(#function + " --- end")
     }
     
     
     // Seperate CurrentGoals VS PastGoals
     func parseGoals() {
-        printOne(#function)
         // seperate current and past goals
         sortThroughDates()
         // hide all goals that are marked as removed and store in Removed Goals
@@ -202,50 +186,22 @@ class GoalDataController: DataController {
                 try context.execute(deleteRequest)
             } catch {
             }
-            saveContext()
+            save(context: context)
         }
-    }
-    
-    // Print func for tests
-    func printOne(_ string: String) {
-        let message = "Test 101 "
-        let totalMessage = message + string
-        print(totalMessage)
-    }
-    
-    // print total count of containers
-    func printOneOutcome(_ string: String? = "") {
-        var totalMessage = ""
-        let tag = "Test 101 - TOTAL - "
-        let current = "currentGoal.UID: \(currentGoal.goal_UID!),"
-        let gContainer = " goalContainer.count: \(goalContainer.count),"
-        let pContainer = " pastGoalContainer.count: \(pastGoalContainer.count)"
-        let total = " - TOTAL GOALS = \(goalContainer.count + pastGoalContainer.count)"
-        if let input = string {
-            totalMessage = tag + current + gContainer + pContainer + total + input
-        } else {
-            totalMessage = tag + current + gContainer + pContainer + total
-        }
-        print(totalMessage)
     }
     
     // check if currentGoal is in pastGoalContainer
     func compareCurrentGoalToPastGoals() {
-        printOne(#function + " --- start")
         var status: Bool = false
         for goal in pastGoalContainer {
             if currentGoal == goal {
-                printOne("currentGoalUID = \(currentGoal.goal_UID!), currentGoal.text = \(currentGoal.name!) ")
                 status = true
             }
         }
-        switch status {
-        case true:
-            printOne("status: true, goal is in pastGoals")
-        case false:
+        
+        if status == false {
             createNewCurrentGoal()
         }
-        printOne(#function + " --- end")
     }
     
     // If day passes and current goal is not complete refactor goal for new day, else create new goal
@@ -254,17 +210,14 @@ class GoalDataController: DataController {
         sortPastGoalsByDate()
         guard let mostRecentGoal = pastGoalContainer.first else { return }
         
-        print("Test 202: most recent goal = \(mostRecentGoal.goal_UID!) \(mostRecentGoal.dateCreated!)")
         switch mostRecentGoal.isChecked {
         case true:
             // most recent goal is completed
                 // create a new goal for today
                 // clear array
-            print("Test 202: goal is checked -> create a new goal for the day")
             pastGoalContainer.append(mostRecentGoal)
             createNewCurrentGoal()
         case false:
-            print("Test 202: goal is unchecked -> move most recent goal to today")
             // save old UID
             guard let oldUID = mostRecentGoal.goal_UID else { return }
             // Create new UID
@@ -289,41 +242,30 @@ class GoalDataController: DataController {
             // Delete goal with old uid
             deleteGoalsWith(UIDs: [oldUID])
             // save goal context
-            saveContext()
+            save(context: context)
 
         }
-        
-        
         
     }
     
     // Sort goals by their dates into pastGoalContainer or if from today set as currentGoal
     func sortThroughDates() {
-        printOne(#function + " --- start")
         for goal in goalContainer {
             if isDateFromToday(goal.dateCreated) == false { // if goal is NOT from today
-                
-                printOne("isDateFromToday(goal.dateCreated) == false { add to goal && remove }")
                 // move to past container
                 pastGoalContainer.append(goal)
-                printOne("pastGoalContainer.count = \(pastGoalContainer.count) [  B ]")
                 // remove goal from goal container
                 goalContainer.removeAll(where: { $0.goal_UID == goal.goal_UID! })
-                printOne("goalUID == \(goal.goal_UID!)")
-                printOne("goalContainer.count = \(goalContainer.count) [  B ]")
                 if goalContainer.count == 0 {
                     useLastGoalIfIncomplete()
 //                    createNewCurrentGoal()
                 }
             } else if isDateFromToday(goal.dateCreated) == true {
                 // if currentGoal is from today set as current goal
-                printOne("isDateFromToday(goal.dateCreated) == true { set as current goal }")
-                printOne("goalUID == \(goal.goal_UID!)")
                 currentGoal = goal
             }
             
         }
-        printOne(#function + " --- end")
     }
     
     // Make sure pastGoalContainers goals are in order by date
@@ -342,25 +284,19 @@ class GoalDataController: DataController {
     
     // Create new goal and set it as current goal
     func createNewCurrentGoal() {
-        printOne(#function + " --- start")
-        printOne("goalContainer.count = \(goalContainer.count) [   C ]")
         createNewGoal()
 //        saveGoal(goal: Goal())
         currentGoal = goalContainer.first!
-        printOne("goalContainer.count = \(goalContainer.count) [    D ]")
         // Maybe should remove goal after adding
-        printOne(#function + " --- end")
     }
     
     
     // Hide Goal and store in removed goals - refresh table after call
     func remove(goal: GoalData) {
-        print("removeGoal")
         // Set goal properties for removal - save
         goal.isRemoved = true
         goal.timeRemoved = Date()
-        saveContext()
-        
+        save(context: context)
         // Remove goal from container and add to removedGoals
         removedGoals.append(goal)
         pastGoalContainer.removeAll(where: {$0.goal_UID == goal.goal_UID! })
@@ -368,8 +304,6 @@ class GoalDataController: DataController {
     
     // Undo delete goal - only use in .goalMode
     func undoDeleteGoal() {
-        print("undoGoalDelete")
-        
         if removedGoals.count != 0 {
             // sorting removed goals for most recent
             if removedGoals.count >= 2 {
@@ -390,7 +324,7 @@ class GoalDataController: DataController {
             }
             sortPastGoalsByDate()
             // Save
-            saveContext()
+            save(context: context)
             taskDC.saveContext()
         }
         

@@ -56,7 +56,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     let goal = goalDC.pastGoalContainer[index.section]
                     goal.isChecked = marker
                     print(#function + " \(goal.goal_UID!) isChecked: \(goal.isChecked)")
-                    goalDC.saveContext()
+                    goalDC.save(context: goalDC.context)
                     
                     var tasks = taskDC.grabTasksAssociatedWith(goalUID: goal.goal_UID!)
                     for task in taskDC.selectedTaskContainer {
@@ -75,7 +75,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     if cell == historyTableView.cellForRow(at: index) {
                         guard let goal = selectedGoal else { return }
                         goal.isChecked = marker
-                        goalDC.saveContext()
+                        goalDC.save(context: goalDC.context)
                         // Check off all cells
                         for visibleRowIndex in visibleRows {
                             guard let visibleCell = historyTableView.cellForRow(at: visibleRowIndex) as? TaskCell else { return }

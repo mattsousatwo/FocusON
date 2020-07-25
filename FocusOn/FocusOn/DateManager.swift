@@ -11,45 +11,6 @@ import Foundation
 class DateManager {
     
      // MARK: - Time Management
-        // MARK: Start of Day
-        func startOfTheDay() -> Date {
-            var calendar = Calendar.current
-            calendar.timeZone = TimeZone.current
-            return calendar.startOfDay(for: Date())
-        }
-        
-        func endOfDay() -> Date {
-            var components = DateComponents()
-            components.day = 1
-            let endOfTheDay = Calendar.current.date(byAdding: components, to: startOfTheDay()) ?? Date()
-            print("\(endOfTheDay)")
-            return endOfTheDay
-        }
-        
-        func printTimeStamps() {
-            let start = startOfTheDay()
-            let end = endOfDay()
-            let x = end.compare(start)
-            print("start: \(start), end: \(end) \n comparison: \(x.rawValue)")
-        }
-        
-        
-        // False == Same Day, True == Next Day
-        func compareDays(from date1: Date) -> Bool {
-            let days1 = Calendar.current.component(.day, from: date1)
-            let days2 = Calendar.current.component(.day, from: endOfDay())
-            let comparison = days1 - days2
-            print(#function +  "\ncurrent: \(date1), endOfDay: \(endOfDay()), comparison = \(comparison)")
-            print("## the actual date: \(Date())")
-            if comparison >= 1 {
-                // The next day
-                return true
-            } else {
-                // The same day
-                return false
-            }
-        }
-        
         // Check if dates Month, Day match
         func isDateFromToday(_ date: Date?) -> Bool? {
             print(#function)
