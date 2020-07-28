@@ -19,6 +19,8 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     var searchUID = String()
     var searchDataType = DataType.goal
     let animation = Animations()
+    
+    
    
     // Label to display task count
     @IBOutlet weak var taskCountLabel: UILabel!
@@ -29,6 +31,7 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
 
 //        goalDC.createTestGoals(int: 7, month: 2)

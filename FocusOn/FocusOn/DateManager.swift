@@ -92,19 +92,19 @@ class DateManager {
             let threeMonthsPrior = currentMonth - 3
     //        for month in threeMonthsPrior...currentMonth {
             for month in threeMonthsPrior...currentMonth {
-                print("lastThreeMonths - TEST - \(month) ----------------")
+//                print("lastThreeMonths - TEST - \(month) ----------------")
                 if inputMonth == month {
-                    print("lastThreeMonths - TEST - RETURN TRUE - inputMonth: \(inputMonth) == month: \(month)")
+//                    print("lastThreeMonths - TEST - RETURN TRUE - inputMonth: \(inputMonth) == month: \(month)")
     //                return true
                 }
             }
             
             for month in threeMonthsPrior...currentMonth {
                 if inputMonth == month {
-                    print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): TRUE - month: \(month)")
+//                    print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): TRUE - month: \(month)")
                     return true
                 } else if inputMonth != month {
-                    print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): FALSE - month: \(month)")
+//                    print("lastThreeMonths - isDateFromLastThreeMonths(\(inputMonth)) - current: \(currentMonth): FALSE - month: \(month)")
                     return false
                 }
             }

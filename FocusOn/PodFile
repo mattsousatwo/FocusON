@@ -4,3 +4,4 @@ target 'FocusOn' do
   pod 'lottie-ios'
   pod 'Charts'
 end
+ 

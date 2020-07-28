@@ -225,7 +225,7 @@ extension HistoryVC {
         case 0: // Goal
             if textField.text != nil {
                 selectedGoal?.name = textField.text
-                goalDC.save(context: goalDC.context)
+                goalDC.saveContext()
                 print(#function + " Goal Row")
             }
         default: // Task
@@ -273,7 +273,7 @@ extension HistoryVC {
             if checkedCells.count == countToCheckOffGoal {
                 firstCell.taskMarker.isHighlighted = true
                 selectedGoal?.isChecked = true
-                goalDC.save(context: goalDC.context)
+                goalDC.saveContext()
                 playCompletionAnimationForGoalIn(cell: firstCell)
                 
                 // Else if checkedCells are less than count needed to complete goal
@@ -306,7 +306,7 @@ extension HistoryVC {
         let checkedCells = visibileCells.filter({ $0.taskMarker.isHighlighted == true })
         // Set filtered count as selectedGoal.completedGoalsCount
         selectedGoal?.completedCellCount = Int16(checkedCells.count)
-        goalDC.save(context: goalDC.context)
+        goalDC.saveContext()
         // Update label
         if displayMode == .taskMode {
             navigationItem.title = "\(selectedGoal!.completedCellCount)\\\(visibileCells.count)"

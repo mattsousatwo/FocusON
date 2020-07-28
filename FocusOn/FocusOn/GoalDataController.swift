@@ -27,6 +27,16 @@ class GoalDataController: DataController {
         entity = NSEntityDescription.entity(forEntityName: entityName, in: context)!
     }
         
+    // Saving Method
+    func saveContext() {
+        print(#function + "\n")
+        do {
+            try context.save()
+        }
+        catch {
+        }
+    }
+    
     // Create a new goal
     func createNewGoal(title: String = "", date: Date? = nil, UID: String? = "") {
         // create goal
@@ -54,7 +64,7 @@ class GoalDataController: DataController {
         
         // append to goal container
         goalContainer.append(goal)
-        save(context: context)
+        saveContext()
     }
     
     // MARK: Create
@@ -120,7 +130,7 @@ class GoalDataController: DataController {
             }
         catch {
             }
-    save(context: context)
+    saveContext()
     }
     
     
@@ -139,6 +149,7 @@ class GoalDataController: DataController {
             print("Could not fetch GoalData: \(error), \(error.userInfo)")
         }
         // Parse goal container for current goal
+        print("goals count: \(goalContainer.count)")
         switch goalContainer.count != 0 {
         case true:
             // Goal Container has goals
@@ -186,7 +197,7 @@ class GoalDataController: DataController {
                 try context.execute(deleteRequest)
             } catch {
             }
-            save(context: context)
+            saveContext()
         }
     }
     
@@ -242,7 +253,7 @@ class GoalDataController: DataController {
             // Delete goal with old uid
             deleteGoalsWith(UIDs: [oldUID])
             // save goal context
-            save(context: context)
+            saveContext()
 
         }
         
@@ -296,7 +307,7 @@ class GoalDataController: DataController {
         // Set goal properties for removal - save
         goal.isRemoved = true
         goal.timeRemoved = Date()
-        save(context: context)
+        saveContext()
         // Remove goal from container and add to removedGoals
         removedGoals.append(goal)
         pastGoalContainer.removeAll(where: {$0.goal_UID == goal.goal_UID! })
@@ -324,7 +335,7 @@ class GoalDataController: DataController {
             }
             sortPastGoalsByDate()
             // Save
-            save(context: context)
+            saveContext()
             taskDC.saveContext()
         }
         

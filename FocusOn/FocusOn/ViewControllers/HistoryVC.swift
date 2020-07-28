@@ -34,7 +34,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHistoryVC()
+        configureHistoryVC()       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +56,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     let goal = goalDC.pastGoalContainer[index.section]
                     goal.isChecked = marker
                     print(#function + " \(goal.goal_UID!) isChecked: \(goal.isChecked)")
-                    goalDC.save(context: goalDC.context)
+                    goalDC.saveContext()
                     
                     var tasks = taskDC.grabTasksAssociatedWith(goalUID: goal.goal_UID!)
                     for task in taskDC.selectedTaskContainer {
@@ -75,7 +75,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     if cell == historyTableView.cellForRow(at: index) {
                         guard let goal = selectedGoal else { return }
                         goal.isChecked = marker
-                        goalDC.save(context: goalDC.context)
+                        goalDC.saveContext()
                         // Check off all cells
                         for visibleRowIndex in visibleRows {
                             guard let visibleCell = historyTableView.cellForRow(at: visibleRowIndex) as? TaskCell else { return }
@@ -132,8 +132,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
     
 // MARK: number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
-        // maybe divide sections up by days?
-            // each goal is made on a new day so no
+        print("number of Goals: \(goalDC.pastGoalContainer.count) ")
         switch displayMode {
         case .goalMode:
             return goalDC.pastGoalContainer.count
@@ -198,12 +197,11 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             if goalDC.pastGoalContainer.count != 0 {
                 
             let sec = indexPath.section
-            let row = indexPath.row
+                print("Test 101 - HISTORYVC > cellForRowAt() > row: \(sec), title: \(goalDC.pastGoalContainer[sec].name ?? "isEmpty")")
                 for _ in goalDC.pastGoalContainer {
                     
                     let goal = goalDC.pastGoalContainer[sec]
                     cell.textField.text = goal.name
-                    print("Test 101 - HISTORYVC > cellForRowAt() > row: \(row), title: \(goal.name ?? "isEmpty")")
                     guard let markerSelection = taskColors(rawValue: goal.markerColor) else { return cell }
                     updateMarkerColor(for: cell, to: markerSelection, highlighted: goal.isChecked)
                 }
@@ -276,17 +274,10 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                 if taskDC.selectedTaskContainer.count != 0 {
                     selectedTaskID = taskDC.selectedTaskContainer[indexPath.row].task_UID
                 }
-                
-                
-                
-                
             default:
                 print("section not found - HistoryVC > didSelectRow")
             }
-            
-            
-            
-            
+    
         }
     }
     
@@ -325,9 +316,7 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
             switch self.displayMode {
             case .goalMode:
                 let goal = self.goalDC.pastGoalContainer[indexPath.section]
-//                self.delete(goal, at: indexPath, displayMode: .goalMode)
                 self.goalDC.remove(goal: goal)
-//                self.remove(goal: goal)
                 self.historyTableView.reloadData()
             case .taskMode:
                 switch indexPath.section {
@@ -340,11 +329,6 @@ class HistoryVC: UIViewController, UITableViewDataSource, UITableViewDelegate, T
                     
                     self.taskDC.remove(task: task)
                     self.historyTableView.reloadData()
-//                    self.remove(task: task)
-                    
-//                    self.delete(task, at: indexPath)
-//                    self.historyTableView.reloadData()
-//                    self.updateCompletedTasksLabelCount()
                 default:
                     return
                 }

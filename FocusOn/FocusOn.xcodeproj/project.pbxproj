@@ -43,7 +43,6 @@
 		61F38B8223F3359000E7F4A2 /* GoalData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F38B7E23F3359000E7F4A2 /* GoalData+CoreDataClass.swift */; };
 		61F38B8323F3359000E7F4A2 /* GoalData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F38B7F23F3359000E7F4A2 /* GoalData+CoreDataProperties.swift */; };
 		61F84FA4239F3BC70067913F /* KeyboardManagment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F84FA3239F3BC70067913F /* KeyboardManagment.swift */; };
-		C435E54D5BC0D794F25148F8 /* libPods-FocusOnTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CBDC7113CA7C2A17CFBF68C /* libPods-FocusOnTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +57,6 @@
 
 /* Begin PBXFileReference section */
 		265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOn.release.xcconfig"; path = "Target Support Files/Pods-FocusOn/Pods-FocusOn.release.xcconfig"; sourceTree = "<group>"; };
-		3CBDC7113CA7C2A17CFBF68C /* libPods-FocusOnTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FocusOnTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		59C5A0201F1827D742DA3618 /* Pods-FocusOnTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOnTests.debug.xcconfig"; path = "Target Support Files/Pods-FocusOnTests/Pods-FocusOnTests.debug.xcconfig"; sourceTree = "<group>"; };
 		610830BE2483B5EF0081AE37 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		612281392398BC9900B11999 /* DetailTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableView.swift; sourceTree = "<group>"; };
 		613E1C162469EED1007429CC /* HistoryExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryExtention.swift; sourceTree = "<group>"; };
@@ -99,7 +96,6 @@
 		61F38B7E23F3359000E7F4A2 /* GoalData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GoalData+CoreDataClass.swift"; path = "FocusOn/GoalData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		61F38B7F23F3359000E7F4A2 /* GoalData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GoalData+CoreDataProperties.swift"; path = "FocusOn/GoalData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		61F84FA3239F3BC70067913F /* KeyboardManagment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManagment.swift; sourceTree = "<group>"; };
-		92B994B681E67FB3657A74B7 /* Pods-FocusOnTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOnTests.release.xcconfig"; path = "Target Support Files/Pods-FocusOnTests/Pods-FocusOnTests.release.xcconfig"; sourceTree = "<group>"; };
 		CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FocusOn.debug.xcconfig"; path = "Target Support Files/Pods-FocusOn/Pods-FocusOn.debug.xcconfig"; sourceTree = "<group>"; };
 		E72EB65CDA051385C28318C1 /* libPods-FocusOn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FocusOn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -117,7 +113,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C435E54D5BC0D794F25148F8 /* libPods-FocusOnTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +124,6 @@
 			children = (
 				CE712AA9DD080A1CE819721E /* Pods-FocusOn.debug.xcconfig */,
 				265935A6D7B8ACC31AAC9259 /* Pods-FocusOn.release.xcconfig */,
-				59C5A0201F1827D742DA3618 /* Pods-FocusOnTests.debug.xcconfig */,
-				92B994B681E67FB3657A74B7 /* Pods-FocusOnTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -258,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				E72EB65CDA051385C28318C1 /* libPods-FocusOn.a */,
-				3CBDC7113CA7C2A17CFBF68C /* libPods-FocusOnTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,7 +280,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61D414D92489BABA001E32BE /* Build configuration list for PBXNativeTarget "FocusOnTests" */;
 			buildPhases = (
-				538DF8B0B407BC0F941163C9 /* [CP] Check Pods Manifest.lock */,
 				61D414CC2489BABA001E32BE /* Sources */,
 				61D414CD2489BABA001E32BE /* Frameworks */,
 				61D414CE2489BABA001E32BE /* Resources */,
@@ -366,28 +357,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		538DF8B0B407BC0F941163C9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FocusOnTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DEAE1FC30AD1C0D068CCB4B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -607,6 +576,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SPUKTJZVPR;
 				INFOPLIST_FILE = FocusOn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -626,6 +596,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SPUKTJZVPR;
 				INFOPLIST_FILE = FocusOn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -639,7 +610,6 @@
 		};
 		61D414D72489BABA001E32BE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59C5A0201F1827D742DA3618 /* Pods-FocusOnTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -660,7 +630,6 @@
 		};
 		61D414D82489BABA001E32BE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92B994B681E67FB3657A74B7 /* Pods-FocusOnTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;

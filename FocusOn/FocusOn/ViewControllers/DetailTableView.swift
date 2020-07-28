@@ -104,7 +104,7 @@ class DetailTableView: UITableViewController {
             standInGoal.name = titleInput.text
             standInGoal.progress = selectedProgressNum
             standInGoal.notes = notesField.text
-            goalDC.save(context: goalDC.context)
+            goalDC.saveContext()
         default:
             standInTask.name = titleInput.text
             standInTask.progress = selectedProgressNum

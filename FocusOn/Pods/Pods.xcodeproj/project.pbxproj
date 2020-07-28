@@ -98,7 +98,7 @@
 		5FFDBE4579BA2DA765B871B08A0918B2 /* ICandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97BEABF2F9166AA0DA79E50AB8FF690 /* ICandleChartDataSet.swift */; };
 		613D09F2C081A70EB5E4B9601FADF034 /* IBarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0FEEE215A5A4AAB56283FAF01B2A5 /* IBarChartDataSet.swift */; };
 		61D57545FDC6527D709666C53C909E17 /* MathKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22376346E311413DBED9603B91CB397 /* MathKit.swift */; };
-		636AC940F4F2638AA6B3366C08F1BC45 /* Pods-FocusOn-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 62CF03DDB982DFEFB03A234ED961F9EE /* Pods-FocusOn-dummy.m */; };
+		636AC940F4F2638AA6B3366C08F1BC45 /* Pods-FocusOn-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 655956773FBD3DE977042F1E80EBB9F7 /* Pods-FocusOn-dummy.m */; };
 		636B84B173FDE0F6A9E2FCE89CDAFC44 /* ImageCompositionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800267876F52DA70EB646E937D28AC5 /* ImageCompositionLayer.swift */; };
 		6450A97CBFDD775E34BD786B9C1881DE /* Platform+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE382F1B7F314BEC42C70E5FBF111A4 /* Platform+Accessibility.swift */; };
 		67E00A340A6A0950E63EA99D2A1CC342 /* YAxisRendererHorizontalBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5119E2123BE017DF7A408E32A25200E4 /* YAxisRendererHorizontalBarChart.swift */; };
@@ -111,7 +111,7 @@
 		70E049A315911115F1ABE4621CB366AD /* LineChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E2A9753C511DFAFF63AAE885BF985F /* LineChartDataProvider.swift */; };
 		719C4FAA209B26DE3191F83ED816C0A4 /* ShapeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45875408A37FAB42AD70EBCD9D70C87 /* ShapeNode.swift */; };
 		722E009B70FC17826693BDD40AA70691 /* Platform+Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B384088E532D5ED5217B16326097BBC7 /* Platform+Graphics.swift */; };
-		72A3F960DEDF4985233417B53DE27E95 /* Pods-FocusOn-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 53A8A2F6A69CDE0F66429911C53B67AD /* Pods-FocusOn-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		72A3F960DEDF4985233417B53DE27E95 /* Pods-FocusOn-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DC7996FA32C354D6046C2E110FC9B8CC /* Pods-FocusOn-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		72EA35B351967A0DC87DD7D89250EB6A /* IChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD9238C9D9990A681857FE715C841F6 /* IChartDataSet.swift */; };
 		73449F37B5976DF0D94BEF9F4FB2BA2F /* PathNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF00B7E586906C3EF849F293E487583 /* PathNode.swift */; };
 		7412EEC787A87C45E57556735E9F1E75 /* Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E983D338A844FD313AACC34BA0B90330 /* Merge.swift */; };
@@ -184,7 +184,6 @@
 		A410CEAEC2654D37AF6BDDA76F5FFE42 /* FloatValueProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E4D3A53A331348B0CD0AE8040DFE18 /* FloatValueProvider.swift */; };
 		A5432CFC10DA9A5B8F46A5C5CD487DF9 /* ILineScatterCandleRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BDAEC508793157B1EA9626EBE34486 /* ILineScatterCandleRadarChartDataSet.swift */; };
 		A5B21F495D13557941A1660420801314 /* LineRadarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5033FC000B098B5AD2CCF15BF4C071 /* LineRadarRenderer.swift */; };
-		A5D266656C43B334B2F7860F4E20E3BE /* Pods-FocusOnTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A026E98B80644A3D82D5481170B0EE11 /* Pods-FocusOnTests-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A6171022C13970B57E987079CB31D466 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E7F35DAFE881C4A93619C8A8B6F75 /* Animator.swift */; };
 		A63D2003F8CAFC7DAB509DDE112B1F87 /* StrokeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFD5ECB6DC6617129B2AA8EC8DE0DFA /* StrokeRenderer.swift */; };
 		A67A0FE9F9E21E31EE4126FAFE559CC9 /* GroupOutputNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D5A689B698CEA59B7AB7F60C059DB /* GroupOutputNode.swift */; };
@@ -256,7 +255,6 @@
 		DC902DDF4D6804F3365D953C0F8D8BC0 /* LineScatterCandleRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD07C542464DF7C1483E1987CA6E4A /* LineScatterCandleRadarChartDataSet.swift */; };
 		DE35A340D4BC80D960080EC3B0E942E5 /* GradientStrokeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3C1063BB1CD66925035FCDC98FE0CD /* GradientStrokeRenderer.swift */; };
 		E13E77EE01554DEEEAA321B91B90F476 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB94EEF9396B21349BBE7AD4ECDE821 /* BubbleChartDataProvider.swift */; };
-		E205490B4F50CBA3DEA350B9585BD672 /* Pods-FocusOnTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003B75F0C9015B2CAFE21054B9B07E5 /* Pods-FocusOnTests-dummy.m */; };
 		E341E46689F80385E56022C9D83725C2 /* LineRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E7CD86A9CC9372D522FF49EF84B527 /* LineRadarChartDataSet.swift */; };
 		E4C19A4FB369D93C52AB35C65A0C9290 /* GradientFillNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB8CF8A72FA9B53DA132EEEB09D398 /* GradientFillNode.swift */; };
 		E5E8AB7DEEBD598A8351936523A89934 /* TextCompositionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16277E5BA6C1AEA7B2925480A7DF270 /* TextCompositionLayer.swift */; };
@@ -291,27 +289,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = BF03B0B2B8B052092CB5F90CC5FB3757;
 			remoteInfo = Charts;
-		};
-		4B4739F309DC167C542C34BDD74473E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2CE9171A7F281E86FAB4B58526EEA329;
-			remoteInfo = "Pods-FocusOn";
-		};
-		668553F2905B90AE4F7B5E075897BF64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF03B0B2B8B052092CB5F90CC5FB3757;
-			remoteInfo = Charts;
-		};
-		95344613CE7F51389304EE2849B9C28C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0B967D7F8561D42493EE289EC8D450D1;
-			remoteInfo = "lottie-ios";
 		};
 		E96110499354F0B429BD76671D9A7AE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -351,19 +328,17 @@
 		14BD549E484EF7DA8B63EBFE7F6A1C61 /* FillI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FillI.swift; path = "lottie-swift/src/Private/Model/ShapeItems/FillI.swift"; sourceTree = "<group>"; };
 		155CDC4DA318E2A43C9230E0D848F131 /* GroupNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GroupNode.swift; path = "lottie-swift/src/Private/NodeRenderSystem/Nodes/RenderContainers/GroupNode.swift"; sourceTree = "<group>"; };
 		164F232BBA7159164DF86CC9454FD74C /* ImageAsset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageAsset.swift; path = "lottie-swift/src/Private/Model/Assets/ImageAsset.swift"; sourceTree = "<group>"; };
-		1ACBBE9D41516128A85203F4150007BF /* Pods-FocusOnTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOnTests.release.xcconfig"; sourceTree = "<group>"; };
 		1B4094DC34D33B3EB5BE7C03ABF139D3 /* ChartBaseDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartBaseDataSet.swift; path = Source/Charts/Data/Implementations/ChartBaseDataSet.swift; sourceTree = "<group>"; };
 		1B9F887D48B1FEA34DB449F7C93ADA29 /* Keyframe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keyframe.swift; path = "lottie-swift/src/Private/Model/Keyframes/Keyframe.swift"; sourceTree = "<group>"; };
 		1C2FC60BBB053D34C4B1725172C97FA2 /* BubbleChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartView.swift; path = Source/Charts/Charts/BubbleChartView.swift; sourceTree = "<group>"; };
-		1EF3853F3B22DEB13E1985DD3FABD193 /* libPods-FocusOnTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-FocusOnTests.a"; path = "libPods-FocusOnTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC8F45D0389E3F006D1C6B7CED2733F /* Legend.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Legend.swift; path = Source/Charts/Components/Legend.swift; sourceTree = "<group>"; };
 		2022F62B8BCF70189C1A3FCBD1513899 /* BarLineChartViewBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineChartViewBase.swift; path = Source/Charts/Charts/BarLineChartViewBase.swift; sourceTree = "<group>"; };
 		2041731850CB7FC1AA14B89A232D442C /* LineChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartRenderer.swift; path = Source/Charts/Renderers/LineChartRenderer.swift; sourceTree = "<group>"; };
 		215679D621F43763AF233D1ABB24E201 /* BarChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartRenderer.swift; path = Source/Charts/Renderers/BarChartRenderer.swift; sourceTree = "<group>"; };
-		222A52F4BE17851671E8A1A8B76C1098 /* Pods-FocusOn-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FocusOn-acknowledgements.markdown"; sourceTree = "<group>"; };
 		228F3042A78FD9A0C541396ADEC6A9CF /* ChartUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartUtils.swift; path = Source/Charts/Utils/ChartUtils.swift; sourceTree = "<group>"; };
 		22D50666015942F2BCB088875E11F129 /* RadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/RadarChartDataSet.swift; sourceTree = "<group>"; };
 		249D8C6822E0EB705943E87038325CAB /* TransformerHorizontalBarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformerHorizontalBarChart.swift; path = Source/Charts/Utils/TransformerHorizontalBarChart.swift; sourceTree = "<group>"; };
+		24A399B6A3449884158A4B9D8BE3FBB4 /* Pods-FocusOn.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FocusOn.modulemap"; sourceTree = "<group>"; };
 		27BD1AA067B16D62B2271CD1107999C9 /* UIColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = "lottie-swift/src/Public/iOS/UIColorExtension.swift"; sourceTree = "<group>"; };
 		281A41659477F658A5704FC89C97CBBE /* InvertedMatteLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InvertedMatteLayer.swift; path = "lottie-swift/src/Private/LayerContainers/Utility/InvertedMatteLayer.swift"; sourceTree = "<group>"; };
 		2909CF48431CDA84F2D8D976E0677986 /* DashPattern.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DashPattern.swift; path = "lottie-swift/src/Private/Model/Objects/DashPattern.swift"; sourceTree = "<group>"; };
@@ -373,6 +348,7 @@
 		2B247EDBE93E9AB450D0BEC87B07763B /* PieRadarChartViewBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieRadarChartViewBase.swift; path = Source/Charts/Charts/PieRadarChartViewBase.swift; sourceTree = "<group>"; };
 		2C25A3FDB3985C3F2CBC329BF9757D4A /* GroupInterpolator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GroupInterpolator.swift; path = "lottie-swift/src/Private/NodeRenderSystem/NodeProperties/ValueProviders/GroupInterpolator.swift"; sourceTree = "<group>"; };
 		2C70FCF546F606D8716A4338F7F3D0EB /* LineChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/LineChartDataSet.swift; sourceTree = "<group>"; };
+		2CC5D8B0442C51A74527D322173FDB91 /* Pods-FocusOn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOn.debug.xcconfig"; sourceTree = "<group>"; };
 		2D6678B5261AD86BDAA72E084D460072 /* ShapeCompositionLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ShapeCompositionLayer.swift; path = "lottie-swift/src/Private/LayerContainers/CompLayers/ShapeCompositionLayer.swift"; sourceTree = "<group>"; };
 		2DAE63B969C5752458C25D11C4AA9513 /* ScatterChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartRenderer.swift; path = Source/Charts/Renderers/ScatterChartRenderer.swift; sourceTree = "<group>"; };
 		2E011BFF3EAAC73E6B6BFBB4FAC943D4 /* AnimationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationView.swift; path = "lottie-swift/src/Public/Animation/AnimationView.swift"; sourceTree = "<group>"; };
@@ -394,7 +370,6 @@
 		3BE72FD7E1C4BDBC0ED0DEC8C3925F1E /* LottieView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LottieView.swift; path = "lottie-swift/src/Public/iOS/LottieView.swift"; sourceTree = "<group>"; };
 		3D02288C2D9299BAC14DBAD6580DD7ED /* AnyValueContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnyValueContainer.swift; path = "lottie-swift/src/Private/NodeRenderSystem/NodeProperties/Protocols/AnyValueContainer.swift"; sourceTree = "<group>"; };
 		3D576790CF0AA1B6A3DF1E6757DAA8A8 /* MoveViewJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MoveViewJob.swift; path = Source/Charts/Jobs/MoveViewJob.swift; sourceTree = "<group>"; };
-		4003B75F0C9015B2CAFE21054B9B07E5 /* Pods-FocusOnTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FocusOnTests-dummy.m"; sourceTree = "<group>"; };
 		40582497858F7EFC84EDDD372AB7D5A6 /* LayerImageProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayerImageProvider.swift; path = "lottie-swift/src/Private/LayerContainers/Utility/LayerImageProvider.swift"; sourceTree = "<group>"; };
 		41B6133096D2D3383AC5200B242ABA80 /* lottie-ios-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "lottie-ios-dummy.m"; sourceTree = "<group>"; };
 		41BCEF0ACB6C5E9D94EEDE1C9ACA78FE /* AnimationImageProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationImageProvider.swift; path = "lottie-swift/src/Public/ImageProvider/AnimationImageProvider.swift"; sourceTree = "<group>"; };
@@ -416,7 +391,6 @@
 		4AE26E33FFF0A5183C4A4FF191A9664C /* LayerModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayerModel.swift; path = "lottie-swift/src/Private/Model/Layers/LayerModel.swift"; sourceTree = "<group>"; };
 		4C6451AA3DCE5198733BE435C462F9C9 /* RadarChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartView.swift; path = Source/Charts/Charts/RadarChartView.swift; sourceTree = "<group>"; };
 		4C871727FA2452B23609DF0556F4EE3D /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/BubbleChartDataEntry.swift; sourceTree = "<group>"; };
-		4D03FAEB5956B3343D8FD6C8C0680013 /* Pods-FocusOnTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FocusOnTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		4D4258F9F72D7FD6A46B92661DD1CBA2 /* PolygonNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PolygonNode.swift; path = "lottie-swift/src/Private/NodeRenderSystem/Nodes/PathNodes/PolygonNode.swift"; sourceTree = "<group>"; };
 		4D6E7F35DAFE881C4A93619C8A8B6F75 /* Animator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Animator.swift; path = Source/Charts/Animation/Animator.swift; sourceTree = "<group>"; };
 		4D7E1D1458CE7CA1977E9EB6A0BC766A /* BubbleChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartRenderer.swift; path = Source/Charts/Renderers/BubbleChartRenderer.swift; sourceTree = "<group>"; };
@@ -428,12 +402,10 @@
 		5119E2123BE017DF7A408E32A25200E4 /* YAxisRendererHorizontalBarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxisRendererHorizontalBarChart.swift; path = Source/Charts/Renderers/YAxisRendererHorizontalBarChart.swift; sourceTree = "<group>"; };
 		51BA97E8B5085EFFB47BC9C0B785CEA7 /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "liblottie-ios.a"; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		524D7E8475E2296D1BA8E17A40D29E2B /* RadarChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartData.swift; path = Source/Charts/Data/Implementations/Standard/RadarChartData.swift; sourceTree = "<group>"; };
-		53A8A2F6A69CDE0F66429911C53B67AD /* Pods-FocusOn-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FocusOn-umbrella.h"; sourceTree = "<group>"; };
 		54EBF05C55BD5B508E9891C4FAD7F318 /* AnimationPublic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationPublic.swift; path = "lottie-swift/src/Public/Animation/AnimationPublic.swift"; sourceTree = "<group>"; };
 		5926AD051AE1BD5D697D0CB41757DB65 /* TextAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAnimator.swift; path = "lottie-swift/src/Private/Model/Text/TextAnimator.swift"; sourceTree = "<group>"; };
 		5C26B75BE77A5B848BC702DFFBCF36E1 /* DefaultValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DefaultValueFormatter.swift; path = Source/Charts/Formatters/DefaultValueFormatter.swift; sourceTree = "<group>"; };
 		5CCDDD59C6FCFA13FE3416D5C17423DE /* BezierPath.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BezierPath.swift; path = "lottie-swift/src/Private/Utility/Primitives/BezierPath.swift"; sourceTree = "<group>"; };
-		5D1057E37349AB657F22410493242444 /* Pods-FocusOnTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FocusOnTests.modulemap"; sourceTree = "<group>"; };
 		5D2F36EA354A73934416C99DE938DDDE /* lottie-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "lottie-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		5D73E042F039BFDB080AAD9561E9691A /* GradientStroke.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GradientStroke.swift; path = "lottie-swift/src/Private/Model/ShapeItems/GradientStroke.swift"; sourceTree = "<group>"; };
 		5D7C1FBCEF8D55A3F804D993F1CD7179 /* IFillFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IFillFormatter.swift; path = Source/Charts/Formatters/IFillFormatter.swift; sourceTree = "<group>"; };
@@ -444,13 +416,14 @@
 		5F73FEC2CFE001E9F97F69325F40BAC0 /* SolidLayerModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SolidLayerModel.swift; path = "lottie-swift/src/Private/Model/Layers/SolidLayerModel.swift"; sourceTree = "<group>"; };
 		5FA0FEEE215A5A4AAB56283FAF01B2A5 /* IBarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IBarChartDataSet.swift; path = Source/Charts/Data/Interfaces/IBarChartDataSet.swift; sourceTree = "<group>"; };
 		5FE382F1B7F314BEC42C70E5FBF111A4 /* Platform+Accessibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Platform+Accessibility.swift"; path = "Source/Charts/Utils/Platform+Accessibility.swift"; sourceTree = "<group>"; };
+		5FE88C148CBA2BD059BE27FC8FA84EAB /* Pods-FocusOn-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FocusOn-acknowledgements.plist"; sourceTree = "<group>"; };
 		6105AFB57D645BAE655E128757D845C4 /* IBubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IBubbleChartDataSet.swift; path = Source/Charts/Data/Interfaces/IBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		62CF03DDB982DFEFB03A234ED961F9EE /* Pods-FocusOn-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FocusOn-dummy.m"; sourceTree = "<group>"; };
 		64339F1ADAD934D5E5E1F6AD1C75BA8D /* Mask.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mask.swift; path = "lottie-swift/src/Private/Model/Objects/Mask.swift"; sourceTree = "<group>"; };
 		64618D5D2F869B9B52A4477C9487ED3B /* lottie-ios-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "lottie-ios-prefix.pch"; sourceTree = "<group>"; };
 		64BF911899DB52345B6EDD192D9D995B /* Charts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Charts.debug.xcconfig; sourceTree = "<group>"; };
 		64C9C4AF0CBAD855C5EA19949A93F236 /* EllipseNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EllipseNode.swift; path = "lottie-swift/src/Private/NodeRenderSystem/Nodes/PathNodes/EllipseNode.swift"; sourceTree = "<group>"; };
 		64D7A3856F0F34CAA002E0F532963B65 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CGFloatExtensions.swift; path = "lottie-swift/src/Private/Utility/Extensions/CGFloatExtensions.swift"; sourceTree = "<group>"; };
+		655956773FBD3DE977042F1E80EBB9F7 /* Pods-FocusOn-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FocusOn-dummy.m"; sourceTree = "<group>"; };
 		66BB16EEB7B4DE21E92B3EA0667666A1 /* AnimatedZoomViewJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimatedZoomViewJob.swift; path = Source/Charts/Jobs/AnimatedZoomViewJob.swift; sourceTree = "<group>"; };
 		66DE8AC730AD28FBAFA4E21B888BAF96 /* HorizontalBarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalBarHighlighter.swift; path = Source/Charts/Highlight/HorizontalBarHighlighter.swift; sourceTree = "<group>"; };
 		6836DA4B126B6D23166B556B7B65BCE1 /* Rectangle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Rectangle.swift; path = "lottie-swift/src/Private/Model/ShapeItems/Rectangle.swift"; sourceTree = "<group>"; };
@@ -470,7 +443,6 @@
 		73B2BB317FC377BD954D2D0FCFDDD869 /* BarLineScatterCandleBubbleChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleChartData.swift; path = Source/Charts/Data/Implementations/Standard/BarLineScatterCandleBubbleChartData.swift; sourceTree = "<group>"; };
 		73B5FB318A02A1B474EEE389C53FE83A /* LayerTextProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayerTextProvider.swift; path = "lottie-swift/src/Private/LayerContainers/Utility/LayerTextProvider.swift"; sourceTree = "<group>"; };
 		73BDAEC508793157B1EA9626EBE34486 /* ILineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineScatterCandleRadarChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
-		75A55F277F72314CC2A7DFF2BB376E1D /* Pods-FocusOn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOn.release.xcconfig"; sourceTree = "<group>"; };
 		76BA34A81578E4FA464DAEE8970D7F43 /* ScatterChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartData.swift; path = Source/Charts/Data/Implementations/Standard/ScatterChartData.swift; sourceTree = "<group>"; };
 		77386EE6D2CE955B50B441D4C23A660E /* Color.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Color.swift; path = "lottie-swift/src/Public/Primitives/Color.swift"; sourceTree = "<group>"; };
 		7789117678D8927DEF1D8DD3D2C696EE /* PreCompLayerModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreCompLayerModel.swift; path = "lottie-swift/src/Private/Model/Layers/PreCompLayerModel.swift"; sourceTree = "<group>"; };
@@ -510,7 +482,7 @@
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DCF70B12B4D497BDE8DE42F17D2AAA9 /* NodePropertyMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodePropertyMap.swift; path = "lottie-swift/src/Private/NodeRenderSystem/NodeProperties/Protocols/NodePropertyMap.swift"; sourceTree = "<group>"; };
 		9E1BC5F3839A4E1F38000E4BC0DFA8F9 /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		A026E98B80644A3D82D5481170B0EE11 /* Pods-FocusOnTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FocusOnTests-umbrella.h"; sourceTree = "<group>"; };
+		9ED40261D9CBE3F46EF43454B29A10E3 /* Pods-FocusOn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOn.release.xcconfig"; sourceTree = "<group>"; };
 		A0D360CB2420E2CD031AB3081AD29A65 /* BarChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/BarChartDataEntry.swift; sourceTree = "<group>"; };
 		A114E1B3BF7C30EAD949536F39EAA4B9 /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/ScatterChartDataSet.swift; sourceTree = "<group>"; };
 		A12B8F136C3A00EF6D372024DC9D9A54 /* ViewPortHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewPortHandler.swift; path = Source/Charts/Utils/ViewPortHandler.swift; sourceTree = "<group>"; };
@@ -553,7 +525,6 @@
 		C03F0C2821C1CF339AD4B9FFFBEC9239 /* ILineChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineChartDataSet.swift; sourceTree = "<group>"; };
 		C1E22BA8E0F2247D192033F5D9BA83EC /* ChartColorTemplates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartColorTemplates.swift; path = Source/Charts/Utils/ChartColorTemplates.swift; sourceTree = "<group>"; };
 		C287459382BDB8DE55E9084476071764 /* ViewPortJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewPortJob.swift; path = Source/Charts/Jobs/ViewPortJob.swift; sourceTree = "<group>"; };
-		C2AAA86CB52CD4D1C0D72D3D5B41B8C2 /* Pods-FocusOnTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOnTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C48B3D76C6039461471E46DDD6C98187 /* CombinedChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedChartDataProvider.swift; path = Source/Charts/Interfaces/CombinedChartDataProvider.swift; sourceTree = "<group>"; };
 		C4CC737857B3ACACBC19EB2E1D8B21B3 /* PreCompositionLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreCompositionLayer.swift; path = "lottie-swift/src/Private/LayerContainers/CompLayers/PreCompositionLayer.swift"; sourceTree = "<group>"; };
 		C536D3B1AC10126D0FA6FB484FCD8A23 /* ColorExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorExtension.swift; path = "lottie-swift/src/Private/Utility/Primitives/ColorExtension.swift"; sourceTree = "<group>"; };
@@ -562,7 +533,6 @@
 		C8E5CF9290441BBBF4B4D51BAE003D5B /* Transform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transform.swift; path = "lottie-swift/src/Private/Model/Objects/Transform.swift"; sourceTree = "<group>"; };
 		C905799D874C04C6E17F7BFC3609283B /* PathOutputNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PathOutputNode.swift; path = "lottie-swift/src/Private/NodeRenderSystem/Nodes/OutputNodes/PathOutputNode.swift"; sourceTree = "<group>"; };
 		C96FB410FD8ABF0D4588C9AF72BA6E06 /* Platform+Touch Handling.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Platform+Touch Handling.swift"; path = "Source/Charts/Utils/Platform+Touch Handling.swift"; sourceTree = "<group>"; };
-		C9ACB2102842814B42012544639F05B7 /* Pods-FocusOn-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FocusOn-acknowledgements.plist"; sourceTree = "<group>"; };
 		CB9E03F63DEECAD7AFDFE0EF80567482 /* PrecompAsset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PrecompAsset.swift; path = "lottie-swift/src/Private/Model/Assets/PrecompAsset.swift"; sourceTree = "<group>"; };
 		CDC7790BAB483D71485D6382F21FEA6B /* Marker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Marker.swift; path = "lottie-swift/src/Private/Model/Objects/Marker.swift"; sourceTree = "<group>"; };
 		D03488D9B0FD863C65557881281D5BF3 /* BubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BubbleChartDataSet.swift; sourceTree = "<group>"; };
@@ -578,6 +548,7 @@
 		D97BEABF2F9166AA0DA79E50AB8FF690 /* ICandleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ICandleChartDataSet.swift; path = Source/Charts/Data/Interfaces/ICandleChartDataSet.swift; sourceTree = "<group>"; };
 		DB0A82D4CB05CB18771F13C10399EE0D /* IValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IValueFormatter.swift; path = Source/Charts/Formatters/IValueFormatter.swift; sourceTree = "<group>"; };
 		DC24DE3A85720DB22FBC6C2C62FE51E4 /* Platform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Platform.swift; path = Source/Charts/Utils/Platform.swift; sourceTree = "<group>"; };
+		DC7996FA32C354D6046C2E110FC9B8CC /* Pods-FocusOn-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FocusOn-umbrella.h"; sourceTree = "<group>"; };
 		DCFD1EB745799D9AC8AC67263E318BD2 /* ChevronDownShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChevronDownShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/ChevronDownShapeRenderer.swift; sourceTree = "<group>"; };
 		DD2E355032AB69EFA9FF60D9CAC662ED /* Charts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Charts-dummy.m"; sourceTree = "<group>"; };
 		DDB94EEF9396B21349BBE7AD4ECDE821 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataProvider.swift; path = Source/Charts/Interfaces/BubbleChartDataProvider.swift; sourceTree = "<group>"; };
@@ -588,7 +559,6 @@
 		E15AD81D8D81C63568447307A416F40F /* Vectors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Vectors.swift; path = "lottie-swift/src/Public/Primitives/Vectors.swift"; sourceTree = "<group>"; };
 		E1DD426ABBDB6812250751989A9A499F /* Platform+Color.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Platform+Color.swift"; path = "Source/Charts/Utils/Platform+Color.swift"; sourceTree = "<group>"; };
 		E1E4D3A53A331348B0CD0AE8040DFE18 /* FloatValueProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FloatValueProvider.swift; path = "lottie-swift/src/Public/DynamicProperties/ValueProviders/FloatValueProvider.swift"; sourceTree = "<group>"; };
-		E2831A8A0D0D10935C831FE43688794D /* Pods-FocusOn.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FocusOn.modulemap"; sourceTree = "<group>"; };
 		E2867398F48EADDC9FDD6937147F0E9B /* Group.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Group.swift; path = "lottie-swift/src/Private/Model/ShapeItems/Group.swift"; sourceTree = "<group>"; };
 		E31126A72F366DA43E83358CBCF40EE2 /* ChartDataEntryBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataEntryBase.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataEntryBase.swift; sourceTree = "<group>"; };
 		E34D43A548964B40E94EE1C2E5C20E6C /* CompatibleAnimationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompatibleAnimationView.swift; path = "lottie-swift/src/Public/iOS/Compatibility/CompatibleAnimationView.swift"; sourceTree = "<group>"; };
@@ -608,15 +578,14 @@
 		F00B88A7C3E3920F2B11B5B67AF3F3AF /* YAxis.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxis.swift; path = Source/Charts/Components/YAxis.swift; sourceTree = "<group>"; };
 		F12946822BCCB8581B4B1A766496B228 /* RadarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarHighlighter.swift; path = Source/Charts/Highlight/RadarHighlighter.swift; sourceTree = "<group>"; };
 		F3DF03E8612615429F49081F3EC2C7DB /* XShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/XShapeRenderer.swift; sourceTree = "<group>"; };
-		F3FA9BD4D600A48F1282589724DE4E49 /* Pods-FocusOn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FocusOn.debug.xcconfig"; sourceTree = "<group>"; };
 		F57F8FEE6602A05CF1778E2AE79F45BD /* LayerTransformNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayerTransformNode.swift; path = "lottie-swift/src/Private/LayerContainers/Utility/LayerTransformNode.swift"; sourceTree = "<group>"; };
 		F611DFBD23A5932D04E8B332CB1E202E /* AnimationTime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationTime.swift; path = "lottie-swift/src/Public/Primitives/AnimationTime.swift"; sourceTree = "<group>"; };
+		F7089586331D0859574C2CAE3E2C4012 /* Pods-FocusOn-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FocusOn-acknowledgements.markdown"; sourceTree = "<group>"; };
 		F85DCC88E03073514E2A1E5D21242C2A /* MarkerImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MarkerImage.swift; path = Source/Charts/Components/MarkerImage.swift; sourceTree = "<group>"; };
 		F8FB8CF8A72FA9B53DA132EEEB09D398 /* GradientFillNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GradientFillNode.swift; path = "lottie-swift/src/Private/NodeRenderSystem/Nodes/RenderNodes/GradientFillNode.swift"; sourceTree = "<group>"; };
 		F9275F4ABA58B7D393A0436500590077 /* ChartViewBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartViewBase.swift; path = Source/Charts/Charts/ChartViewBase.swift; sourceTree = "<group>"; };
 		FACD0E9EA8F779D792CCF753125089DD /* CombinedChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedChartRenderer.swift; path = Source/Charts/Renderers/CombinedChartRenderer.swift; sourceTree = "<group>"; };
 		FADFF0E4C66B26940FEC572E3580C78F /* ChartHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartHighlighter.swift; path = Source/Charts/Highlight/ChartHighlighter.swift; sourceTree = "<group>"; };
-		FB67FDABF3524903D6BA3658F4AA64F1 /* Pods-FocusOnTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FocusOnTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		FCAB124C2EFD1B70DAC849D5313C8EAF /* NullCompositionLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NullCompositionLayer.swift; path = "lottie-swift/src/Private/LayerContainers/CompLayers/NullCompositionLayer.swift"; sourceTree = "<group>"; };
 		FD8E5DFB0D6CE2ACCE150C5EBD9FD620 /* TextLayerModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextLayerModel.swift; path = "lottie-swift/src/Private/Model/Layers/TextLayerModel.swift"; sourceTree = "<group>"; };
 		FE78289D9C5B2FD19A5A72454BC41EAB /* PieRadarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieRadarHighlighter.swift; path = Source/Charts/Highlight/PieRadarHighlighter.swift; sourceTree = "<group>"; };
@@ -625,13 +594,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		73EB6482C18BCA65B80E19DE120E1974 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		87B1F1D35306DBBBE828DBF109A87B83 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -655,13 +617,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09F0A76177562304F941756F5C008D9B /* Targets Support Files */ = {
+		0B2B793CA32A23EFEE1B6AEBB5E08713 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				334C2209EA31ADCE7390B1AC5583CD9C /* Pods-FocusOn */,
-				831B02A90603233B0DA988A21B23949F /* Pods-FocusOnTests */,
+				A1C1B977ED8804E8AEEC884E7359EE58 /* libCharts.a */,
+				51BA97E8B5085EFFB47BC9C0B785CEA7 /* liblottie-ios.a */,
+				BDE5567ED18C5AFC24E6C59E283B1660 /* libPods-FocusOn.a */,
 			);
-			name = "Targets Support Files";
+			name = Products;
 			sourceTree = "<group>";
 		};
 		17D8DD81419476894BC51B51F5A88133 /* Core */ = {
@@ -811,16 +774,16 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
-		334C2209EA31ADCE7390B1AC5583CD9C /* Pods-FocusOn */ = {
+		6050201A8EDE02ADEFD6E5C08ADB7A84 /* Pods-FocusOn */ = {
 			isa = PBXGroup;
 			children = (
-				E2831A8A0D0D10935C831FE43688794D /* Pods-FocusOn.modulemap */,
-				222A52F4BE17851671E8A1A8B76C1098 /* Pods-FocusOn-acknowledgements.markdown */,
-				C9ACB2102842814B42012544639F05B7 /* Pods-FocusOn-acknowledgements.plist */,
-				62CF03DDB982DFEFB03A234ED961F9EE /* Pods-FocusOn-dummy.m */,
-				53A8A2F6A69CDE0F66429911C53B67AD /* Pods-FocusOn-umbrella.h */,
-				F3FA9BD4D600A48F1282589724DE4E49 /* Pods-FocusOn.debug.xcconfig */,
-				75A55F277F72314CC2A7DFF2BB376E1D /* Pods-FocusOn.release.xcconfig */,
+				24A399B6A3449884158A4B9D8BE3FBB4 /* Pods-FocusOn.modulemap */,
+				F7089586331D0859574C2CAE3E2C4012 /* Pods-FocusOn-acknowledgements.markdown */,
+				5FE88C148CBA2BD059BE27FC8FA84EAB /* Pods-FocusOn-acknowledgements.plist */,
+				655956773FBD3DE977042F1E80EBB9F7 /* Pods-FocusOn-dummy.m */,
+				DC7996FA32C354D6046C2E110FC9B8CC /* Pods-FocusOn-umbrella.h */,
+				2CC5D8B0442C51A74527D322173FDB91 /* Pods-FocusOn.debug.xcconfig */,
+				9ED40261D9CBE3F46EF43454B29A10E3 /* Pods-FocusOn.release.xcconfig */,
 			);
 			name = "Pods-FocusOn";
 			path = "Target Support Files/Pods-FocusOn";
@@ -834,21 +797,6 @@
 			);
 			name = Charts;
 			path = Charts;
-			sourceTree = "<group>";
-		};
-		831B02A90603233B0DA988A21B23949F /* Pods-FocusOnTests */ = {
-			isa = PBXGroup;
-			children = (
-				5D1057E37349AB657F22410493242444 /* Pods-FocusOnTests.modulemap */,
-				FB67FDABF3524903D6BA3658F4AA64F1 /* Pods-FocusOnTests-acknowledgements.markdown */,
-				4D03FAEB5956B3343D8FD6C8C0680013 /* Pods-FocusOnTests-acknowledgements.plist */,
-				4003B75F0C9015B2CAFE21054B9B07E5 /* Pods-FocusOnTests-dummy.m */,
-				A026E98B80644A3D82D5481170B0EE11 /* Pods-FocusOnTests-umbrella.h */,
-				C2AAA86CB52CD4D1C0D72D3D5B41B8C2 /* Pods-FocusOnTests.debug.xcconfig */,
-				1ACBBE9D41516128A85203F4150007BF /* Pods-FocusOnTests.release.xcconfig */,
-			);
-			name = "Pods-FocusOnTests";
-			path = "Target Support Files/Pods-FocusOnTests";
 			sourceTree = "<group>";
 		};
 		8ED6AA378D6A14B49FD6462D9C54AF53 /* lottie-ios */ = {
@@ -996,6 +944,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		924CDA86944E0F0B34CC3145438A1009 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				6050201A8EDE02ADEFD6E5C08ADB7A84 /* Pods-FocusOn */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		9CE840DE8A51349A1F061A4919797330 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1010,25 +966,14 @@
 			path = "../Target Support Files/Charts";
 			sourceTree = "<group>";
 		};
-		BF67C03472DE9CADD2DD1149CBD73FC1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A1C1B977ED8804E8AEEC884E7359EE58 /* libCharts.a */,
-				51BA97E8B5085EFFB47BC9C0B785CEA7 /* liblottie-ios.a */,
-				BDE5567ED18C5AFC24E6C59E283B1660 /* libPods-FocusOn.a */,
-				1EF3853F3B22DEB13E1985DD3FABD193 /* libPods-FocusOnTests.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
 				8F70428599AC81B46406EC357B55828C /* Pods */,
-				BF67C03472DE9CADD2DD1149CBD73FC1 /* Products */,
-				09F0A76177562304F941756F5C008D9B /* Targets Support Files */,
+				0B2B793CA32A23EFEE1B6AEBB5E08713 /* Products */,
+				924CDA86944E0F0B34CC3145438A1009 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1056,14 +1001,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		68CF09FBB153CDC257FFA2EB0092C518 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A5D266656C43B334B2F7860F4E20E3BE /* Pods-FocusOnTests-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		68D02B13759E59AAC6FBFFFC656FAABD /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1128,26 +1065,6 @@
 			productReference = BDE5567ED18C5AFC24E6C59E283B1660 /* libPods-FocusOn.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		7D2E0A05F55E79DD7999ECA1829AE83E /* Pods-FocusOnTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 17D3C7E25E1DD33E97466088902D43A4 /* Build configuration list for PBXNativeTarget "Pods-FocusOnTests" */;
-			buildPhases = (
-				68CF09FBB153CDC257FFA2EB0092C518 /* Headers */,
-				B890F0E4BF731957AABF3E8875EC370C /* Sources */,
-				87B1F1D35306DBBBE828DBF109A87B83 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				769A8A31C4B963956BD3E11D0BF79A21 /* PBXTargetDependency */,
-				F77300A2A80ACA1FFE621DAD7817243D /* PBXTargetDependency */,
-				A8E5B10532B744EB28728740C1D34840 /* PBXTargetDependency */,
-			);
-			name = "Pods-FocusOnTests";
-			productName = "Pods-FocusOnTests";
-			productReference = 1EF3853F3B22DEB13E1985DD3FABD193 /* libPods-FocusOnTests.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		BF03B0B2B8B052092CB5F90CC5FB3757 /* Charts */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 87F6E47913DF6366F4AEA0F19F24BE22 /* Build configuration list for PBXNativeTarget "Charts" */;
@@ -1184,14 +1101,13 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = BF67C03472DE9CADD2DD1149CBD73FC1 /* Products */;
+			productRefGroup = 0B2B793CA32A23EFEE1B6AEBB5E08713 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				BF03B0B2B8B052092CB5F90CC5FB3757 /* Charts */,
 				0B967D7F8561D42493EE289EC8D450D1 /* lottie-ios */,
 				2CE9171A7F281E86FAB4B58526EEA329 /* Pods-FocusOn */,
-				7D2E0A05F55E79DD7999ECA1829AE83E /* Pods-FocusOnTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1539,23 +1455,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B890F0E4BF731957AABF3E8875EC370C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E205490B4F50CBA3DEA350B9585BD672 /* Pods-FocusOnTests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		769A8A31C4B963956BD3E11D0BF79A21 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Charts;
-			target = BF03B0B2B8B052092CB5F90CC5FB3757 /* Charts */;
-			targetProxy = 668553F2905B90AE4F7B5E075897BF64 /* PBXContainerItemProxy */;
-		};
 		78DD4E81CADF250897C8276295B6127F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "lottie-ios";
@@ -1567,18 +1469,6 @@
 			name = Charts;
 			target = BF03B0B2B8B052092CB5F90CC5FB3757 /* Charts */;
 			targetProxy = 4B06388FA3C1E1834D67CCD23205838C /* PBXContainerItemProxy */;
-		};
-		A8E5B10532B744EB28728740C1D34840 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "lottie-ios";
-			target = 0B967D7F8561D42493EE289EC8D450D1 /* lottie-ios */;
-			targetProxy = 95344613CE7F51389304EE2849B9C28C /* PBXContainerItemProxy */;
-		};
-		F77300A2A80ACA1FFE621DAD7817243D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-FocusOn";
-			target = 2CE9171A7F281E86FAB4B58526EEA329 /* Pods-FocusOn */;
-			targetProxy = 4B4739F309DC167C542C34BDD74473E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1640,30 +1530,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		2ED378B0F5A69AA1992344F744273404 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1ACBBE9D41516128A85203F4150007BF /* Pods-FocusOnTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-FocusOnTests/Pods-FocusOnTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1745,7 +1611,7 @@
 		};
 		B73C7DE29D1BB52F796CF3884AB144E6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 75A55F277F72314CC2A7DFF2BB376E1D /* Pods-FocusOn.release.xcconfig */;
+			baseConfigurationReference = 9ED40261D9CBE3F46EF43454B29A10E3 /* Pods-FocusOn.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1793,32 +1659,9 @@
 			};
 			name = Release;
 		};
-		CD4B3308556374972FCB0DCE71D0D97F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2AAA86CB52CD4D1C0D72D3D5B41B8C2 /* Pods-FocusOnTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-FocusOnTests/Pods-FocusOnTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		DEFB44D908D2A7F2F70AD320019233E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3FA9BD4D600A48F1282589724DE4E49 /* Pods-FocusOn.debug.xcconfig */;
+			baseConfigurationReference = 2CC5D8B0442C51A74527D322173FDB91 /* Pods-FocusOn.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1906,15 +1749,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		17D3C7E25E1DD33E97466088902D43A4 /* Build configuration list for PBXNativeTarget "Pods-FocusOnTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CD4B3308556374972FCB0DCE71D0D97F /* Debug */,
-				2ED378B0F5A69AA1992344F744273404 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

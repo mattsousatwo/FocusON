@@ -1,6 +1,0 @@
-module Pods_FocusOnTests {
-  umbrella header "Pods-FocusOnTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

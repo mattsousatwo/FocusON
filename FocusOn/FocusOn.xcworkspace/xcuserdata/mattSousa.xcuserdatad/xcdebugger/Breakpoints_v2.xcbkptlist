@@ -92,8 +92,8 @@
             filePath = "FocusOn/ViewControllers/TodayVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -108,9 +108,9 @@
             filePath = "FocusOn/ViewControllers/TodayVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
-            landmarkName = "menuButtonPressed()"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "motionEnded(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
