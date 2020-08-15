@@ -14,8 +14,10 @@
             filePath = "FocusOn/HistoryExtention.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323">
+            startingLineNumber = "326"
+            endingLineNumber = "326"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -110,7 +112,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "302"
             endingLineNumber = "302"
-            landmarkName = "motionEnded(_:with:)"
+            landmarkName = "menuButtonPressed()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -126,38 +128,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "237"
             endingLineNumber = "237">
-            <Locations>
-               <Location
-                  uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307 - e08b665626598ea0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FocusOn.TaskDataController.undoLastDeletedTask(inView: FocusOn.Views, parentGoal: FocusOn.GoalData) -&gt; ()"
-                  moduleName = "FocusOn"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "364"
-                  endingLineNumber = "364"
-                  offsetFromSymbolStart = "2178">
-               </Location>
-               <Location
-                  uuid = "9D0D3D6F-15E2-4053-AE98-246658F1E307 - 3e8c2a7ed5c27fa6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (FocusOn.TaskData) -&gt; Swift.Bool in FocusOn.TaskDataController.undoLastDeletedTask(inView: FocusOn.Views, parentGoal: FocusOn.GoalData) -&gt; ()"
-                  moduleName = "FocusOn"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mattSousa/Main%20Folder/OpenClassrooms/Project%207%20-%20FocusOn/Branches/FocusON-May2020-Plus/FocusOn/FocusOn/TaskDataController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "364"
-                  endingLineNumber = "364"
-                  offsetFromSymbolStart = "85">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

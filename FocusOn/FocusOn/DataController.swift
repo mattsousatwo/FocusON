@@ -11,7 +11,6 @@ import CoreData
 
 class DataController: DateManager {
     
-    
     // Generate ID - With numbers and letters
     func genID() -> String {
         let letters = ["A", "B", "C", "D", "E", "F",

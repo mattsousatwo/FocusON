@@ -204,7 +204,7 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NkG-48-aXo">
-                                <rect key="frame" x="287" y="144" width="47" height="21"/>
+                                <rect key="frame" x="297" y="144" width="47" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -229,7 +229,7 @@
                             <constraint firstItem="NkG-48-aXo" firstAttribute="leading" relation="lessThanOrEqual" secondItem="TDp-8F-1eu" secondAttribute="trailing" constant="80" id="hDw-az-add"/>
                             <constraint firstItem="a3j-b7-eWK" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="5" id="jpD-Xy-iJD"/>
                             <constraint firstItem="sOa-uB-Z69" firstAttribute="leading" secondItem="UvQ-oH-dTc" secondAttribute="leading" constant="20" id="lEc-JN-qLT"/>
-                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="NkG-48-aXo" secondAttribute="trailing" constant="80" id="teZ-FT-Awd"/>
+                            <constraint firstItem="UvQ-oH-dTc" firstAttribute="trailing" secondItem="NkG-48-aXo" secondAttribute="trailing" constant="70" id="teZ-FT-Awd"/>
                             <constraint firstItem="NkG-48-aXo" firstAttribute="top" secondItem="sOa-uB-Z69" secondAttribute="bottom" constant="15" id="tmL-TU-1oX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UvQ-oH-dTc"/>

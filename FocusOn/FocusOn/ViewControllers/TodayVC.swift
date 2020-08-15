@@ -19,8 +19,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     var searchUID = String()
     var searchDataType = DataType.goal
     let animation = Animations()
-    
-    
    
     // Label to display task count
     @IBOutlet weak var taskCountLabel: UILabel!
@@ -32,18 +30,12 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
-//        goalDC.createTestGoals(int: 7, month: 2)
         configureTodayVC()
-//         testIfLastThreeMonthsGraphWorks()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         configureViewDidAppear()
-        
     }
 
     // Add a new task at bottom of table view if three cells are filled
@@ -61,7 +53,6 @@ class TodayVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Tas
     
     // Change Colors for Task Marker
     func updateTaskMarkers(_ cell: TaskCell) {
-        
         guard let firstCell = todayTable.cellForRow(at: [0,0]) as? TaskCell else { return }
         if cell == firstCell {
             guard let markerSelection = taskColors(rawValue: todaysGoal.markerColor) else { return }

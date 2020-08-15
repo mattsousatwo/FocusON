@@ -309,7 +309,11 @@ extension HistoryVC {
         goalDC.saveContext()
         // Update label
         if displayMode == .taskMode {
-            navigationItem.title = "\(selectedGoal!.completedCellCount)\\\(visibileCells.count)"
+//            navigationItem.title = "\(selectedGoal!.completedCellCount)\\\(visibileCells.count)"
+
+            let d = DateManager()
+            let date = d.formatDate(from: selectedGoal)
+            navigationItem.title = "\(date ?? "NO GOAL")"
         }
         
     }

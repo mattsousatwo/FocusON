@@ -61,11 +61,14 @@ extension TodayVC {
     // Configure TodayVC
     func configureTodayVC() {
 
-        deleteGoalsAndTasks(false)
-                    
+//        deleteGoalsAndTasks(false)
+        
+//        goalDC.createTestGoals(int: 6, month: 8)
+        
         // Assign Delegates
         todayTable.dataSource = self
         todayTable.delegate = self
+        
         // fetch CoreData Elements
         goalDC.getGoals()
         
