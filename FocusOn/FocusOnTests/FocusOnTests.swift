@@ -134,19 +134,29 @@ class FocusOnTests: XCTestCase {
     // Check to see if remove(goal: ) works
     func testIfRemoveGoalsWorks() {
         let goalDC = GoalDataController()
-
-//        goalDC.createTestGoals(int: 5, month: 1)
         goalDC.getGoals()
-        
+        let searchTag = "RemovalTest"
+        let date = goalDC.createDate(month: 1, day: 1, year: 2020)
+        goalDC.createNewGoal(title: "new goal", date: date, UID: searchTag)
         
         var x: GoalData?
         // remove goal
         if goalDC.pastGoalContainer.count != 0 {
-            x = goalDC.pastGoalContainer.last!
+            x = goalDC.pastGoalContainer.first(where: {
+                $0.goal_UID == searchTag
+            })
             
             
             goalDC.remove(goal: x!)
             // undo remove
+            if x?.isRemoved == true {
+                goalDC.deleteGoalsWith(UIDs: [searchTag])
+                XCTAssert(true)
+            } else {
+                goalDC.deleteGoalsWith(UIDs: [searchTag])
+                XCTAssert(false)
+            }
+            
             
             goalDC.undoDeleteGoal()
             

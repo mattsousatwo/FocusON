@@ -97,7 +97,6 @@ extension TodayVC {
                 goalDC.getGoals()
             }
         }
-        print("retrieve - goalContainer.count = \(goalDC.goalContainer.count)")
         // if current goal changed (if new day) - load new task
          if todaysGoal.goal_UID! != goalDC.currentGoal.goal_UID! {
             todaysGoal = goalDC.currentGoal
@@ -137,7 +136,7 @@ extension TodayVC {
             
             let highlightedTaskCells = totalTasks.filter( { $0.taskMarker.isHighlighted == true })
             todaysGoal.completedCellCount = Int16(highlightedTaskCells.count)
-            goalDC.save(context: goalDC.context)
+            goalDC.saveContext()
             navigationItem.title = "Task Count: \(highlightedTaskCells.count)\\\(taskDC.currentTaskContainer.count + 1)"
             print("task count = \(totalTasks.count)")
         }
@@ -241,7 +240,7 @@ extension TodayVC {
             
             firstCell.taskMarker.isHighlighted = true
             todaysGoal.isChecked = true
-            goalDC.save(context: goalDC.context)
+            goalDC.saveContext()
             // use todays goal to access GoalData
             animation.playCompletionAnimationIn(view: view, of: self, withType: .today, for: todaysGoal, in: firstCell)
             // If checkedCells are less than count needed to complete goal
@@ -264,8 +263,8 @@ extension TodayVC {
         switch index.section {
         case 0: // Goal
             todaysGoal.name = textField.text!
-            goalDC.save(context: goalDC.context)
-            print(#function + " Goal Row")
+            goalDC.saveContext()
+            
         default: // Default -- couldt remove saving tasks text as it is not used
             if taskDC.currentTaskContainer.count != 0 {
                 taskDC.currentTaskContainer[index.row].name = textField.text
@@ -299,7 +298,7 @@ extension TodayVC {
                 }
             }
             
-            goalDC.save(context: goalDC.context)
+            goalDC.saveContext()
             taskDC.saveContext()
         default:
             guard let index = todayTable.indexPath(for: cell) else { return }

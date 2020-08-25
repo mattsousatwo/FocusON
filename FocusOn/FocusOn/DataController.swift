@@ -37,19 +37,6 @@ class DataController: DateManager {
         }
         return id
     }
-    
-    
-    // Save context - use goal context or task context
-    func save(context: NSManagedObjectContext) {
-        do {
-            try context.save()
-        }
-        catch {
-            
-        }
-    }
-    
-    
    
 }
 

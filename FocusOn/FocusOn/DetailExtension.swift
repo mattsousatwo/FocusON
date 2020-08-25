@@ -73,7 +73,7 @@ extension DetailTableView {
         case .goal:
             markerColor = tag
             standInGoal.markerColor = tag.rawValue
-            goalDC.save(context: goalDC.context)
+            goalDC.saveContext()
         default:
             markerColor = tag
             standInTask.markerColor = tag.rawValue
