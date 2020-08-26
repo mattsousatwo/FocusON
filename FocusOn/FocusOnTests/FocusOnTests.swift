@@ -134,10 +134,10 @@ class FocusOnTests: XCTestCase {
     // Check to see if remove(goal: ) works
     func testIfRemoveGoalsWorks() {
         let goalDC = GoalDataController()
-        goalDC.getGoals()
         let searchTag = "RemovalTest"
         let date = goalDC.createDate(month: 1, day: 1, year: 2020)
         goalDC.createNewGoal(title: "new goal", date: date, UID: searchTag)
+        goalDC.getGoals()
         
         var x: GoalData?
         // remove goal

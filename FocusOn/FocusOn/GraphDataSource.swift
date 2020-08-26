@@ -114,6 +114,11 @@ class GraphDataSource {
     func fetchDataEntries() {
         // Load Goals
         goals = goalDC.fetchAllGoals()
+        // Sort goals by date
+        goals.sort { (goalA, goalB) -> Bool in
+            goalA.dateCreated! < goalB.dateCreated!
+        }
+        
         tasks = taskDC.fetchAllTasks()
     }
     
@@ -125,6 +130,9 @@ class GraphDataSource {
         for goal in goals {
             if goalDC.isDateFromCurrentWeek(goal.dateCreated) == true {
                 goalsFromCurrentWeek.append(goal)
+                goalsFromCurrentWeek.sort { (goalA, goalB) -> Bool in
+                    goalA.dateCreated! > goalB.dateCreated!
+                }
             }
             for task in tasks {
                 if task.goal_UID == goal.goal_UID {
@@ -141,6 +149,9 @@ class GraphDataSource {
          for goal in goals {
              if goalDC.isDateFromCurrentMonth(goal.dateCreated) == true {
                  goalsFromCurrentMonth.append(goal)
+                goalsFromCurrentMonth.sort { (goalA, goalB) -> Bool in
+                    goalA.dateCreated! > goalB.dateCreated!
+                }
              }
              for task in tasks {
                  if task.goal_UID == goal.goal_UID {
